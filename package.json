@@ -1,6 +1,6 @@
 {
   "name": "tarifas",
-  "version": "1.0.0",
+  "version": "0.0.3",
   "description": "Script de Tarifas para blog",
   "main": "karma.conf.js",
   "directories": {
@@ -19,7 +19,9 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "http-server -a 0.0.0.0 -p 8000",
+    "test": "karma start",
+    "protractor": "protractor"
   },
   "author": "Alberto J. Garcia Gago",
   "license": "GNU",
@@ -27,9 +29,7 @@
     "type": "git",
     "url": "https://github.com/albertoggago/tarifas"
   },
-  "keywords": [
-    "Ruzapeza1493"
-  ],
+  "keywords": [],
   "bugs": {
     "url": "https://github.com/albertoggago/tarifas/issues"
   },
