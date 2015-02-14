@@ -1,15 +1,214 @@
 var tarifasApp = angular.module('tarifasApp', []);
 
-tarifasApp.controller("Datos",function($scope){
+
+tarifasApp.controller("Datos",function($scope,$http){
     $scope.datosSTD = datosSTD;
     $scope.datos = [];
     $scope.valores = valores
-});
+    
+    this.numEdit = function(numero, decimales, separador_decimal, separador_miles){ // v2007-08-06
+	    numero=parseFloat(numero);
+	    if(isNaN(numero)){
+	        return "";
+	    }
 
-tarifasApp.controller("CargarJSON",function($scope,$http){
-    $http.get('../data/precios.'+$scope.datosSTD.VERSION+'.json').success(function(data) {
-    $scope.datos = data;
-  });
+	    if(decimales!==undefined){
+	        // Redondeamos
+	        numero=numero.toFixed(decimales);
+	    }
+
+	    // Convertimos el punto en separador_decimal
+	    numero=numero.toString().replace(".", separador_decimal!==undefined ? separador_decimal : ",");
+
+	    if(separador_miles){
+	        // Añadimos los separadores de miles
+	        var miles=new RegExp("(-?[0-9]+)([0-9]{3})");
+	        while(miles.test(numero)) {
+	            numero=numero.replace(miles, "$1" + separador_miles + "$2");
+	        }
+	    }
+	    return numero;
+	}
+    
+    this.numEditImpStd = function(numero) {
+	   return this.numEdit(numero,2,$scope.datosSTD.DECIMALPOINT,$scope.datosSTD.SEPARADORMILES);
+	};
+
+    this.numEditNumStd = function(numero) {
+	return this.numEdit(numero,0,$scope.datosSTD.DECIMALPOINT,$scope.datosSTD.SEPARADORMILES);
+	};
+
+    
+    this.verificarVF = function(ver){
+		//este proceso devuelve si la version del llamante coincide con la version guardada en el json.
+		//y es del dia si es de dias posteriores hay que cargar el JSON de la version correspondiente
+		if (ver != $scope.datos.version) {return false};
+		var date = new Date();
+		if ($scope.datos.fecha.year  == date.getFullYear() && 
+		    $scope.datos.fecha.month == (date.getMonth()+1) &&
+		    $scope.datos.fecha.day   == date.getDate()) {return true};
+        return false;
+	};
+
+    this.recalculo = function (){
+		//barremos todos los elementos y los recalculamos.
+         //alert($scope.datos.fecha);
+		 for (var i = 0; i < $scope.datos.tabla.length; ++i)
+	    	{
+	    	 //recogemos los datos
+			 var gasto_minutos   = parseFloat($scope.datos.minutos);
+			 var gasto_llamadas  = parseFloat($scope.datos.llamadas); 
+			 var gasto_sms       = parseFloat($scope.datos.sms);
+			 var gasto_internet  = parseFloat($scope.datos.internet);
+
+			 var coste_minutos   = parseFloat($scope.datos.tabla[i][5]);
+			 var coste_llamadas  = parseFloat($scope.datos.tabla[i][6]);
+			 var coste_sms       = parseFloat($scope.datos.tabla[i][7]);
+			 var coste_internet  = parseFloat($scope.datos.tabla[i][8]);
+			 var tarifa_std      = parseFloat($scope.datos.tabla[i][9]);
+
+			 var tarifa_minima   = parseFloat($scope.datos.tabla[i][10]);
+
+			 var incluidos_minutos  = parseFloat($scope.datos.tabla[i][11]);
+			 var incluidos_sms      = parseFloat($scope.datos.tabla[i][13]);
+			 var incluidos_internet = parseFloat($scope.datos.tabla[i][14]);
+
+			 var coste_incluido_sn = $scope.datos.tabla[i][12].toString();
+			 var sn_4G = ""
+			 var sn_4G = $scope.datos.tabla[i][22];
+			 /*if (typeof($scope.datos.tabla[i][22]) != "undefined")
+			          {sn_4G    = $scope.datos.tabla[i][22].toString();}
+			      else{sn_4G = "NO";
+			      	$scope.datos.tabla[i][22] = sn_4G
+			      };*/
+
+
+	    	 //actualizamos el Gasto
+			 $scope.datos.tabla[i][15]= gasto_minutos;
+			 $scope.datos.tabla[i][16]= gasto_llamadas; 
+			 $scope.datos.tabla[i][17]= gasto_sms;
+			 $scope.datos.tabla[i][18]= gasto_internet; 
+
+
+
+
+		     //cáclulo, lo primero miramos si hemos consumido mas llamadas que las incluidas.
+		     var tarifa= 0;
+		     var minutos_pagar = 0;
+		     if (gasto_minutos>incluidos_minutos) {
+		    	 minutos_pagar = gasto_minutos-incluidos_minutos
+		     };
+         	 // Incluimos el coste de los minutos no incluidos. 
+		     tarifa += minutos_pagar * coste_minutos / 100
+		     //calculos Coste de LLamada Incluido o no.
+		     var llamadas_pagar = 0;
+		     if (coste_incluido_sn == "NO") {
+		    	 llamadas_pagar = gasto_llamadas;
+		     } else {
+		    	 if (gasto_minutos>incluidos_minutos) {
+		    		 llamadas_pagar = (gasto_minutos-incluidos_minutos)* gasto_llamadas
+		    		 if (gasto_minutos!=0){
+		    			 llamadas_pagar = llamadas_pagar / gasto_minutos;
+		    		 	}
+		    	 	 }
+		     };
+		     tarifa += llamadas_pagar*coste_llamadas/100.0;
+		     //calculamos Internet
+		     var sms_pagar = 0.0;
+		     if (gasto_sms>incluidos_sms) {
+		    	 sms_pagar = gasto_sms-incluidos_sms
+		     };
+		     tarifa += sms_pagar*coste_sms/100.0; 
+		     var internet_pagar = 0.0;
+		     if (gasto_internet>incluidos_internet) {
+		    	 internet_pagar = gasto_internet-incluidos_internet
+		     };
+		     tarifa += internet_pagar*coste_internet/100.0;		    	 
+		     
+		     //
+		     //=max(P3-L3;0)*F3/100+
+		     // if(M3<>"NO";max(P3-L3;0)*Q3/if(P3<>0;P3;1);Q3)*G3/100+
+		     // max(R3-N3;0)*H3/100+
+		     // max(S3-O3;0)*I3/100
+		     var total_base= Math.round(tarifa*100.0)/100;
+		     
+		      //CALCULOS ESPECIALES..... NO HACEMOS NADA
+		     var calculos_especiales = 0;
+		     
+		     
+		     //calculamos el Total + mínimos.
+		     var total_minimos = 0;
+		     if (total_base>tarifa_minima){
+		    	 total_minimos = total_base;
+		     } else {
+		    	 total_minimos = tarifa_minima;
+		     };
+		     total_sin_IVA = Math.round((total_minimos+tarifa_std+calculos_especiales)*100.0)/100;
+		     //=max(U3;K3)+J3+T3
+		     //calculamos el precio con IVA
+		     var total_con_IVA  = Math.round(total_sin_IVA*$scope.datosSTD.IVA*100.0)/100.0;
+
+		     
+		     //textos especiales
+		     textos_especiales = "";
+		     //texto Tarifa Superada
+		     if (coste_internet == 0 && (gasto_internet > incluidos_internet && incluidos_internet != 0)){
+		    	 textos_especiales +=  "Superada Tarifa Internet: "+this.numEditImpStd((gasto_internet-incluidos_internet)/gasto_internet*30)
+		    	                      +" días del mes a baja velocidad"; 
+		     } 
+		     if (coste_internet != 0 && (gasto_internet > incluidos_internet)){
+		    	 textos_especiales += "Incluido Sobrecoste por Datos de "+this.numEditImpStd(internet_pagar*coste_internet/100.0*$scope.datosSTD.IVA)+" Euros"; 
+		     } 
+		     if (sn_4G == "SI" ){
+		    	 textos_especiales += " - Con 4G"; 
+		     } 
+		     
+		     if (textos_especiales == "") {textos_especiales = "bbbb";}
+		     
+		     //=concatenate(
+		     //if(and(I3=0;O3<S3);concatenate("Superada Tarifa Internet: ";fixed((S3-O3)/S3*30;2);" días del mes a baja velocidad");
+		     //if(O3<S3;concatenate("Incluido Sobrecoste por Datos de ";Fixed((S3-O3)*I3*1,21/100;2);" Euros");""));
+		     //if(W3="SI";" - Con 4G";"bbbb"))
+
+			 //Movemos los calculos
+			 $scope.datos.tabla[i][2]  = total_con_IVA;
+			 $scope.datos.tabla[i][4]  = textos_especiales;
+			 $scope.datos.tabla[i][19] = "pendiente";
+			 $scope.datos.tabla[i][20] = total_base;
+			 $scope.datos.tabla[i][21] = total_sin_IVA;
+		     
+	    };
+	    //funcion de ordenar
+	    // ya no usamos esto    
+	    //  $scope.datos.tabla.sort(function(a,b){return parseFloat(a[2])-parseFloat(b[2])});
+		
+	};    
+    
+    $scope.determinarFecha = function (){
+		var date = new Date();
+		this.datos.fecha.year  = date.getFullYear();
+		this.datos.fecha.month = date.getMonth()+1;
+		this.datos.fecha.day   = date.getDate();
+		
+	};
+
+    var cargarFichero = true;
+    var datosTmp   = localStorage.getItem($scope.datosSTD.FICHERO);
+    if (datosTmp != null){
+		//cargamos el JSON siempre que la fecha y la version coincidan
+		$scope.datos = JSON.parse(datosTmp);
+		this.recalculo();
+		if (this.verificarVF($scope.datosSTD.VERSION)) {cargarFichero = false};
+		}; 
+    if (cargarFichero) {
+        $http.get('../data/precios.'+$scope.datosSTD.VERSION+'.json').success(function(data) {
+        $scope.datos = data;
+        this.recalculo();
+        $scope.determinarFecha();
+        localStorage.setItem($scope.datosSTD.FICHERO, JSON.stringify($scope.datos));
+        });
+    };
+    
   //$scope.datos = precios;
 });
 
@@ -25,4 +224,3 @@ var valores = ['txt','txt','dec','txt','txt','dec','dec','dec','dec','dec',
 	           'dec','num','txt','num','num','num','num','num','num','txt',
 	           'dec','dec','txt'];	
 
-var precios = {"version":"v00.03","fecha":{"year":2014,"month":12,"day":12},"cabecera":["Nombre","RED","Al Mes + IVA","Observaciones","Internet Problematico","C. MIN\ncent","C. Llam\ncent","C. SMS\ncent","C. Mb\ncent","Tarifa","T. Min","Inc. Min","C.Llam esta incluido?","Inc SMS","Inc. Mega","Min","Llamadas","SMS","Internet","Formulas Especiales","TOTAL","Total + Minimo","4G"],"tabla":[["Happy Móvil Habla y Navega","Orange",6.03,"5 meses 30% de descuento. Los primeros 10 minutos gratis. luego a 0,8 centimos","bbbb","0","15","9","3","4.0495867768595","0","0","NO","0","1300",100,5,2,1000,"pendiente",0.93,4.98,"NO"],["MásMóvil Cero 1GB","Orange",6.1,"Costes de Envio 7 Euros. las llamadas son gratis durante 5 minutos luego se tarifa a 3 centimos minuto","bbbb","0","15","8","3","4.13","0","0","NO","0","1000",100,5,2,1000,"pendiente",0.91,5.04,"NO"],["Republica móvil pequeña","Orange",7.03,"A 0 centimos los 10 primeros minutos y después a 1 céntimo","bbbb","0","15","9","2","4.88","0","0","SI","0","1000",100,5,2,1000,"pendiente",0.93,5.81,"NO"],["Simyo 1GB","Orange",7.13,"Gratis las llamadas a otros Simyo. 10 primeros minutos","bbbb","4.95867768595041","15","9","3","0","4.95867768595041","0","SI","0","1000",100,5,2,1000,"pendiente",5.89,5.89,"NO"],["Pepephone 1Gb","Vodafone",7.76,"bbbb","bbbb","0.6","15","9","3","4.87603305785124","0","0","SI","0","1000",100,5,2,1000,"pendiente",1.53,6.41,"NO"],["Amena 6e","Orange",7.84,"Las llamadas no pueden exceder los 60 minutos y 60 minutos de IP","bbbb","0","14.8760330578512","15","0","5.74","0","0","NO","1000","1000",100,5,2,1000,"pendiente",0.74,6.48,"NO"],["Simyo 1GB+30m","Orange",8,"Gratis las llamadas a otros Simyo. 10 primeros minutos","bbbb","4.95867768595041","15","9","3","0","6.61157024793388","30","SI","0","1000",100,5,2,1000,"pendiente",4.18,6.61,"NO"],["tuenti 7e","Movistar",8.11,"bbbb","bbbb","0","15","8","3","5.78512396694215","0","0","NO","0","1000",100,5,2,1000,"pendiente",0.91,6.7,"NO"],["Happy Móvil Habla y Navega Plus","Orange",8.72,"5 meses 30% de descuento. Los primeros 10 minutos gratis. luego a 0,8 centimos","bbbb","0","15","9","3","6.28099173553719","0","0","NO","0","1800",100,5,2,1000,"pendiente",0.93,7.21,"NO"],["Vodafone BASE VOZ","Vodafone",9.41,"bbbb","Superada Tarifa Internet: 27,00 días del mes a baja velocidad","1","15","12","0","5.78512396694215","0","0","NO","0","100",100,5,2,1000,"pendiente",1.99,7.78,"NO"],["Simyo 1GB+100m","Orange",9.5,"Gratis las llamadas a otros Simyo. 10 primeros minutos","bbbb","4.95867768595041","15","9","3","0","7.85123966942149","100","SI","0","1000",100,5,2,1000,"pendiente",0.18,7.85,"NO"],["MásMóvil Cero 1GB 75m","Orange",10.1,"Costes de Envio 7 Euros. las llamadas son gratis durante 5 minutos luego se tarifa a 3 centimos minuto","bbbb","0","15","8","3","7.44","0","75","NO","0","1000",100,5,2,1000,"pendiente",0.91,8.35,"NO"],["Republica móvil pequeña 100","Orange",10.12,"A 0 centimos los 10 primeros minutos y después a 1 céntimo","bbbb","0","15","9","2","8.18","0","100","SI","0","1000",100,5,2,1000,"pendiente",0.18,8.36,"NO"],["Carrefour Movil Más Ahorro 1","Orange",10.36,"bbbb","bbbb","1","10","8","3","6.9","0","0","SI","0","1000",100,5,2,1000,"pendiente",1.66,8.56,"NO"],["Simyo 2GB","Orange",11,"Gratis las llamadas a otros Simyo. 10 primeros minutos","bbbb","4.95867768595041","15","9","3","0","9.09090909090909","0","SI","0","2000",100,5,2,1000,"pendiente",5.89,9.09,"NO"],["Orange Ardilla","Orange",11.1,"bbbb","Superada Tarifa Internet: 15,00 días del mes a baja velocidad - Con 4G","0.826446280991736","15","9.92","0","7.4","0","0","SI","0","500",100,5,2,1000,"pendiente",1.77,9.17,"SI"],["tuenti 10e","Movistar",11.1,"Con 200 minutos de llamadas IP con VozDigital","bbbb","0","15","8","3","8.26446280991736","0","0","SI","0","1000",100,5,2,1000,"pendiente",0.91,9.17,"NO"],["Vodafone BASE S","Vodafone",11.7,"bbbb","Superada Tarifa Internet: 6,00 días del mes a baja velocidad","0","15","12","0","8.67768595041322","0","0","NO","0","800",100,5,2,1000,"pendiente",0.99,9.67,"NO"],["R Móvil plana 12","Vodafone",12,"bbbb","bbbb","0","15","9","0","9.91735537190083","0","150","SI","50","1000",100,5,2,1000,"pendiente",0,9.92,"NO"],["Pepephone 1.6Gb","Vodafone",12.03,"A 0 centimos los 20 primeros minutos luego a 0.6 centimos","bbbb","0","15","9","3","9.00826446280992","0","0","SI","0","2000",100,5,2,1000,"pendiente",0.93,9.94,"NO"],["tuenti 11e","Movistar",12.1,"bbbb","bbbb","0","15","8","3","9.09090909090909","0","75","NO","0","1000",100,5,2,1000,"pendiente",0.91,10,"NO"],["Movistar Vive 11","Movistar",12.27,"Sin Permanencia. Maximo 120 minutos por llamada","Superada Tarifa Internet: 6,00 días del mes a baja velocidad - Con 4G","0","15","15","0","9.09090909090909","0","0","NO","0","800",100,5,2,1000,"pendiente",1.05,10.14,"SI"],["Simyo 2GB+30m","Orange",13,"Gratis las llamadas a otros Simyo. 10 primeros minutos","bbbb","4.95867768595041","15","9","3","0","10.7438016528926","30","SI","0","2000",100,5,2,1000,"pendiente",4.18,10.74,"NO"],["MásMóvil Cero 1GB 150m","Orange",14.1,"Costes de Envio 7 Euros. las llamadas son gratis durante 5 minutos luego se tarifa a 3 centimos minuto","bbbb","0","15","8","3","10.74","0","150","NO","0","1000",100,5,2,1000,"pendiente",0.91,11.65,"NO"],["Simyo 2GB+100m","Orange",14.5,"Gratis las llamadas a otros Simyo. 10 primeros minutos","bbbb","4.95867768595041","15","9","3","0","11.9834710743802","100","SI","0","2000",100,5,2,1000,"pendiente",0.18,11.98,"NO"],["Carrefour Movil Mini 12","Orange",14.71,"bbbb","bbbb","8","15","8","0","12","0","150","SI","0","1000",100,5,2,1000,"pendiente",0.16,12.16,"NO"],["Simyo 1GB+300m","Orange",15.5,"Gratis las llamadas a otros Simyo. 10 primeros minutos","bbbb","4.95867768595041","15","9","3","0","12.8099173553719","300","SI","0","1000",100,5,2,1000,"pendiente",0.18,12.81,"NO"],["Happy Móvil Habla y Navega Mini","Orange",17.12,"Los primeros 10 minutos gratis. luego a 0,8 centimos","Incluido Sobrecoste por Datos de 12,50 Euros","0","15","9","2.06611570247934","2.89256198347107","0","0","NO","0","500",100,5,2,1000,"pendiente",11.26,14.15,"NO"],["R Móvil plana 18","Vodafone",18,"bbbb","bbbb","0","15","9","0","14.88","0","500","SI","150","1000",100,5,2,1000,"pendiente",0,14.88,"NO"],["tuenti 18e","Movistar",19.11,"Con llamadas ilimitadasde llamadas IP con VozDigital","bbbb","0","15","8","3","14.88","0","0","SI","0","2000",100,5,2,1000,"pendiente",0.91,15.79,"NO"],["Vodafone Smart S","Vodafone",19.29,"bbbb","Superada Tarifa Internet: 6,00 días del mes a baja velocidad - Con 4G","20","15","12","0","15.702479338843","0","200","SI","0","800",100,5,2,1000,"pendiente",0.24,15.94,"SI"],["Amena 18e","Orange",19.95," 60 minutos de IP","bbbb","0","0","15","0","16.49","0","99999","SI","1000","1000",100,5,2,1000,"pendiente",0,16.49,"NO"],["Republica móvil mediana","Orange",20.12,"A 0 centimos los 10 primeros minutos y después a 1 céntimo","bbbb","0","15","9","2","16.45","0","350","SI","0","1500",100,5,2,1000,"pendiente",0.18,16.63,"NO"],["Orange Tucan","Orange",20.19,"Las llamadas van por bloques de 60 minutos a 1 euro"," - Con 4G","0.8","0","9.92","0","16.49","0","150","SI","0","10000",100,5,2,1000,"pendiente",0.2,16.69,"SI"],["MásMóvil Cero 2.5GB","Orange",20.46,"Costes de Envio 7 Euros. las llamadas son gratis durante 5 minutos luego se tarifa a 3 centimos minuto","bbbb","0","15","8","3","16","0","0","NO","0","2500",100,5,2,1000,"pendiente",0.91,16.91,"NO"],["Simyo 2GB+300m","Orange",20.5,"Gratis las llamadas a otros Simyo. 10 primeros minutos","bbbb","4.95867768595041","15","9","3","0","16.9421487603306","300","SI","0","2000",100,5,2,1000,"pendiente",0.18,16.94,"NO"],["Simyo 4GB","Orange",21.01,"Gratis las llamadas a otros Simyo. 10 primeros minutos","bbbb","4.95867768595041","15","9","3","0","17.3553719008264","0","SI","0","4000",100,5,2,1000,"pendiente",5.89,17.36,"NO"],["Vodafone Smart M","Vodafone",22.29,"bbbb"," - Con 4G","20","15","12","0","18.1818181818182","0","200","SI","0","1100",100,5,2,1000,"pendiente",0.24,18.42,"SI"],["Happy Móvil Habla y Navega Basica","Orange",22.37,"Los primeros 10 minutos gratis. luego a 0,8 centimos","Incluido Sobrecoste por Datos de 18,75 Euros","0","15","9","2.06611570247934","2.06","0","0","NO","0","250",100,5,2,1000,"pendiente",16.43,18.49,"NO"],["Simyo 4GB+30m","Orange",23,"Gratis las llamadas a otros Simyo. 10 primeros minutos","bbbb","4.95867768595041","15","9","3","0","19.0082644628099","30","SI","0","4000",100,5,2,1000,"pendiente",4.18,19.01,"NO"],["MásMóvil Cero 1GB 1.000m","Orange",23.05,"Costes de Envio 7 Euros. las llamadas son gratis durante 5 minutos luego se tarifa a 3 centimos minuto","bbbb","0","15","8","3","18.14","0","1000","NO","0","1000",100,5,2,1000,"pendiente",0.91,19.05,"NO"],["R Móvil plana 24","Vodafone",23.99,"bbbb","bbbb","0","15","9","0","19.8347107438017","0","99999","SI","300","2000",100,5,2,1000,"pendiente",0,19.83,"NO"],["MásMóvil Cero 2.5GB 75m","Orange",24.47,"Costes de Envio 7 Euros. las llamadas son gratis durante 5 minutos luego se tarifa a 3 centimos minuto","bbbb","0","15","8","3","19.31","0","75","NO","0","2500",100,5,2,1000,"pendiente",0.91,20.22,"NO"],["Simyo 4GB+100m","Orange",24.5,"Gratis las llamadas a otros Simyo. 10 primeros minutos","bbbb","4.95867768595041","15","9","3","0","20.2479338842975","100","SI","0","4000",100,5,2,1000,"pendiente",0.18,20.25,"NO"],["Republica móvil mini","Orange",24.6,"A 0 centimos los 10 primeros minutos y después a 1 céntimo","Incluido Sobrecoste por Datos de 20,57 Euros","0","15","9","2","2.4","0","0","SI","0","150",100,5,2,1000,"pendiente",17.93,20.33,"NO"],["Carrefour Movil Redonda 25","Orange",25.19,"bbbb","bbbb","8","15","8","0","20.6611570247934","0","99999","SI","0","2000",100,5,2,1000,"pendiente",0.16,20.82,"NO"],["Yoigo Infinita 25","Yoigo+Movistar",25.24,"bbbb","Superada Tarifa Internet: 12,00 días del mes a baja velocidad - Con 4G","0","0","10","0","20.6611570247934","0","99999","SI","0","600",100,5,2,1000,"pendiente",0.2,20.86,"SI"],["Simyo 300MB+300m","Orange",25.63,"Gratis las llamadas a otros Simyo. 10 primeros minutos","Incluido Sobrecoste por Datos de 25,41 Euros","4.95867768595041","15","9","3","0","9.91735537190083","300","SI","0","300",100,5,2,1000,"pendiente",21.18,21.18,"NO"],["Simyo 300MB+100m","Orange",25.63,"Gratis las llamadas a otros Simyo. 10 primeros minutos","Incluido Sobrecoste por Datos de 25,41 Euros","4.95867768595041","15","9","3","0","4.95867768595041","100","SI","0","300",100,5,2,1000,"pendiente",21.18,21.18,"NO"],["MásMóvil Cero 2.5GB 150m","Orange",28.46,"Costes de Envio 7 Euros. las llamadas son gratis durante 5 minutos luego se tarifa a 3 centimos minuto","bbbb","0","15","8","3","22.61","0","150","NO","0","2500",100,5,2,1000,"pendiente",0.91,23.52,"NO"],["Movistar Vive 30","Movistar",30,"Sin Permanencia"," - Con 4G","0","0","15","0","24.7933884297521","0","99999","SI","99999","2000",100,5,2,1000,"pendiente",0,24.79,"SI"],["Republica móvil grande","Orange",30.12,"A 0 centimos los 10 primeros minutos y después a 1 céntimo","bbbb","0","15","9","2","24.71","0","1000","SI","0","2000",100,5,2,1000,"pendiente",0.18,24.89,"NO"],["Pepephone 5Gb","Vodafone",30.13,"A 0 centimos los 20 primeros minutos luego a 0.6 centimos","bbbb","0","15","9","3","23.9669421487603","0","0","SI","0","5000",100,5,2,1000,"pendiente",0.93,24.9,"NO"],["MásMóvil Cero 5GB","Orange",30.14,"Costes de Envio 7 Euros. las llamadas son gratis durante 5 minutos luego se tarifa a 3 centimos minuto","bbbb","0","15","8","3","24","0","0","NO","0","5000",100,5,2,1000,"pendiente",0.91,24.91,"NO"],["MásMóvil Cero 1GB 3.000m","Orange",30.14,"Costes de Envio 7 Euros. las llamadas son gratis durante 5 minutos luego se tarifa a 3 centimos minuto","bbbb","0","15","8","3","24","0","1000","NO","0","1000",100,5,2,1000,"pendiente",0.91,24.91,"NO"],["Simyo 300MB+30m","Orange",30.47,"Gratis las llamadas a otros Simyo. 10 primeros minutos","Incluido Sobrecoste por Datos de 25,41 Euros","4.95867768595041","15","9","3","0","3.71900826446281","30","SI","0","300",100,5,2,1000,"pendiente",25.18,25.18,"NO"],["Simyo 4GB+300m","Orange",30.5,"Gratis las llamadas a otros Simyo. 10 primeros minutos","bbbb","4.95867768595041","15","9","3","0","25.2066115702479","300","SI","0","4000",100,5,2,1000,"pendiente",0.18,25.21,"NO"],["Pepephone 1Gb+1.001min","Vodafone",30.52,"bbbb","bbbb","0","15","9","3","25.0413223140496","0","1001","SI","0","1000",100,5,2,1000,"pendiente",0.18,25.22,"NO"],["Orange Delfin","Orange",31.19,"bbbb"," - Con 4G","0","0","9.92","0","25.58","0","99999","SI","0","2500",100,5,2,1000,"pendiente",0.2,25.78,"SI"],["Yoigo Infinita 32","Yoigo+Movistar",32.25,"bbbb"," - Con 4G","0","0","10","0","26.4462809917355","0","99999","SI","0","2000",100,5,2,1000,"pendiente",0.2,26.65,"SI"],["Vodafone RED M","Vodafone",32.29,"bbbb"," - Con 4G","0","0","12","0","26.4462809917355","0","99999","SI","0","2000",100,5,2,1000,"pendiente",0.24,26.69,"SI"],["Simyo 300MB","Orange",32.54,"Gratis las llamadas a otros Simyo. 10 primeros minutos","Incluido Sobrecoste por Datos de 25,41 Euros","4.95867768595041","15","9","3","0","2.06611570247934","0","SI","0","300",100,5,2,1000,"pendiente",26.89,26.89,"NO"],["Simyo 100MB+300m","Orange",32.89,"Gratis las llamadas a otros Simyo. 10 primeros minutos","Incluido Sobrecoste por Datos de 32,67 Euros","4.95867768595041","15","9","3","0","8.67768595041322","300","SI","0","100",100,5,2,1000,"pendiente",27.18,27.18,"NO"],["Simyo 100MB+100m","Orange",32.89,"Gratis las llamadas a otros Simyo. 10 primeros minutos","Incluido Sobrecoste por Datos de 32,67 Euros","4.95867768595041","15","9","3","0","3.71900826446281","100","SI","0","100",100,5,2,1000,"pendiente",27.18,27.18,"NO"],["MásMóvil Cero 5GB 75m","Orange",34.15,"Costes de Envio 7 Euros. las llamadas son gratis durante 5 minutos luego se tarifa a 3 centimos minuto","bbbb","0","15","8","3","27.31","0","75","NO","0","5000",100,5,2,1000,"pendiente",0.91,28.22,"NO"],["MásMóvil Cero 1.5GB 3.000m","Orange",34.98,"Costes de Envio 7 Euros. las llamadas son gratis durante 5 minutos luego se tarifa a 3 centimos minuto","bbbb","0","15","8","3","28","0","1000","NO","0","1500",100,5,2,1000,"pendiente",0.91,28.91,"NO"],["R Móvil plana 36","Vodafone",36,"bbbb","bbbb","0","15","9","0","29.75","0","99999","SI","400","4000",100,5,2,1000,"pendiente",0,29.75,"NO"],["Simyo Cero","Orange",37.12,"Gratis las llamadas a otros Simyo. 10 primeros minutos","Incluido Sobrecoste por Datos de 30,00 Euros","4.95867768595041","15","9","2.47933884297521","0","0","0","SI","0","0",100,5,2,1000,"pendiente",30.68,30.68,"NO"],["MásMóvil Cero 2.5GB 1.000m","Orange",37.4,"Costes de Envio 7 Euros. las llamadas son gratis durante 5 minutos luego se tarifa a 3 centimos minuto","bbbb","0","15","8","3","30","0","1000","NO","0","2500",100,5,2,1000,"pendiente",0.91,30.91,"NO"],["Simyo 100MB+30m","Orange",37.73,"Gratis las llamadas a otros Simyo. 10 primeros minutos","Incluido Sobrecoste por Datos de 32,67 Euros","4.95867768595041","15","9","3","0","2.47933884297521","30","SI","0","100",100,5,2,1000,"pendiente",31.18,31.18,"NO"],["MásMóvil Cero 5GB 150m","Orange",38.14,"Costes de Envio 7 Euros. las llamadas son gratis durante 5 minutos luego se tarifa a 3 centimos minuto","bbbb","0","15","8","3","30.61","0","150","NO","0","5000",100,5,2,1000,"pendiente",0.91,31.52,"NO"],["Yoigo Infinita 39","Yoigo+Movistar",39.24,"bbbb"," - Con 4G","0","0","10","0","32.2314049586777","0","99999","SI","0","4000",100,5,2,1000,"pendiente",0.2,32.43,"SI"],["Vodafone RED L","Vodafone",39.29,"bbbb"," - Con 4G","0","0","12","0","32.2314049586777","0","99999","SI","0","4000",100,5,2,1000,"pendiente",0.24,32.47,"SI"],["Simyo 100MB","Orange",39.8,"Gratis las llamadas a otros Simyo. 10 primeros minutos","Incluido Sobrecoste por Datos de 32,67 Euros","4.95867768595041","15","9","3","0","0.826446280991736","0","SI","0","100",100,5,2,1000,"pendiente",32.89,32.89,"NO"],["Orange Ballena","Orange",40.2,"bbbb"," - Con 4G","0","0","9.92","0","33.02","0","99999","SI","0","5000",100,5,2,1000,"pendiente",0.2,33.22,"SI"],["Movistar Vive 43","Movistar",43,"Sin Permanencia"," - Con 4G","0","0","15","0","35.5371900826446","0","99999","SI","99999","4000",100,5,2,1000,"pendiente",0,35.54,"SI"],["MásMóvil Cero 2.5GB 3.000m","Orange",43.45,"Costes de Envio 7 Euros. las llamadas son gratis durante 5 minutos luego se tarifa a 3 centimos minuto","bbbb","0","15","8","3","35","0","1000","NO","0","2500",100,5,2,1000,"pendiente",0.91,35.91,"NO"],["Movistar Vive 22","Movistar",44.69,"Sin Permanencia"," - Con 4G","18","15","15","0","18.1818181818182","0","0","SI","200","1100",100,5,2,1000,"pendiente",18.75,36.93,"SI"],["MásMóvil Cero 5GB 1.000m","Orange",47.08,"Costes de Envio 7 Euros. las llamadas son gratis durante 5 minutos luego se tarifa a 3 centimos minuto","bbbb","0","15","8","3","38","0","1000","NO","0","5000",100,5,2,1000,"pendiente",0.91,38.91,"NO"],["Prueba2","Orange",47.19," 60 minutos de IP","bbbb","15","16","17","18","19","20","21","NO","1000","2000",100,5,2,1000,"pendiente",12.65,39,"NO"],["Prueba2","Orange",47.19," 60 minutos de IP","bbbb","15","16","17","18","19","20","21","NO","1000","2000",100,5,2,1000,"pendiente",12.65,39,"NO"],["Prueba1","Orange",47.19," 60 minutos de IP"," - Con 4G","15","16","17","18","19","20","21","SI","1000","2000",100,5,2,1000,"pendiente",12.48,39,"SI"],["Vodafone RED XL","Vodafone",50.29,"bbbb"," - Con 4G","0","0","12","0","41.3223140495868","0","99999","SI","0","6000",100,5,2,1000,"pendiente",0.24,41.56,"SI"],["MásMóvil Cero 5GB 3.000m","Orange",53.13,"Costes de Envio 7 Euros. las llamadas son gratis durante 5 minutos luego se tarifa a 3 centimos minuto","bbbb","0","15","8","3","43","0","1000","NO","0","5000",100,5,2,1000,"pendiente",0.91,43.91,"NO"]],"minutos":"100","llamadas":"5","sms":"2","internet":"1000"};
