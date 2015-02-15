@@ -14,4 +14,6 @@
 
 ## pruebas
 
-1 - arrancamos el localserver 
+1 - Arrancamos el localserver: npm start
+
+2 - Vamos en el navegador a: http://localhost:8000/src/tarifas.html
