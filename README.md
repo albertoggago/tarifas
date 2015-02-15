@@ -20,6 +20,8 @@ The process get a JSON file and show a angular objet with the data and shortinh,
 
 2 - Vamos en el navegador a: http://localhost:8000/src/tarifas.html
 
+3 - Pruebas unitarias karma+jasmine ponemos: npm test
+
 
 ## Versiones
 

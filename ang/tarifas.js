@@ -6,8 +6,10 @@ tarifasApp.controller("Datos",function($scope,$http){
     $scope.datos = [];
     $scope.valores = valores
     
-    this.numEdit = function(numero, decimales, separador_decimal, separador_miles){ // v2007-08-06
-	    numero=parseFloat(numero);
+    $scope.numEdit = function(numero, decimales){ // v2007-08-06
+	    var separador_decimal = $scope.datosSTD.DECIMALPOINT;
+        var separador_miles = $scope.datosSTD.SEPARADORMILES;
+        numero=parseFloat(numero);
 	    if(isNaN(numero)){
 	        return "";
 	    }
@@ -30,12 +32,12 @@ tarifasApp.controller("Datos",function($scope,$http){
 	    return numero;
 	}
     
-    this.numEditImpStd = function(numero) {
-	   return this.numEdit(numero,2,$scope.datosSTD.DECIMALPOINT,$scope.datosSTD.SEPARADORMILES);
+    $scope.numEditImpStd = function(numero) {
+	   return this.numEdit(numero,$scope.datosSTD.NUMERODECIMALES);
 	};
 
-    this.numEditNumStd = function(numero) {
-	return this.numEdit(numero,0,$scope.datosSTD.DECIMALPOINT,$scope.datosSTD.SEPARADORMILES);
+    $scope.numEditNumStd = function(numero) {
+	return this.numEdit(numero,0);
 	};
 
     
@@ -50,7 +52,7 @@ tarifasApp.controller("Datos",function($scope,$http){
         return false;
 	};
 
-    this.recalculo = function (){
+    $scope.recalculo = function (){
 		//barremos todos los elementos y los recalculamos.
          //alert($scope.datos.fecha);
 		 for (var i = 0; i < $scope.datos.tabla.length; ++i)
@@ -153,11 +155,11 @@ tarifasApp.controller("Datos",function($scope,$http){
 		     textos_especiales = "";
 		     //texto Tarifa Superada
 		     if (coste_internet == 0 && (gasto_internet > incluidos_internet && incluidos_internet != 0)){
-		    	 textos_especiales +=  "Superada Tarifa Internet: "+this.numEditImpStd((gasto_internet-incluidos_internet)/gasto_internet*30)
+		    	 textos_especiales +=  "Superada Tarifa Internet: "+$scope.numEditImpStd((gasto_internet-incluidos_internet)/gasto_internet*30)
 		    	                      +" días del mes a baja velocidad"; 
 		     } 
 		     if (coste_internet != 0 && (gasto_internet > incluidos_internet)){
-		    	 textos_especiales += "Incluido Sobrecoste por Datos de "+this.numEditImpStd(internet_pagar*coste_internet/100.0*$scope.datosSTD.IVA)+" Euros"; 
+		    	 textos_especiales += "Incluido Sobrecoste por Datos de "+$scope.numEditImpStd(internet_pagar*coste_internet/100.0*$scope.datosSTD.IVA)+" Euros"; 
 		     } 
 		     if (sn_4G == "SI" ){
 		    	 textos_especiales += " - Con 4G"; 
@@ -197,13 +199,13 @@ tarifasApp.controller("Datos",function($scope,$http){
     if (datosTmp != null){
 		//cargamos el JSON siempre que la fecha y la version coincidan
 		$scope.datos = JSON.parse(datosTmp);
-		this.recalculo();
+		$scope.recalculo();
 		if (this.verificarVF($scope.datosSTD.VERSION)) {cargarFichero = false};
 		}; 
     if (cargarFichero) {
         $http.get('../data/precios.'+$scope.datosSTD.VERSION+'.json').success(function(data) {
         $scope.datos = data;
-        this.recalculo();
+        $scope.recalculo();
         $scope.determinarFecha();
         localStorage.setItem($scope.datosSTD.FICHERO, JSON.stringify($scope.datos));
         });
@@ -216,6 +218,7 @@ var datosSTD = {
     "IVA" : 1.21,
     "DECIMALPOINT" : ',',
     "SEPARADORMILES" : '.',
+    "NUMERODECIMALES" : 2,
     "VERSION" : "v00.03",
     "FICHERO" : "precios.json"
 };

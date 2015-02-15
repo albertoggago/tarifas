@@ -2,44 +2,31 @@ describe('tarifasAppControl', function() {
 
     beforeEach(module('tarifasApp'));
     
-    describe("Pruebas numEdit: ", function() {
-	  //var precios0 = new Precios();
-	  var x0 = numEdit(0,0, DECIMALPOINT, SEPARADORMILES);
-	  	 it("Varaibles", function() {
-	  		 expect(x0).toBe("0");
-	 	 });
-	  var x1 = numEdit(0,2, DECIMALPOINT, SEPARADORMILES);
-	  	 it("Varaibles", function() {
-		  	 expect(x1).toBe("0,00");
-	 	 });
+    it("Pruebas numEdit: Varaibles", function() {
+       var scope = {},
+           ctrl = $controller('Datos', {$scope:scope});
+	   expect(ctrl.numEdit(0,0)).toBe("0");
+        
+       expect(ctrl.numEdit(0,2)).toBe("0,00");        
+        
+       expect(ctrl.numEdit(12.34,0)).toBe("12");        
+        
+       expect(ctrl.numEdit(12.34,2)).toBe("12,34");                
+        
+       expect(ctrl.numEdit(12.34,2)).toBe("12,34");                
 
-	  var x2 = numEdit(12.34,0, DECIMALPOINT, SEPARADORMILES);
-		  	 it("Varaibles", function() {
-		  	 expect(x2).toBe("12");
-     	 });
-	  var x3 = numEdit(12.34,2, DECIMALPOINT, SEPARADORMILES);
-		  	 it("Varaibles", function() {
-		  	 expect(x3).toBe("12,34");
-	 	 });
-	  var x4 = numEdit(123456789.123456,0, DECIMALPOINT, SEPARADORMILES);
-			  	 it("Varaibles", function() {
-			  	 expect(x4).toBe("123.456.789");
-	     	 });
-	  var x5 = numEdit(123456789.129456,2, DECIMALPOINT, SEPARADORMILES);
-			  	 it("Varaibles", function() {
-			  	 expect(x5).toBe("123.456.789,13");
-		 	 });
-	  var x6 = numEdit(-123456789.123456,0, DECIMALPOINT, SEPARADORMILES);
-				  	 it("Varaibles", function() {
-				  	 expect(x6).toBe("-123.456.789");
-		     	 });
-	  var x7 = numEdit(-123456789.129456,2, DECIMALPOINT, SEPARADORMILES);
-				  	 it("Varaibles", function() {
-				  	 expect(x7).toBe("-123.456.789,13");
-			 	 });
+       expect(ctrl.numEdit(123456789.123456,0)).toBe("123.456.789");                
+        
+       expect(ctrl.numEdit(123456789.123456,2)).toBe("123.456.789,13");                
+        
+       expect(ctrl.numEdit(-123456789.123456,0)).toBe("-123.456.789");                        
+        
+       expect(ctrl.numEdit(-123456789.123456,2)).toBe("-123.456.789,13");                        
+    });
 
-  });
- 	 
+});
+ 
+/* 	 
   
   
   
@@ -214,4 +201,4 @@ describe('tarifasAppControl', function() {
 });
   
   
-
+*/
