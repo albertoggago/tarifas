@@ -27,6 +27,7 @@ The process get a JSON file and show a angular objet with the data and shortinh,
 
 Primera version con angular
 Implemento:
+
 1 - primer script sencillo
  
 
