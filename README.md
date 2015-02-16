@@ -1,12 +1,12 @@
 #TARIFAS.
 
-The process get a JSON file and show a angular objet with the data and shortinh, 
+The process get a JSON file and show a angular objet with the data and short, 
 
 ## Git
 
-- desarrollado en Angular 
+- Develop in Angular 
 
-- Usamos la filosofia angular, jassmine, angular, ...
+- tools, Angular, Karma, Jasmine, Protractor
 
 
 ### Herramientas
@@ -16,9 +16,9 @@ The process get a JSON file and show a angular objet with the data and shortinh,
 
 ### Pruebas
 
-1 - Arrancamos el localserver: npm start
+1 - Run localserver: npm start
 
-2 - Vamos en el navegador a: http://localhost:8000/src/tarifas.html
+2 - Go in the browser: http://localhost:8000/src/tarifas.html
 
 3 - Pruebas unitarias karma+jasmine ponemos: npm test
 
