@@ -18,24 +18,25 @@ The process get a JSON file and show a angular objet with the data and short,
 
 1 - Run localserver: npm start
 
-2 - Go in the browser: http://localhost:8000/src/tarifas.html
+2 - Go in the browser: http://localhost:8000/ (it's a Frame)
 
-3 - Pruebas unitarias karma+jasmine ponemos: npm test
+3 - Mock test: npm test
 
 
 ## Versiones
 
 ### 0.3.0
 
-Primera version con angular
-Implemento:
-
-1 - primer script sencillo
+Frirst version:
+1 - Adaptation JS a Angular
+2 - Adaption of Unit Mock, 
+3 - New module "tarifasApp"
+4 - New controller "tarifasListaController"
  
 
 
 
 ### 0.1.0 0.2.0 
 
-Versiones previas, no subidas a Github y sin documentacion 
+Previous versions, not included in Git. 
 

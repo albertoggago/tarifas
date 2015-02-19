@@ -2,28 +2,45 @@ describe('tarifasAppControl', function() {
 
     beforeEach(module('tarifasApp'));
     
+  var ctrl, scope;
+  // inject the $controller and $rootScope services
+  // in the beforeEach block
+  beforeEach(inject(function($controller, $rootScope) {
+    // Create a new scope that's a child of the $rootScope
+    scope = $rootScope.$new();
+    // Create the controller
+    ctrl = $controller('tarifasListaController', {
+      $scope: scope
+    });
+  }));
+    
     it("Pruebas numEdit: Varaibles", function() {
-       var scope = {},
-           ctrl = $controller('Datos', {$scope:scope});
-	   expect(ctrl.numEdit(0,0)).toBe("0");
+	   expect(scope.numEdit(0,0)).toBe("0");
         
-       expect(ctrl.numEdit(0,2)).toBe("0,00");        
+       expect(scope.numEdit(0,2)).toBe("0,00");        
         
-       expect(ctrl.numEdit(12.34,0)).toBe("12");        
+       expect(scope.numEdit(12.34,0)).toBe("12");        
         
-       expect(ctrl.numEdit(12.34,2)).toBe("12,34");                
+       expect(scope.numEdit(12.34,2)).toBe("12,34");                
         
-       expect(ctrl.numEdit(12.34,2)).toBe("12,34");                
+       expect(scope.numEdit(12.34,2)).toBe("12,34");                
 
-       expect(ctrl.numEdit(123456789.123456,0)).toBe("123.456.789");                
+       expect(scope.numEdit(123456789.123456,0)).toBe("123.456.789");                
         
-       expect(ctrl.numEdit(123456789.123456,2)).toBe("123.456.789,13");                
+       expect(scope.numEdit(123456789.123456,2)).toBe("123.456.789,12");                
         
-       expect(ctrl.numEdit(-123456789.123456,0)).toBe("-123.456.789");                        
+       expect(scope.numEdit(-123456789.123456,0)).toBe("-123.456.789");                        
         
-       expect(ctrl.numEdit(-123456789.123456,2)).toBe("-123.456.789,13");                        
+       expect(scope.numEdit(-123456789.128456,2)).toBe("-123.456.789,13");                        
     });
 
+	 var x1 = ["x1","Orange",24.9502,"60 minutos de IP","- Con 4G",15,16,17,18,19,20,21,"SI",1000,2000,0,0,0,0,0,20.62,33,"SI"];
+	 var y1 = ["y1","Orange",24.9502,"60 minutos de IP","- Con 4G",15,16,17,18,19,20,21,"NO",1000,2000,0,0,0,0,0,20.62,33,"NO"];
+	 var z1 = ["z1","Orange",24.9502,"60 minutos de IP","- Con 4G",25,26,17,18,19,20,21,"NO",1000,2000,0,0,0,0,0,20.62,33,"NO"];
+	 var x9 =  ["Yoigo Infinita 39","Yoigo+Movistar",0,"bbbb"," - Con 4G",0,0,10,0,32.23,0,99999,"SI",0,4000,1000,150,75,5000,0,0,0,"SI"];
+	 var tab1 = [x1,y1];
+
+    
 });
  
 /* 	 
