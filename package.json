@@ -23,7 +23,7 @@
   "scripts": {
     "start": "http-server -a 0.0.0.0 -p 8000",
     "test": "karma start",
-    "server": "node_modules/protractor/bin/protractor test/protractor-conf.js"
+    "server": "protractor test/protractor-conf.js"
   },
   "author": "Alberto J. Garcia Gago",
   "license": "GNU",
