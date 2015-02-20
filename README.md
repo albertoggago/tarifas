@@ -9,12 +9,11 @@ The process get a JSON file and show a angular objet with the data and short,
 - tools, Angular, Karma, Jasmine, Protractor
 
 
-### Herramientas
+### Tools
 
 
 
-
-### Pruebas
+### mocks
 
 1 - Run localserver: npm start
 
@@ -23,7 +22,7 @@ The process get a JSON file and show a angular objet with the data and short,
 3 - Mock test: npm test
 
 
-## Versiones
+## Versions
 
 ### 0.3.0
 
@@ -33,8 +32,6 @@ Frirst version:
 3 - New module "tarifasApp"
 4 - New controller "tarifasListaController"
  
-
-
 
 ### 0.1.0 0.2.0 
 
