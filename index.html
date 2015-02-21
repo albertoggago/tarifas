@@ -11,10 +11,21 @@
     
 </head>
 
-<body>
+<body ng-controller="tarifasListaController as tarifas">
 
-	<div ng-controller="tarifasListaController">
     
+        <h2>Datos de Entrada</h2>
+        <div>
+            <form name="formulario1">
+                <div>Minutos: <input type="text" name="input" ng-model="datos.minutos" min=0 valid-number ng-change="actualizarTarifas()" requierd>  Duracion de la llamada: {{datos.minutos / datos.llamadas | number }}</div>
+                <div>Llamadas: <input type="text" name="input" ng-model="datos.llamadas" min=0 valid-number ng-change="actualizarTarifas()" requierd></div>
+                <div>Internet: <input type="text" name="input" ng-model="datos.internet" min=0 valid-number ng-change="actualizarTarifas()" requierd> en MegaByte es decir son: {{datos.internet/1000 |number}} Gigabytes</div>
+                <div>SMS: <input type="text" name="input" ng-model="datos.sms" min=0 valid-number ng-change="actualizarTarifas()" requierd></div>
+                <pre>minutos: {{datos.minutos}} - llamadas: {{datos.llamadas}} - Internet: {{datos.internet}} - SMS: {{datos.sms}}</pre>
+            </form>
+        </div>
+        <h2>Datos de Salida</h2>
+        <div >
         <table>
         <tr>
             <th>{{datos.cabecera[0]}}</th>
@@ -27,12 +38,12 @@
         <tr ng-repeat="tarifa in datos.tabla">
         <td>{{tarifa[0]}}</td>
         <td>{{tarifa[1]}}</td>
-        <td>{{tarifa[2]}}</td>
+        <td>{{tarifa[2]|number:2}}</td>
         <td>{{tarifa[3]}}</td>
         <td>{{tarifa[4]}}</td>
         </tr>
-    </div>
-    </table>
+        </table>
+        </div>
         
     <pre>{{datosSTD}}</pre>
     <pre>{{valores}}</pre>

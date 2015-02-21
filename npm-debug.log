@@ -1,86 +1,219 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install', 'angular-mock' ]
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install', '-g', 'protractor' ]
 2 info using npm@1.4.28
 3 info using node@v0.10.36
 4 verbose node symlink /usr/bin/node
-5 warn package.json tarifas@0.0.3 scripts['server'] should probably be scripts['start'].
-6 verbose readDependencies using package.json deps
-7 verbose cache add [ 'angular-mock', null ]
-8 verbose cache add name=undefined spec="angular-mock" args=["angular-mock",null]
-9 verbose parsed url { protocol: null,
-9 verbose parsed url   slashes: null,
-9 verbose parsed url   auth: null,
-9 verbose parsed url   host: null,
-9 verbose parsed url   port: null,
-9 verbose parsed url   hostname: null,
-9 verbose parsed url   hash: null,
-9 verbose parsed url   search: null,
-9 verbose parsed url   query: null,
-9 verbose parsed url   pathname: 'angular-mock',
-9 verbose parsed url   path: 'angular-mock',
-9 verbose parsed url   href: 'angular-mock' }
-10 silly lockFile 145c7453-angular-mock angular-mock
-11 verbose lock angular-mock /home/alberto/.npm/145c7453-angular-mock.lock
-12 silly lockFile 145c7453-angular-mock angular-mock
-13 silly lockFile 145c7453-angular-mock angular-mock
-14 verbose addNamed [ 'angular-mock', '' ]
-15 verbose addNamed [ null, '*' ]
-16 silly lockFile 869d9d84-angular-mock angular-mock@
-17 verbose lock angular-mock@ /home/alberto/.npm/869d9d84-angular-mock.lock
-18 silly addNameRange { name: 'angular-mock', range: '*', hasData: false }
-19 verbose request where is /angular-mock
-20 verbose request registry https://registry.npmjs.org/
-21 verbose request id 6b7cbce1199168cc
-22 verbose url raw /angular-mock
-23 verbose url resolving [ 'https://registry.npmjs.org/', './angular-mock' ]
-24 verbose url resolved https://registry.npmjs.org/angular-mock
-25 verbose request where is https://registry.npmjs.org/angular-mock
-26 info trying registry request attempt 1 at 23:24:49
-27 http GET https://registry.npmjs.org/angular-mock
-28 http 404 https://registry.npmjs.org/angular-mock
-29 verbose headers { date: 'Sat, 14 Feb 2015 22:24:47 GMT',
-29 verbose headers   server: 'CouchDB/1.6.1 (Erlang OTP/R14B04)',
-29 verbose headers   'content-type': 'application/json',
-29 verbose headers   'cache-control': 'max-age=0',
-29 verbose headers   'content-length': '52',
-29 verbose headers   'accept-ranges': 'bytes',
-29 verbose headers   via: '1.1 varnish',
-29 verbose headers   age: '0',
-29 verbose headers   'x-served-by': 'cache-ams4142-AMS',
-29 verbose headers   'x-cache': 'MISS',
-29 verbose headers   'x-cache-hits': '0',
-29 verbose headers   'x-timer': 'S1423952686.820386,VS0,VE402',
-29 verbose headers   'keep-alive': 'timeout=10, max=50',
-29 verbose headers   connection: 'Keep-Alive' }
-30 silly registry.get cb [ 404,
-30 silly registry.get   { date: 'Sat, 14 Feb 2015 22:24:47 GMT',
-30 silly registry.get     server: 'CouchDB/1.6.1 (Erlang OTP/R14B04)',
-30 silly registry.get     'content-type': 'application/json',
-30 silly registry.get     'cache-control': 'max-age=0',
-30 silly registry.get     'content-length': '52',
-30 silly registry.get     'accept-ranges': 'bytes',
-30 silly registry.get     via: '1.1 varnish',
-30 silly registry.get     age: '0',
-30 silly registry.get     'x-served-by': 'cache-ams4142-AMS',
-30 silly registry.get     'x-cache': 'MISS',
-30 silly registry.get     'x-cache-hits': '0',
-30 silly registry.get     'x-timer': 'S1423952686.820386,VS0,VE402',
-30 silly registry.get     'keep-alive': 'timeout=10, max=50',
-30 silly registry.get     connection: 'Keep-Alive' } ]
-31 silly lockFile 869d9d84-angular-mock angular-mock@
-32 silly lockFile 869d9d84-angular-mock angular-mock@
-33 error 404 404 Not Found: angular-mock
-33 error 404
-33 error 404 'angular-mock' is not in the npm registry.
-33 error 404 You should bug the author to publish it
-33 error 404 It was specified as a dependency of 'tarifas'
-33 error 404
-33 error 404 Note that you can also install from a
-33 error 404 tarball, folder, or http url, or git url.
-34 error System Linux 3.13.0-44-generic
-35 error command "/usr/bin/node" "/usr/bin/npm" "install" "angular-mock"
-36 error cwd /home/alberto/Documentos/workspace/tarifas
-37 error node -v v0.10.36
-38 error npm -v 1.4.28
-39 error code E404
-40 verbose exit [ 1, true ]
+5 verbose cache add [ 'protractor', null ]
+6 verbose cache add name=undefined spec="protractor" args=["protractor",null]
+7 verbose parsed url { protocol: null,
+7 verbose parsed url   slashes: null,
+7 verbose parsed url   auth: null,
+7 verbose parsed url   host: null,
+7 verbose parsed url   port: null,
+7 verbose parsed url   hostname: null,
+7 verbose parsed url   hash: null,
+7 verbose parsed url   search: null,
+7 verbose parsed url   query: null,
+7 verbose parsed url   pathname: 'protractor',
+7 verbose parsed url   path: 'protractor',
+7 verbose parsed url   href: 'protractor' }
+8 silly lockFile 4f4f4858-protractor protractor
+9 verbose lock protractor /home/alberto/.npm/4f4f4858-protractor.lock
+10 silly lockFile 4f4f4858-protractor protractor
+11 silly lockFile 4f4f4858-protractor protractor
+12 verbose addNamed [ 'protractor', '' ]
+13 verbose addNamed [ null, '*' ]
+14 silly lockFile 80d5ca5a-protractor protractor@
+15 verbose lock protractor@ /home/alberto/.npm/80d5ca5a-protractor.lock
+16 silly addNameRange { name: 'protractor', range: '*', hasData: false }
+17 verbose request where is /protractor
+18 verbose request registry https://registry.npmjs.org/
+19 verbose request id 40f9194ae5feda01
+20 verbose url raw /protractor
+21 verbose url resolving [ 'https://registry.npmjs.org/', './protractor' ]
+22 verbose url resolved https://registry.npmjs.org/protractor
+23 verbose request where is https://registry.npmjs.org/protractor
+24 info trying registry request attempt 1 at 18:41:33
+25 verbose etag "DAHXMNUVNS4MWVQIG4BKHZ7RM"
+26 http GET https://registry.npmjs.org/protractor
+27 http 304 https://registry.npmjs.org/protractor
+28 silly registry.get cb [ 304,
+28 silly registry.get   { date: 'Fri, 20 Feb 2015 17:41:31 GMT',
+28 silly registry.get     server: 'Apache',
+28 silly registry.get     via: '1.1 varnish',
+28 silly registry.get     'last-modified': 'Fri, 20 Feb 2015 17:41:31 GMT',
+28 silly registry.get     'cache-control': 'max-age=60',
+28 silly registry.get     etag: '"DAHXMNUVNS4MWVQIG4BKHZ7RM"',
+28 silly registry.get     age: '5',
+28 silly registry.get     'x-served-by': 'cache-lcy1125-LCY',
+28 silly registry.get     'x-cache': 'HIT',
+28 silly registry.get     'x-cache-hits': '1',
+28 silly registry.get     'x-timer': 'S1424454091.500702,VS0,VE0',
+28 silly registry.get     vary: 'Accept',
+28 silly registry.get     'content-length': '0',
+28 silly registry.get     'keep-alive': 'timeout=10, max=50',
+28 silly registry.get     connection: 'Keep-Alive' } ]
+29 verbose etag https://registry.npmjs.org/protractor from cache
+30 silly addNameRange number 2 { name: 'protractor', range: '*', hasData: true }
+31 silly addNameRange versions [ 'protractor',
+31 silly addNameRange   [ '0.1.0',
+31 silly addNameRange     '0.1.1',
+31 silly addNameRange     '0.1.2',
+31 silly addNameRange     '0.1.3',
+31 silly addNameRange     '0.2.0',
+31 silly addNameRange     '0.2.1',
+31 silly addNameRange     '0.3.0',
+31 silly addNameRange     '0.4.0',
+31 silly addNameRange     '0.4.1',
+31 silly addNameRange     '0.5.0',
+31 silly addNameRange     '0.6.1',
+31 silly addNameRange     '0.7.0',
+31 silly addNameRange     '0.8.0',
+31 silly addNameRange     '0.9.0',
+31 silly addNameRange     '0.10.0',
+31 silly addNameRange     '0.11.0',
+31 silly addNameRange     '0.12.0',
+31 silly addNameRange     '0.12.1',
+31 silly addNameRange     '0.13.0',
+31 silly addNameRange     '0.14.0',
+31 silly addNameRange     '0.15.0',
+31 silly addNameRange     '0.16.0',
+31 silly addNameRange     '0.16.1',
+31 silly addNameRange     '0.17.0',
+31 silly addNameRange     '0.18.0',
+31 silly addNameRange     '0.18.1',
+31 silly addNameRange     '0.19.0',
+31 silly addNameRange     '0.20.0',
+31 silly addNameRange     '0.20.1',
+31 silly addNameRange     '0.21.0',
+31 silly addNameRange     '0.22.0',
+31 silly addNameRange     '0.23.0',
+31 silly addNameRange     '0.23.1',
+31 silly addNameRange     '0.24.0',
+31 silly addNameRange     '0.24.1',
+31 silly addNameRange     '0.24.2',
+31 silly addNameRange     '1.0.0-rc1',
+31 silly addNameRange     '1.0.0-rc2',
+31 silly addNameRange     '1.0.0-rc3',
+31 silly addNameRange     '1.0.0-rc4',
+31 silly addNameRange     '1.0.0-rc5',
+31 silly addNameRange     '1.0.0-rc6',
+31 silly addNameRange     '1.0.0',
+31 silly addNameRange     '1.1.0',
+31 silly addNameRange     '1.1.1',
+31 silly addNameRange     '1.2.0-beta1',
+31 silly addNameRange     '1.2.0',
+31 silly addNameRange     '1.3.0',
+31 silly addNameRange     '1.3.1',
+31 silly addNameRange     '1.4.0',
+31 silly addNameRange     '1.5.0',
+31 silly addNameRange     '1.6.0',
+31 silly addNameRange     '1.6.1',
+31 silly addNameRange     '1.7.0' ] ]
+32 verbose addNamed [ 'protractor', '1.7.0' ]
+33 verbose addNamed [ '1.7.0', '1.7.0' ]
+34 silly lockFile 6d4e445c-protractor-1-7-0 protractor@1.7.0
+35 verbose lock protractor@1.7.0 /home/alberto/.npm/6d4e445c-protractor-1-7-0.lock
+36 silly lockFile 6d4e445c-protractor-1-7-0 protractor@1.7.0
+37 silly lockFile 6d4e445c-protractor-1-7-0 protractor@1.7.0
+38 silly lockFile 80d5ca5a-protractor protractor@
+39 silly lockFile 80d5ca5a-protractor protractor@
+40 silly resolved [ { name: 'protractor',
+40 silly resolved     description: 'Webdriver E2E test wrapper for Angular.',
+40 silly resolved     homepage: 'https://github.com/angular/protractor',
+40 silly resolved     keywords:
+40 silly resolved      [ 'angular',
+40 silly resolved        'test',
+40 silly resolved        'testing',
+40 silly resolved        'webdriver',
+40 silly resolved        'webdriverjs',
+40 silly resolved        'selenium' ],
+40 silly resolved     author: { name: 'Julie Ralph', email: 'ju.ralph@gmail.com' },
+40 silly resolved     dependencies:
+40 silly resolved      { request: '~2.36.0',
+40 silly resolved        'selenium-webdriver': '2.44.0',
+40 silly resolved        minijasminenode: '1.1.1',
+40 silly resolved        jasminewd: '1.1.0',
+40 silly resolved        jasminewd2: '0.0.2',
+40 silly resolved        jasmine: '2.1.1',
+40 silly resolved        saucelabs: '~0.1.0',
+40 silly resolved        glob: '~3.2',
+40 silly resolved        'adm-zip': '0.4.4',
+40 silly resolved        optimist: '~0.6.0',
+40 silly resolved        q: '1.0.0',
+40 silly resolved        lodash: '~2.4.1',
+40 silly resolved        'source-map-support': '~0.2.6' },
+40 silly resolved     devDependencies:
+40 silly resolved      { 'expect.js': '~0.2.0',
+40 silly resolved        chai: '~1.8.1',
+40 silly resolved        'chai-as-promised': '~4.1.0',
+40 silly resolved        'jasmine-reporters': '~0.2.1',
+40 silly resolved        jshint: '2.5.0',
+40 silly resolved        mocha: '1.21.4',
+40 silly resolved        cucumber: '~0.3.3',
+40 silly resolved        express: '~3.3.4',
+40 silly resolved        lodash: '~2.4.1',
+40 silly resolved        rimraf: '~2.2.6' },
+40 silly resolved     repository: { type: 'git', url: 'git://github.com/angular/protractor.git' },
+40 silly resolved     bin:
+40 silly resolved      { protractor: 'bin/protractor',
+40 silly resolved        'webdriver-manager': 'bin/webdriver-manager' },
+40 silly resolved     main: 'lib/protractor.js',
+40 silly resolved     scripts:
+40 silly resolved      { pretest: 'jshint lib spec scripts',
+40 silly resolved        test: 'node scripts/test.js',
+40 silly resolved        start: 'node testapp/scripts/web-server.js' },
+40 silly resolved     license: 'MIT',
+40 silly resolved     version: '1.7.0',
+40 silly resolved     gitHead: 'c021893d009cee3640ad528c4907bba4420e1e69',
+40 silly resolved     bugs: { url: 'https://github.com/angular/protractor/issues' },
+40 silly resolved     _id: 'protractor@1.7.0',
+40 silly resolved     _shasum: '1cc3f88ad088b7b4e698ca72b5152dfa66d394d8',
+40 silly resolved     _from: 'protractor@',
+40 silly resolved     _npmVersion: '1.4.14',
+40 silly resolved     _npmUser: { name: 'juliemr', email: 'ju.ralph@gmail.com' },
+40 silly resolved     maintainers: [ [Object], [Object] ],
+40 silly resolved     dist:
+40 silly resolved      { shasum: '1cc3f88ad088b7b4e698ca72b5152dfa66d394d8',
+40 silly resolved        tarball: 'http://registry.npmjs.org/protractor/-/protractor-1.7.0.tgz' },
+40 silly resolved     directories: {},
+40 silly resolved     _resolved: 'https://registry.npmjs.org/protractor/-/protractor-1.7.0.tgz',
+40 silly resolved     readme: 'ERROR: No README data found!' } ]
+41 info install protractor@1.7.0 into /usr/lib
+42 info installOne protractor@1.7.0
+43 verbose lib/node_modules/protractor unbuild
+44 verbose tar unpack /home/alberto/.npm/protractor/1.7.0/package.tgz
+45 silly lockFile 217511f3--usr-lib-node-modules-protractor tar:///usr/lib/node_modules/protractor
+46 verbose lock tar:///usr/lib/node_modules/protractor /home/alberto/.npm/217511f3--usr-lib-node-modules-protractor.lock
+47 silly lockFile cebfe986-npm-protractor-1-7-0-package-tgz tar:///home/alberto/.npm/protractor/1.7.0/package.tgz
+48 verbose lock tar:///home/alberto/.npm/protractor/1.7.0/package.tgz /home/alberto/.npm/cebfe986-npm-protractor-1-7-0-package-tgz.lock
+49 silly gunzTarPerm modes [ '775', '664' ]
+50 error Error: EACCES, mkdir '/usr/lib/node_modules/protractor'
+50 error  { [Error: EACCES, mkdir '/usr/lib/node_modules/protractor']
+50 error   errno: 3,
+50 error   code: 'EACCES',
+50 error   path: '/usr/lib/node_modules/protractor',
+50 error   fstream_type: 'Directory',
+50 error   fstream_path: '/usr/lib/node_modules/protractor',
+50 error   fstream_class: 'DirWriter',
+50 error   fstream_stack:
+50 error    [ '/usr/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23',
+50 error      '/usr/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53',
+50 error      'Object.oncomplete (fs.js:108:15)' ] }
+51 error Please try running this command again as root/Administrator.
+52 error System Linux 3.13.0-44-generic
+53 error command "/usr/bin/node" "/usr/bin/npm" "install" "-g" "protractor"
+54 error cwd /home/alberto/Documentos/workspace/tarifas
+55 error node -v v0.10.36
+56 error npm -v 1.4.28
+57 error path /usr/lib/node_modules/protractor
+58 error fstream_path /usr/lib/node_modules/protractor
+59 error fstream_type Directory
+60 error fstream_class DirWriter
+61 error code EACCES
+62 error errno 3
+63 error stack Error: EACCES, mkdir '/usr/lib/node_modules/protractor'
+64 error fstream_stack /usr/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23
+64 error fstream_stack /usr/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53
+64 error fstream_stack Object.oncomplete (fs.js:108:15)
+65 verbose exit [ 3, true ]

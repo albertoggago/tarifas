@@ -16,8 +16,16 @@ tarifasApp.controller("tarifasListaController", function($scope, $http) {
          'dec', 'num', 'txt', 'num', 'num',
          'num', 'num', 'num', 'num', 'txt',
          'dec', 'dec', 'txt' ];
-    $scope.datos = [];
     
+    $scope.datos = {};
+    $scope.datos.tabla = [];
+    $scope.datos.fecha = {};
+    $scope.datos.fecha.day = 0;
+    $scope.datos.fecha.month = 0;
+    $scope.datos.fecha.year = 0;
+    $scope.datos.version = 0;
+    
+    $scope.textoInformacion = "Activo";
     $scope.numEdit = function (numero, decimales) { // v2007-08-06
 	    var separador_decimal = $scope.datosSTD.DECIMALPOINT;
         var separador_miles = $scope.datosSTD.SEPARADORMILES;
@@ -56,15 +64,19 @@ tarifasApp.controller("tarifasListaController", function($scope, $http) {
     this.verificarVF = function(ver){
 		//este proceso devuelve si la version del llamante coincide con la version guardada en el json.
 		//y es del dia si es de dias posteriores hay que cargar el JSON de la version correspondiente
-		if (ver != $scope.datos.version) {return false};
-		var date = new Date();
-		if ($scope.datos.fecha.year  == date.getFullYear() && 
+        var salida = false;
+        var date = new Date();
+        if (typeof($scope.datos.version)!="undefined") 
+            {if ((ver == $scope.datos.version) &&
+                 ($scope.datos.fecha.year  == date.getFullYear() && 
 		    $scope.datos.fecha.month == (date.getMonth()+1) &&
-		    $scope.datos.fecha.day   == date.getDate()) {return true};
-        return false;
+		    $scope.datos.fecha.day   == date.getDate()))
+            {salida = true};
+            };
+        return salida;
 	};
 
-    $scope.recalculo = function (){
+    $scope.actualizarTarifas = function (){
 		//barremos todos los elementos y los recalculamos.
          //alert($scope.datos.fecha);
 		 for (var i = 0; i < $scope.datos.tabla.length; ++i)
@@ -194,35 +206,121 @@ tarifasApp.controller("tarifasListaController", function($scope, $http) {
 	    };
 	    //funcion de ordenar
 	    // ya no usamos esto    
-	    //  $scope.datos.tabla.sort(function(a,b){return parseFloat(a[2])-parseFloat(b[2])});
+	      $scope.datos.tabla.sort(function(a,b){return parseFloat(a[2])-parseFloat(b[2])});
 		
 	};    
     
     $scope.determinarFecha = function (){
 		var date = new Date();
-		this.datos.fecha.year  = date.getFullYear();
-		this.datos.fecha.month = date.getMonth()+1;
-		this.datos.fecha.day   = date.getDate();
-		
+        $scope.datos.fecha = {};
+		$scope.datos.fecha.year  = date.getFullYear();
+		$scope.datos.fecha.month = date.getMonth()+1;
+		$scope.datos.fecha.day   = date.getDate();
+	};
+    
+    this.setMinutos = function(min) {$scope.datos.minutos = min};
+	this.setLlamadas = function(llam) {$scope.datos.llamadas = llam};
+	this.setSMS = function(sms) {$scope.datos.sms = sms};
+	this.setInternet = function(int) {$scope.datos.internet = int};
+	this.setCabecera = function(tab) {$scope.datos.cabecera = tab};
+    this.getTabla = function() {return $scope.datos.tabla;};
+	this.getMinutos = function() {return $scope.datos.minutos;};
+	this.getLlamadas = function() {return $scope.datos.llamadas;};
+	this.getSMS = function() {return $scope.datos.sms;};
+	this.getInternet = function() {return $scope.datos.internet;};
+    
+    this.setTabla = function(tab) {
+		//realizamos una carga de los datos, se usa en la creación del primer objeto
+		//marcamos para poder verificar la version de uso y la fecha, para evitar que el fichero JSON cargado
+		// no coincida con las funciones
+		this.setMinutos(tab[0][15]);
+		this.setLlamadas(tab[0][16]);
+		this.setSMS(tab[0][17]);
+		this.setInternet(tab[0][18]);
+		$scope.datos.tabla = tab;
+		//recalculamos siempre que se realiza una carga para ajustarlo todo
+		$scope.actualizarTarifas();
+		$scope.datos.version     = $scope.datosSTD.VERSION;
+		$scope.determinarFecha();
 	};
 
-    var cargarFichero = true;
-    var datosTmp   = localStorage.getItem($scope.datosSTD.FICHERO);
-    if (datosTmp != null){
-		//cargamos el JSON siempre que la fecha y la version coincidan
-		$scope.datos = JSON.parse(datosTmp);
-		$scope.recalculo();
-		if (this.verificarVF($scope.datosSTD.VERSION)) {cargarFichero = false};
-		}; 
-    if (cargarFichero) {
-        $http.get('../data/precios.'+$scope.datosSTD.VERSION+'.json').success(function(data) {
-        $scope.datos = data;
-        $scope.recalculo();
-        $scope.determinarFecha();
-        localStorage.setItem($scope.datosSTD.FICHERO, JSON.stringify($scope.datos));
-        });
-    };
+    
+    this.getPrecios   = function() {
+		var lista = [];
+		for (var i=0; i < $scope.datos.tabla.length; i++) {
+			lista.push(parseFloat($scope.datos.tabla[i][2]));
+		};
+		return lista
+	};
+
+	this.getPrecio   = function(i) {
+		if (i>=0 && i < $scope.datos.tabla.length) {
+			return parseFloat($scope.datos.tabla[i][2]);
+		}
+		else{
+			return ""
+		};
+	};
+
+	this.actualizar = function (eMin, eLlam, eSms, eMB){
+		$scope.datos.minutos = eMin;
+		$scope.datos.llamadas = eLlam;
+		$scope.datos.sms = eSms;
+		$scope.datos.internet = eMB;
+		$scope.actualizarTarifas();
+		};
+
+
+   // $scope.init = function(){
+        var cargarFichero = true;
+        var datosTmp   = localStorage.getItem($scope.datosSTD.FICHERO);
+        if (datosTmp != null){
+            //cargamos el JSON siempre que la fecha y la version coincidan
+		  $scope.datos = JSON.parse(datosTmp);
+		  if (this.verificarVF($scope.datosSTD.VERSION)) {cargarFichero = false;}
+		  }; 
+        if (cargarFichero) {
+            $http.get('../data/precios.'+$scope.datosSTD.VERSION+'.json').success(function(data) {
+                $scope.datos = data;
+                $scope.determinarFecha();
+                localStorage.setItem($scope.datosSTD.FICHERO, JSON.stringify($scope.datos));});
+            };
+        
+        $scope.actualizarTarifas();
+        
+
+    
     
   //$scope.datos = precios;
 });
 
+  
+
+tarifasApp.directive('validNumber', function() {
+  return {
+    require: '?ngModel',
+    link: function(scope, element, attrs, ngModelCtrl) {
+      if(!ngModelCtrl) {
+        return; 
+      }
+
+      ngModelCtrl.$parsers.push(function(val) {
+        if (angular.isUndefined(val)) {
+            var val = '';
+        }
+        var clean = val.replace( /[^0-9]+/g, '');
+        if (val !== clean) {
+          ngModelCtrl.$setViewValue(clean);
+          ngModelCtrl.$render();
+        }
+        return clean;
+      });
+
+      element.bind('keypress', function(event) {
+        if(event.keyCode === 32) {
+          event.preventDefault();
+        }
+      });
+    }
+  };
+});

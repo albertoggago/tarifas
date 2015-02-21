@@ -11,6 +11,8 @@ The process get a JSON file and show a angular objet with the data and short,
 
 ### Tools
 
+npm update --save
+
 
 
 ### mocks
@@ -20,6 +22,8 @@ The process get a JSON file and show a angular objet with the data and short,
 2 - Go in the browser: http://localhost:8000/ (it's a Frame)
 
 3 - Mock test: npm test
+
+4 - Mock E2E: sudo protractor test/protractor-conf.js
 
 
 ## Versions
