@@ -22,19 +22,17 @@ conversorApp.controller("conversorController", function($scope, $http, $controll
             var entry = entries[i];
             var posicion = entry.title.$t;
             var valor = entry.content.$t;
-            var contarElemento = 0;
             valor = valor.replace(",",".").toString();
 
-            if (valor == "bbbb") {valor = ""};
+            //if (valor == "bbbb") {valor = ""};
 	        var x = posicion.substring(1,posicion.length);	 
             if (x == cabeceraOld || fila.length==0)
 		      { fila.push(valor);
-                
-		    }
-	        else {
-                tablaEnt.push(fila);
-		        fila = [];
-		        fila.push(valor);
+		      }
+	           else {
+                   tablaEnt.push(fila);
+		          fila = [];
+		          fila.push(valor);
             };
             cabeceraOld = x;
         };
@@ -42,7 +40,40 @@ conversorApp.controller("conversorController", function($scope, $http, $controll
         $scope.determinarFecha();
         tarifas.setCabecera(tablaEnt[0]);
         tablaEnt.shift();
-	    tarifas.setTabla(tablaEnt,$scope.versionNew);
+    //nueva forma de guardar la tabla
+        tablaNew=[];
+        for (var i = 0; i < tablaEnt.length; i++){
+            tablaNew[i] = {};
+            tablaNew[i].nombre        =  tablaEnt[i][0];
+            tablaNew[i].red           =  tablaEnt[i][1];
+            tablaNew[i].total_con_IVA =  tablaEnt[i][2];
+            tablaNew[i].observaciones =  tablaEnt[i][3];
+            tablaNew[i].textos_especiales =  tablaEnt[i][4];
+            tablaNew[i].coste_minutos =  tablaEnt[i][5];
+            tablaNew[i].coste_llamadas =  tablaEnt[i][6];
+            tablaNew[i].coste_sms =  tablaEnt[i][7];
+            tablaNew[i].coste_internet =  tablaEnt[i][8];
+            tablaNew[i].tarifa_std =  tablaEnt[i][9];
+            tablaNew[i].tarifa_minima =  tablaEnt[i][10];
+            tablaNew[i].incluidos_minutos =  tablaEnt[i][11];
+            tablaNew[i].coste_incluido_sn =  tablaEnt[i][12];
+            tablaNew[i].incluidos_sms  =  tablaEnt[i][13];
+            tablaNew[i].incluidos_internet =  tablaEnt[i][14];
+            tablaNew[i].gasto_minutos =  tablaEnt[i][15];
+            tablaNew[i].gasto_llamadas =  tablaEnt[i][16];
+            tablaNew[i].gasto_sms =  tablaEnt[i][17];
+            tablaNew[i].gasto_internet =  tablaEnt[i][18];
+            tablaNew[i].formulas_especiales =  tablaEnt[i][19];
+            tablaNew[i].total_base =  tablaEnt[i][20];
+            tablaNew[i].total_sin_IVA =  tablaEnt[i][21];
+            tablaNew[i].sn_4G =  tablaEnt[i][22];
+            tablaNew[i].sobrecoste_internet =  0;
+            };
+            
+            
+            
+	    //tarifas.setTabla(tablaEnt,$scope.versionNew);
+        tarifas.setTabla(tablaNew,$scope.versionNew);
         
         
 	   alert("FINALIZADO...");
