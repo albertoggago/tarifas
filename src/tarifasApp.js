@@ -34,7 +34,7 @@ tarifasApp.controller("tarifasListaController", function($scope, $http) {
 	        return "";
 	    }
 
-	    if(decimales!==undefined){
+	    if(angular.isUndefined(decimales)){
 	        // Redondeamos
 	        numero=numero.toFixed(decimales);
 	    }
@@ -271,7 +271,7 @@ tarifasApp.controller("tarifasListaController", function($scope, $http) {
 		};
 
 
-   // $scope.init = function(){
+    this.init = function(){
         var cargarFichero = true;
         var datosTmp   = localStorage.getItem($scope.datosSTD.FICHERO);
         if (datosTmp != null){
@@ -280,15 +280,17 @@ tarifasApp.controller("tarifasListaController", function($scope, $http) {
 		  if (this.verificarVF($scope.datosSTD.VERSION)) {cargarFichero = false;}
 		  }; 
         if (cargarFichero) {
-            $http.get('../data/precios.'+$scope.datosSTD.VERSION+'.json').success(function(data) {
+            $http.get('data/precios.'+$scope.datosSTD.VERSION+'.json').success(function(data) {
                 $scope.datos = data;
                 $scope.determinarFecha();
-                localStorage.setItem($scope.datosSTD.FICHERO, JSON.stringify($scope.datos));});
-            };
+                localStorage.setItem($scope.datosSTD.FICHERO, JSON.stringify($scope.datos));
+            });
+        };
         
         $scope.actualizarTarifas();
-        
+    };    
 
+    this.init();
     
     
   //$scope.datos = precios;

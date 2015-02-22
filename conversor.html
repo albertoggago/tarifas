@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es"  ng-app="tarifasApp">
+<html lang="es"  ng-app="conversorApp">
 <head>
 	<meta charset="utf-8"> 
     <link href="css/tarifasApp.css" rel="stylesheet" media="screen">
@@ -8,20 +8,28 @@
 	<script src="node_modules/angular/angular.min.js"></script>
     
     <script src="src/tarifasApp.js"></script>
+    <script src="src/conversorApp.js"></script>
     
 </head>
 
-<body ng-controller="tarifasListaController as tarifas">
+<body ng-controller="conversorController as conversor">
 
     
         <h2>Datos de Entrada</h2>
         <div>
-            <form name="formulario1">
-                <div>Minutos: <input type="text" name="input" ng-model="datos.minutos" min=0 valid-number ng-change="actualizarTarifas()" requierd>  Duracion de la llamada: {{datos.minutos / datos.llamadas | number }}</div>
-                <div>Llamadas: <input type="text" name="input" ng-model="datos.llamadas" min=0 valid-number ng-change="actualizarTarifas()" requierd></div>
-                <div>Internet: <input type="text" name="input" ng-model="datos.internet" min=0 valid-number ng-change="actualizarTarifas()" requierd> en MegaByte es decir son: {{datos.internet/1000 |number}} Gigabytes</div>
-                <div>SMS: <input type="text" name="input" ng-model="datos.sms" min=0 valid-number ng-change="actualizarTarifas()" requierd></div>
+            <form name="formularioC1">
+                <button ng-click="conversor.recoger()">Presioname para transformar</button>
+                <br>
+                Version a Generar: <input type="text" ng-model="conversor.versionNew">
+                <br>
+                <input type="radio" ng-model="conversor.excel" value="0At8AA5ZEAiw9dFV4MVZaUll2dkJmQjc2WGdSLWhpNFE">pruebas<br>
+                <input type="radio" ng-model="conversor.excel" checked value="0At8AA5ZEAiw9dFRmR0JGYktDTEstbDdwdjY0ZzZ2c1E">Produccion<br>
+                <button ng-click="conversor.guardar()">Presioname para guardar</button>
                 <pre>minutos: {{datos.minutos}} - llamadas: {{datos.llamadas}} - Internet: {{datos.internet}} - SMS: {{datos.sms}}</pre>
+                <pre>fecha: {{datos.fecha.year}}-{{datos.fecha.month}}-{{datos.fecha.day}}</pre>
+                <pre>Version: {{datos.version}}</pre>
+                <pre>Feed: {{feed}}</pre>
+                <pre>Cabecera: {{cabecera}}</pre>
             </form>
         </div>
         <h2>Datos de Salida</h2>
@@ -33,6 +41,7 @@
             <th>{{datos.cabecera[2]}}</th>
             <th>{{datos.cabecera[3]}}</th>
             <th>{{datos.cabecera[4]}}</th>
+            <th>{{datos.cabecera[5]}}</th>
         </tr>
         <tr ng-repeat="tarifa in datos.tabla">
         <td>{{tarifa[0]}}</td>
