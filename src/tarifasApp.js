@@ -24,9 +24,10 @@ tarifasApp.controller("tarifasListaController", function($scope, $http) {
     $scope.datos.fecha.month = 0;
     $scope.datos.fecha.year = 0;
     $scope.datos.version = 0;
+    $scope.datos.cabecera=['a','b','c,','d','e'];
     
     $scope.textoInformacion = "Activo";
-    $scope.numEdit = function (numero, decimales) { // v2007-08-06
+    $scope.numEdit = function (numero, decimales) { 
 	    var separador_decimal = $scope.datosSTD.DECIMALPOINT;
         var separador_miles = $scope.datosSTD.SEPARADORMILES;
         numero=parseFloat(numero);
@@ -34,7 +35,7 @@ tarifasApp.controller("tarifasListaController", function($scope, $http) {
 	        return "";
 	    }
 
-	    if(angular.isUndefined(decimales)){
+	    if(!angular.isUndefined(decimales)){
 	        // Redondeamos
 	        numero=numero.toFixed(decimales);
 	    }
@@ -79,6 +80,11 @@ tarifasApp.controller("tarifasListaController", function($scope, $http) {
     $scope.actualizarTarifas = function (){
 		//barremos todos los elementos y los recalculamos.
          //alert($scope.datos.fecha);
+
+        //actualizamos Mensaje de precios
+        
+        $scope.datos.cabecera[2] = "Al Mes + "+$scope.numEditNumStd(($scope.datosSTD.IVA-1)*100)+"% de Impuestos"
+
 		 for (var i = 0; i < $scope.datos.tabla.length; ++i)
 	    	{
 	    	 //recogemos los datos
@@ -116,6 +122,7 @@ tarifasApp.controller("tarifasListaController", function($scope, $http) {
 			 $scope.datos.tabla[i][18]= gasto_internet; 
 
 
+                
 
 
 		     //cáclulo, lo primero miramos si hemos consumido mas llamadas que las incluidas.
@@ -229,7 +236,7 @@ tarifasApp.controller("tarifasListaController", function($scope, $http) {
 	this.getSMS = function() {return $scope.datos.sms;};
 	this.getInternet = function() {return $scope.datos.internet;};
     
-    this.setTabla = function(tab) {
+    this.setTabla = function(tab,versionX) {
 		//realizamos una carga de los datos, se usa en la creación del primer objeto
 		//marcamos para poder verificar la version de uso y la fecha, para evitar que el fichero JSON cargado
 		// no coincida con las funciones
@@ -240,7 +247,7 @@ tarifasApp.controller("tarifasListaController", function($scope, $http) {
 		$scope.datos.tabla = tab;
 		//recalculamos siempre que se realiza una carga para ajustarlo todo
 		$scope.actualizarTarifas();
-		$scope.datos.version     = $scope.datosSTD.VERSION;
+		$scope.datos.version     = versionX;
 		$scope.determinarFecha();
 	};
 

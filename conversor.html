@@ -20,16 +20,16 @@
             <form name="formularioC1">
                 <button ng-click="conversor.recoger()">Presioname para transformar</button>
                 <br>
-                Version a Generar: <input type="text" ng-model="conversor.versionNew">
+                Version a Generar: <input type="text" ng-model="versionNew">
                 <br>
                 <input type="radio" ng-model="conversor.excel" value="0At8AA5ZEAiw9dFV4MVZaUll2dkJmQjc2WGdSLWhpNFE">pruebas<br>
-                <input type="radio" ng-model="conversor.excel" checked value="0At8AA5ZEAiw9dFRmR0JGYktDTEstbDdwdjY0ZzZ2c1E">Produccion<br>
+                <input type="radio" ng-model="conversor.excel" value="0At8AA5ZEAiw9dFRmR0JGYktDTEstbDdwdjY0ZzZ2c1E">Produccion<br>
                 <button ng-click="conversor.guardar()">Presioname para guardar</button>
                 <pre>minutos: {{datos.minutos}} - llamadas: {{datos.llamadas}} - Internet: {{datos.internet}} - SMS: {{datos.sms}}</pre>
                 <pre>fecha: {{datos.fecha.year}}-{{datos.fecha.month}}-{{datos.fecha.day}}</pre>
                 <pre>Version: {{datos.version}}</pre>
                 <pre>Feed: {{feed}}</pre>
-                <pre>Cabecera: {{cabecera}}</pre>
+                <pre>Cabecera: {{datos.cabecera}}</pre>
             </form>
         </div>
         <h2>Datos de Salida</h2>

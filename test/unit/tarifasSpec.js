@@ -76,7 +76,7 @@ describe('tarifasAppControl', function() {
 
   
  	 it("Revision de Precios9999_0_0_0", function() {
-     	 ctrl.setTabla([x1.slice(),y1.slice()]);
+     	 ctrl.setTabla([x1.slice(),y1.slice()],scope.datosSTD.VERSION);
     	 ctrl.actualizar(9999,0,0,0);
 		 expect(scope.datos.tabla[0][20]).toBe(1496.70);
 	 	 expect(scope.datos.tabla[1][20]).toBe(1496.70);
@@ -89,7 +89,7 @@ describe('tarifasAppControl', function() {
  	 });	
  	 
 	 it("Revision de Precios9999_8888_0_0", function() {
-         ctrl.setTabla([x1.slice(),y1.slice()]);
+         ctrl.setTabla([x1.slice(),y1.slice()],scope.datosSTD.VERSION);
  	     ctrl.actualizar(9999,8888,0,0);
 	     expect(scope.datos.tabla[0][20]).toBe(2915.79);
 	 	 expect(scope.datos.tabla[1][20]).toBe(2918.78);
@@ -102,7 +102,7 @@ describe('tarifasAppControl', function() {
 	 });
 
 	 it("Revision de Precios9999_8888_7777_0", function() {
-     	 ctrl.setTabla([x1.slice(),y1.slice()]);
+     	 ctrl.setTabla([x1.slice(),y1.slice()],scope.datosSTD.VERSION);
     	 ctrl.actualizar(9999,8888,7777,0);
     	 expect(scope.datos.tabla[0][20]).toBe(4067.88);
 	 	 expect(scope.datos.tabla[1][20]).toBe(4070.87);
@@ -154,7 +154,7 @@ describe('tarifasAppControl', function() {
 	 });
 
 	 it("Yoigo Infinita 39", function() {
-         ctrl.setTabla([x9]); 
+         ctrl.setTabla([x9]);  
          ctrl.actualizar(1000,150,75,5000);
          expect(scope.datos.tabla[0][7]).toBe(10);
 	 	 expect(scope.datos.tabla[0][20]).toBe(7.50);
@@ -162,20 +162,20 @@ describe('tarifasAppControl', function() {
 	 });
 
  	 it("Verficar Version", function() {
-         ctrl.setTabla([x1.slice(),y1.slice()]);
+         ctrl.setTabla([x1.slice(),y1.slice()],scope.datosSTD.VERSION);
          expect(ctrl.verificarVF(scope.datosSTD.VERSION)).toBe(true);
 	 	 expect(ctrl.verificarVF("VERSION")).toBe(false);
 	 });
 
  	 it("Verficar Fecha1", function() {
-         ctrl.setTabla([x1.slice(),y1.slice()]);
+         ctrl.setTabla([x1.slice(),y1.slice()],scope.datosSTD.VERSION);
          scope.datos.fecha.year = "2000";
          expect(ctrl.verificarVF(scope.datosSTD.VERSION)).toBe(false);
 	 	 expect(ctrl.verificarVF("VERSION")).toBe(false);
 		 });
 
  	 it("Verficar Fecha1", function() {
-         ctrl.setTabla([x1.slice(),y1.slice()]);
+         ctrl.setTabla([x1.slice(),y1.slice()],scope.datosSTD.VERSION);
          scope.datos.fecha.month += 1;
          expect(ctrl.verificarVF(scope.datosSTD.VERSION)).toBe(false);
 	 	 expect(ctrl.verificarVF("VERSION")).toBe(false);

@@ -17,11 +17,17 @@
         <h2>Datos de Entrada</h2>
         <div>
             <form name="formulario1">
-                <div>Minutos: <input type="text" name="input" ng-model="datos.minutos" min=0 valid-number ng-change="actualizarTarifas()" requierd>  Duracion de la llamada: {{datos.minutos / datos.llamadas | number }}</div>
+                <div>Minutos: <input type="text" name="input" ng-model="datos.minutos" min=0 valid-number ng-change="actualizarTarifas()" requierd>  Duracion media de las llamadas: {{datos.minutos / datos.llamadas | number }} minutos</div>
                 <div>Llamadas: <input type="text" name="input" ng-model="datos.llamadas" min=0 valid-number ng-change="actualizarTarifas()" requierd></div>
-                <div>Internet: <input type="text" name="input" ng-model="datos.internet" min=0 valid-number ng-change="actualizarTarifas()" requierd> en MegaByte es decir son: {{datos.internet/1000 |number}} Gigabytes</div>
+                <div>Internet: <input type="text" name="input" ng-model="datos.internet" min=0 valid-number ng-change="actualizarTarifas()" requierd> en MegaBytes, equivale a: {{datos.internet/1000 |number}} Gigabytes</div>
                 <div>SMS: <input type="text" name="input" ng-model="datos.sms" min=0 valid-number ng-change="actualizarTarifas()" requierd></div>
-                <pre>minutos: {{datos.minutos}} - llamadas: {{datos.llamadas}} - Internet: {{datos.internet}} - SMS: {{datos.sms}}</pre>
+                <br>
+                <input type="radio" ng-model="datosSTD.IVA" value="1.21" ng-change="actualizarTarifas()">IVA Peninsula 21%<br>
+                <input type="radio" ng-model="datosSTD.IVA" value="1.07" ng-change="actualizarTarifas()">IGIC Canarias 7%<br>
+                <input type="radio" ng-model="datosSTD.IVA" value="1.10" ng-change="actualizarTarifas()">IPSI Ceuta 10%<br>
+                <input type="radio" ng-model="datosSTD.IVA" value="1.04" ng-change="actualizarTarifas()">IPSI Melilla 4%<br>                     <input type="radio" ng-model="datosSTD.IVA" value="1.00" ng-change="actualizarTarifas()">Sin Impuestos<br>
+                
+                <pre>Ha seleccionado estos datos &ensp; minutos: {{datos.minutos}} - llamadas: {{datos.llamadas}} - Internet: {{datos.internet}} - SMS: {{datos.sms}}</pre>
             </form>
         </div>
         <h2>Datos de Salida</h2>
