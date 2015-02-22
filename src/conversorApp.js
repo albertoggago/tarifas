@@ -22,12 +22,14 @@ conversorApp.controller("conversorController", function($scope, $http, $controll
             var entry = entries[i];
             var posicion = entry.title.$t;
             var valor = entry.content.$t;
+            var contarElemento = 0;
             valor = valor.replace(",",".").toString();
 
             if (valor == "bbbb") {valor = ""};
 	        var x = posicion.substring(1,posicion.length);	 
             if (x == cabeceraOld || fila.length==0)
 		      { fila.push(valor);
+                
 		    }
 	        else {
                 tablaEnt.push(fila);
