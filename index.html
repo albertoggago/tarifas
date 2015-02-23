@@ -15,88 +15,56 @@
 
     
         <h2>Datos de Entrada</h2>
-        <div>
-            <form name="formulario1">
-                <div>Minutos: <input type="text" name="input" ng-model="datos.minutos" min=0 valid-number ng-change="actualizarTarifas()" requierd>  Duracion media de las llamadas: {{datos.minutos / datos.llamadas | number }} minutos</div>
-                <div>Llamadas: <input type="text" name="input" ng-model="datos.llamadas" min=0 valid-number ng-change="actualizarTarifas()" requierd></div>
-                <div>Internet: <input type="text" name="input" ng-model="datos.internet" min=0 valid-number ng-change="actualizarTarifas()" requierd> en MegaBytes, equivale a: {{datos.internet/1000 |number}} Gigabytes</div>
-                <div>SMS: <input type="text" name="input" ng-model="datos.sms" min=0 valid-number ng-change="actualizarTarifas()" requierd></div>
-                <br>
-                <input type="radio" ng-model="datosSTD.IVA" value="1.21" ng-change="actualizarTarifas()">IVA Peninsula 21%<br>
-                <input type="radio" ng-model="datosSTD.IVA" value="1.07" ng-change="actualizarTarifas()">IGIC Canarias 7%<br>
-                <input type="radio" ng-model="datosSTD.IVA" value="1.10" ng-change="actualizarTarifas()">IPSI Ceuta 10%<br>
-                <input type="radio" ng-model="datosSTD.IVA" value="1.04" ng-change="actualizarTarifas()">IPSI Melilla 4%<br>                     <input type="radio" ng-model="datosSTD.IVA" value="1.00" ng-change="actualizarTarifas()">Sin Impuestos<br>
+    
+    <pr>Esta página es muy sencilla de usar seleccionamos los datos que queremos que se calcule y la página calcula los datos muy rápido.</pr><br><br>
+        <table class="caja">
+            <tr>
+                <td>Minutos: </td>
+                <td><input type="text" name="input" ng-model="datos.minutos" min=0 valid-number ng-change="actualizarTarifas()" requierd></td>
+                <td>  Duracion media de las llamadas: {{datos.minutos / datos.llamadas | number }} minutos</td>
+            </tr><tr>
+                <td>Llamadas: </td>
+                <td><input type="text" name="input" ng-model="datos.llamadas" min=0 valid-number ng-change="actualizarTarifas()" requierd></td>
                 
-                <pre>Ha seleccionado estos datos &ensp; minutos: {{datos.minutos}} - llamadas: {{datos.llamadas}} - Internet: {{datos.internet}} - SMS: {{datos.sms}}</pre>
-            </form>
-        </div>
+            </tr><tr>
+                <td>Internet: </td>
+                <td><input type="text" name="input" ng-model="datos.internet" min=0 valid-number ng-change="actualizarTarifas()" requierd> </td>
+                <td>en MegaBytes, equivale a: {{datos.internet/1000 |number}} Gigabytes</td>
+                
+            </tr><tr>
+                <td>SMS: </td>
+                <td><input type="text" name="input" ng-model="datos.sms" min=0 valid-number ng-change="actualizarTarifas()" requierd></td>
+                
+            </tr></table>
+                    <br>
+        <table class="caja">
+            <tr>
+                <td><input type="radio" ng-model="datosSTD.IVA" value="1.21" ng-change="actualizarTarifas()">IVA Peninsula 21%</td>
+                <td><input type="radio" ng-model="datosSTD.IVA" value="1.07" ng-change="actualizarTarifas()">IGIC Canarias 7%</td>
+                <td><input type="radio" ng-model="datosSTD.IVA" value="1.10" ng-change="actualizarTarifas()">IPSI Ceuta 10%</td>
+                <td><input type="radio" ng-model="datosSTD.IVA" value="1.04" ng-change="actualizarTarifas()">IPSI Melilla 4%</td>                 <td><input type="radio" ng-model="datosSTD.IVA" value="1.00" ng-change="actualizarTarifas()">Sin Impuestos</td>
+            </tr></table>        
+                <br>
+                <pr>Ha seleccionado estos datos &ensp; minutos: {{datos.minutos}} - llamadas: {{datos.llamadas}} - Internet: {{datos.internet}} - SMS: {{datos.sms}}</pr>
         <h2>Datos de Salida</h2>
-        <div >
-        <table border="1">
+            <div class="caja"> Buscar: <input ng-model="query"> Busque lo que quiera, compañía, red o 4G</div>
+            <br>
+     <table class="caja">
         <tr>
             <th>{{datos.cabecera[0]}}</th>
             <th>{{datos.cabecera[1]}}</th>
             <th>{{datos.cabecera[2]}}</th>
             <th>{{datos.cabecera[3]}}</th>
             <th>{{datos.cabecera[4]}}</th>
-            <th>{{datos.cabecera[4]}}</th>
-            <th>{{datos.cabecera[5]}}</th>
-            <th>{{datos.cabecera[6]}}</th>
-            <th>{{datos.cabecera[7]}}</th>
-            <th>{{datos.cabecera[8]}}</th>
-            <th>{{datos.cabecera[9]}}</th>
-            <th>{{datos.cabecera[10]}}</th>
-            <th>{{datos.cabecera[11]}}</th>
-            <th>{{datos.cabecera[12]}}</th>
-            <th>{{datos.cabecera[13]}}</th>
-            <th>{{datos.cabecera[14]}}</th>
-            <th>{{datos.cabecera[14]}}</th>
-            <th>{{datos.cabecera[15]}}</th>
-            <th>{{datos.cabecera[16]}}</th>
-            <th>{{datos.cabecera[17]}}</th>
-            <th>{{datos.cabecera[18]}}</th>
-            <th>{{datos.cabecera[19]}}</th>
-            <th>{{datos.cabecera[20]}}</th>
-            <th>{{datos.cabecera[21]}}</th>
-            <th>{{datos.cabecera[22]}}</th>
-            
             
         </tr>
-        <tr ng-repeat="tarifa in datos.tabla">
+        <tr ng-repeat="tarifa in datos.tabla| filter: query | orderBy: 'total_con_IVA':false">
             <td>{{tarifa.nombre}}</td>
             <td>{{tarifa.red}}</td>
             <td>{{tarifa.total_con_IVA|number:2}}</td>
-            <td>{{tarifa.Observaciones}}</td>
+            <td>{{tarifa.observaciones}}</td>
             <td>{{tarifa.textos_especiales}}</td>
-            <td>{{tarifa.coste_minutos}}</td>
-            <td>{{tarifa.coste_llamadas}}</td>
-            <td>{{tarifa.coste_sms}}</td>            
-            <td>{{tarifa.coste_internet}}</td>
-            <td>{{tarifa.tarifa_std}}</td>
-            <td>{{tarifa.tarifa_minima}}</td>
-            <td>{{tarifa.incluidos_minutos}}</td>
-            <td>{{tarifa.coste_incluido_sn}}</td>
-            <td>{{tarifa.incluidos_sms}}</td>
-            <td>{{tarifa.incluidos_internet}}</td>
-            <td>{{tarifa.gasto_minutos}}</td>
-            <td>{{tarifa.gasto_llamadas}}</td>
-            <td>{{tarifa.gasto_sms}}</td>
-            <td>{{tarifa.gasto_internet}}</td>
-            <td>{{tarifa.formulas_especiales}}</td>
-            <td>{{tarifa.total_base}}</td>
-            <td>{{tarifa.total_sin_IVA}}</td>
-            <td>{{tarifa.sn_4G}}</td>
-            <td>{{sobrecoste_internet}}</td>
-
         </tr>
         </table>
-        </div>
-        
-    <pre>{{datosSTD}}</pre>
-    <pre>{{valores}}</pre>
-    <pre>{{datos}}</pre>
-
-    
-    </div>
 </body>
 </html>
