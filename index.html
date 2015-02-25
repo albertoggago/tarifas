@@ -1,70 +1,79 @@
 <!doctype html>
-<html lang="es"  ng-app="tarifasApp">
+<html lang="es"  id="ng-app" ng-app="tarifasApp">
 <head>
 	<meta charset="utf-8"> 
     <link href="css/tarifasApp.css" rel="stylesheet" media="screen">
-    
-	<title>Tarifas en Angular.js</title>
+	<title>Tarifas en Angular</title>
 	<script src="node_modules/angular/angular.min.js"></script>
-    
     <script src="src/tarifasApp.js"></script>
-    
 </head>
 
 <body ng-controller="tarifasListaController as tarifas">
-
-    
-        <h2>Datos de Entrada</h2>
-    
-    <pr>Esta página es muy sencilla de usar seleccionamos los datos que queremos que se calcule y la página calcula los datos muy rápido.</pr><br><br>
-        <table class="caja">
+    <h2>Formulario para Cambiar</h2>
+    <div class="arriba"><a href="http://albertoggago.es">albertoggago.es</a></div>
+    <br>
+    <pr>El uso es muy sencillo, solo tenemos que cambiar los datos de el consumo mensual y el Sistema calcula automáticamente todas las tarifas.</pr><br><pr>También podéis usar el filtro, en este caso filtra por todos los campos y los calcula automaticamente.</pr><br><br>
+        <table class="tabla">
+            <thead ><th colspan="3">DATOS DE CONSUMO MENSUAL</th></thead>
+            <tbody>
             <tr>
-                <td>Minutos: </td>
+                <td>Minutos (al mes): </td>
                 <td><input type="text" name="input" ng-model="datos.minutos" min=0 valid-number ng-change="actualizarTarifas()" requierd></td>
                 <td>  Duracion media de las llamadas: {{datos.minutos / datos.llamadas | number }} minutos</td>
             </tr><tr>
-                <td>Llamadas: </td>
+                <td>Llamadas (al mes): </td>
                 <td><input type="text" name="input" ng-model="datos.llamadas" min=0 valid-number ng-change="actualizarTarifas()" requierd></td>
-                
+                <td>{{mensaje}}</td>
             </tr><tr>
-                <td>Internet: </td>
+                <td>Internet (consumo al mes): </td>
                 <td><input type="text" name="input" ng-model="datos.internet" min=0 valid-number ng-change="actualizarTarifas()" requierd> </td>
                 <td>en MegaBytes, equivale a: {{datos.internet/1000 |number}} Gigabytes</td>
                 
             </tr><tr>
-                <td>SMS: </td>
-                <td><input type="text" name="input" ng-model="datos.sms" min=0 valid-number ng-change="actualizarTarifas()" requierd></td>
+                <td>SMS (al mes): </td>
+                <td><input type="text" name="input" ng-model="datos.sms" min=0 valid-number ng-change="actualizarTarifas()" requierd></td><td>{{mensaje}}</td>
                 
-            </tr></table>
+            </tr></tbody></table>
+    
                     <br>
-        <table class="caja">
-            <tr>
+        <table class="tabla">
+            <tbody<tr>
                 <td><input type="radio" ng-model="datosSTD.IVA" value="1.21" ng-change="actualizarTarifas()">IVA Peninsula 21%</td>
                 <td><input type="radio" ng-model="datosSTD.IVA" value="1.07" ng-change="actualizarTarifas()">IGIC Canarias 7%</td>
                 <td><input type="radio" ng-model="datosSTD.IVA" value="1.10" ng-change="actualizarTarifas()">IPSI Ceuta 10%</td>
                 <td><input type="radio" ng-model="datosSTD.IVA" value="1.04" ng-change="actualizarTarifas()">IPSI Melilla 4%</td>                 <td><input type="radio" ng-model="datosSTD.IVA" value="1.00" ng-change="actualizarTarifas()">Sin Impuestos</td>
-            </tr></table>        
+            </tr></body></table>        
                 <br>
-                <pr>Ha seleccionado estos datos &ensp; minutos: {{datos.minutos}} - llamadas: {{datos.llamadas}} - Internet: {{datos.internet}} - SMS: {{datos.sms}}</pr>
-        <h2>Datos de Salida</h2>
-            <div class="caja"> Buscar: <input ng-model="query"> Busque lo que quiera, compañía, red o 4G</div>
-            <br>
-     <table class="caja">
-        <tr>
-            <th>{{datos.cabecera[0]}}</th>
-            <th>{{datos.cabecera[1]}}</th>
-            <th>{{datos.cabecera[2]}}</th>
-            <th>{{datos.cabecera[3]}}</th>
-            <th>{{datos.cabecera[4]}}</th>
-            
-        </tr>
-        <tr ng-repeat="tarifa in datos.tabla| filter: query | orderBy: 'total_con_IVA':false">
-            <td>{{tarifa.nombre}}</td>
-            <td>{{tarifa.red}}</td>
-            <td>{{tarifa.total_con_IVA|number:2}}</td>
-            <td>{{tarifa.observaciones}}</td>
-            <td>{{tarifa.textos_especiales}}</td>
-        </tr>
-        </table>
+                <pr>Ha seleccionado estos datos: {{datos.minutos}} minutos, {{datos.llamadas}} llamadas, {{datos.internet}} Internet(MB) y {{datos.sms}} SMS, al mes, las tarifas ordenadas por precio son:</pr>
+        <h2>Datos Calculados</h2>
+            <div class="caja"> Filtrar/Buscar: <input ng-model="query"> Busque lo que quiera, compañía, red o 4G</div>
+            <div align="center">{{mensaje}}</div>
+    <table class="tabla1">
+        <thead >
+                <th width="15%">{{datos.cabecera[0]}}</th>
+                <th width="15%">{{datos.cabecera[1]}}</th>
+                <th width="15%">{{datos.cabecera[2]}}</th>
+                <th width="30%">{{datos.cabecera[3]}}</th>
+                <th width="25%">{{datos.cabecera[4]}}</th>
+        </thead>
+        <tbody>
+            <tr><td colspan="5">
+                <div class="tabla2div">
+                    <table class="tabla2">
+                        <tr ng-repeat="tarifa in datos.tabla| filter: query | orderBy: 'total_con_IVA':false">
+                            <td width="15%">{{tarifa.nombre}}</td>
+                            <td width="15%">{{tarifa.red}}</td>
+                            <td width="15%">{{tarifa.total_con_IVA|number:2}}</td>
+                            <td width="30%">{{tarifa.observaciones}}</td>
+                            <td width="25%">{{tarifa.textos_especiales}}</td>
+                        </tr>
+                    </table>
+                </div>
+                </td></tr>
+         </tbody>
+    </table>
+    <div class="abajo">Simulador de Tarifas de <a href="http://albertoggago.es">albertoggago.es</a> CC 2015</div>
+
+    
 </body>
 </html>

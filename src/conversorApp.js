@@ -1,9 +1,9 @@
 var conversorApp = angular.module('conversorApp', ['tarifasApp']);
 
-conversorApp.controller("conversorController", function($scope, $http, $controller) {
+conversorApp.controller("conversorController", function($scope, $http, $interval, $controller) {
     
    
-    var tarifas = $controller('tarifasListaController',{$scope: $scope, $http: $http});
+    var tarifas = $controller('tarifasListaController',{$scope: $scope, $http: $http, $interval: $interval});
 
     var numeroVer =  parseInt($scope.datos.version.slice($scope.datos.version.length-1,$scope.datos.version.length))+1
     $scope.versionNew = $scope.datos.version.slice(0,$scope.datos.version.length-1) + numeroVer; 

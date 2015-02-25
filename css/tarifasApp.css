@@ -9,7 +9,57 @@
     border-width: 10px;
     border: solid;
     border-color: #4f8038;
+    width: 92%;
+}
+
+.tabla
+{
+    background-color: #daedc2;
+    margin: 10px 10px 10px 10px;
+    border-radius: 7px 7px 7px 7px;
+    border-width: 10px;
+    border: solid;
+    border-color: #4f8038;
     width: 95%;
+}
+
+.tabla thead
+{
+    background-color: #4f8038;
+    color: #daedc2;
+}
+
+
+.tabla1
+{
+    background-color: #daedc2;
+    margin: 10px 10px 10px 10px;
+    border-radius: 7px 7px 7px 7px;
+    border-width: 10px;
+    border: solid;
+    border-color: #4f8038;
+    width: 95%;
+}
+
+.tabla1 thead 
+{
+    background-color: #4f8038;
+    color: #daedc2;
+}
+
+
+
+.tabla2div
+{
+    width:100%;
+    height: 250px;
+    overflow: auto;
+
+}
+
+.tabla2
+{
+    padding-left: 10px
 }
 
 .entrada
@@ -22,13 +72,20 @@ h2
 {
     margin-left: auto;
     margin-right: auto;
-    width: 70%;
+    width: 100%;
     background-color: #4f8038;
-    border-radius: 7px 7px 7px 7px;
     color: #daedc2;
     text-align: center;
 }
 
-td{
-    position: relative;
+.arriba {
+    position:absolute;
+    right: 1px;
+    top: 1px;
+}
+
+.abajo {
+    position:absolute;
+    bottom: 0;
+    right: 40%;
 }

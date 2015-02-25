@@ -1,6 +1,6 @@
 var tarifasApp = angular.module('tarifasApp', [])
 
-tarifasApp.controller("tarifasListaController", function($scope, $http) {
+tarifasApp.controller("tarifasListaController", function($scope, $http, $interval) {
     $scope.datosSTD = {
         "IVA" : 1.21,
         "DECIMALPOINT" : ',',
@@ -26,7 +26,16 @@ tarifasApp.controller("tarifasListaController", function($scope, $http) {
     $scope.datos.version = 0;
     $scope.datos.cabecera=['a','b','c,','d','e'];
     
-    $scope.textoInformacion = "Activo";
+    
+    $scope.mensaje = "** Cargando Datos **";
+    $scope.conta = 10;
+    $scope.atrass = function (){
+        $scope.mensaje = "";
+    };
+    
+    $interval($scope.atrass,2000);
+    
+    
     $scope.numEdit = function (numero, decimales) { 
 	    var separador_decimal = $scope.datosSTD.DECIMALPOINT;
         var separador_miles = $scope.datosSTD.SEPARADORMILES;
@@ -78,6 +87,7 @@ tarifasApp.controller("tarifasListaController", function($scope, $http) {
 	};
 
     $scope.actualizarTarifas = function (){
+        $scope.mensaje = "** Datos Actualizados **";
 		//barremos todos los elementos y los recalculamos.
          //alert($scope.datos.fecha);
 
