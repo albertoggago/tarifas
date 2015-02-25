@@ -7,7 +7,11 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
         "SEPARADORMILES" : '.',
         "NUMERODECIMALES" : 2,
         "VERSION" : "v00.04",
-        "FICHERO" : "precios.json"
+        "FICHERO" : "precios.json",
+        "minutosSTD": 200,
+        "llamadasSTD": 50,
+        "SMSSTD": 5,
+        "internetSTD": 1000
         };
     
     $scope.valores =
@@ -246,10 +250,11 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
 		//realizamos una carga de los datos, se usa en la creación del primer objeto
 		//marcamos para poder verificar la version de uso y la fecha, para evitar que el fichero JSON cargado
 		// no coincida con las funciones
-		this.setMinutos(tab[0].gasto_minutos);
-		this.setLlamadas(tab[0].gasto_llamadas);
-		this.setSMS(tab[0].gasto_sms);
-		this.setInternet(tab[0].gasto_internet);
+		this.setMinutos($scope.datosSTD.minutosSTD);
+		this.setLlamadas($scope.datosSTD.llamadasSTD);
+		this.setSMS($scope.datosSTD.SMSSTD);
+		this.setInternet($scope.datosSTD.internetSTD);
+        $scope.datos.fechaACT = new Date();
 		$scope.datos.tabla = tab;
 		//recalculamos siempre que se realiza una carga para ajustarlo todo
 		$scope.actualizarTarifas();

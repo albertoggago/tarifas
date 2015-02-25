@@ -12,7 +12,7 @@
     <h2>Formulario para Cambiar</h2>
     <div class="arriba"><a href="http://albertoggago.es">albertoggago.es</a></div>
     <br>
-    <pr>El uso es muy sencillo, solo tenemos que cambiar los datos de el consumo mensual y el Sistema calcula automáticamente todas las tarifas.</pr><br><pr>También podéis usar el filtro, en este caso filtra por todos los campos y los calcula automaticamente.</pr><br><br>
+    <pr>El uso es muy sencillo, solo tenemos que cambiar los datos de el consumo mensual y el Sistema calcula automáticamente todas las tarifas.</pr><br><pr>También podéis usar el filtro, en este caso filtra por todos los campos y los calcula automaticamente. Los datos estan actualizados al <strong>{{datos.fechaACT|date: mm-dd-YYYY}}</strong></pr><br><br>
         <table class="tabla">
             <thead ><th colspan="3">DATOS DE CONSUMO MENSUAL</th></thead>
             <tbody>
@@ -36,13 +36,13 @@
             </tr></tbody></table>
     
                     <br>
-        <table class="tabla">
-            <tbody<tr>
-                <td><input type="radio" ng-model="datosSTD.IVA" value="1.21" ng-change="actualizarTarifas()">IVA Peninsula 21%</td>
-                <td><input type="radio" ng-model="datosSTD.IVA" value="1.07" ng-change="actualizarTarifas()">IGIC Canarias 7%</td>
-                <td><input type="radio" ng-model="datosSTD.IVA" value="1.10" ng-change="actualizarTarifas()">IPSI Ceuta 10%</td>
-                <td><input type="radio" ng-model="datosSTD.IVA" value="1.04" ng-change="actualizarTarifas()">IPSI Melilla 4%</td>                 <td><input type="radio" ng-model="datosSTD.IVA" value="1.00" ng-change="actualizarTarifas()">Sin Impuestos</td>
-            </tr></body></table>        
+        <div class="caja">
+            <div class="left"><input type="radio" ng-model="datosSTD.IVA" value="1.21" ng-change="actualizarTarifas()">IVA Peninsula 21%</div>
+            <div class="left"><input type="radio" ng-model="datosSTD.IVA" value="1.07" ng-change="actualizarTarifas()">IGIC Canarias 7%</div>
+            <div class="left"><input type="radio" ng-model="datosSTD.IVA" value="1.10" ng-change="actualizarTarifas()">IPSI Ceuta 10</div>
+            <div class="left"><input type="radio" ng-model="datosSTD.IVA" value="1.04" ng-change="actualizarTarifas()">IPSI Melilla 4%</div>    
+            <div class="left"><input type="radio" ng-model="datosSTD.IVA" value="1.00" ng-change="actualizarTarifas()">Sin Impuestos</div>
+        </div>        
                 <br>
                 <pr>Ha seleccionado estos datos: {{datos.minutos}} minutos, {{datos.llamadas}} llamadas, {{datos.internet}} Internet(MB) y {{datos.sms}} SMS, al mes, las tarifas ordenadas por precio son:</pr>
         <h2>Datos Calculados</h2>
@@ -50,22 +50,22 @@
             <div align="center">{{mensaje}}</div>
     <table class="tabla1">
         <thead >
-                <th width="15%">{{datos.cabecera[0]}}</th>
-                <th width="15%">{{datos.cabecera[1]}}</th>
-                <th width="15%">{{datos.cabecera[2]}}</th>
-                <th width="30%">{{datos.cabecera[3]}}</th>
-                <th width="25%">{{datos.cabecera[4]}}</th>
+                <th width="20%">{{datos.cabecera[0]}}</th>
+                <th width="20%">{{datos.cabecera[1]}}</th>
+                <th width="20%">{{datos.cabecera[2]}}</th>
+                <th width="20%">{{datos.cabecera[3]}}</th>
+                <th width="20%">{{datos.cabecera[4]}}</th>
         </thead>
         <tbody>
             <tr><td colspan="5">
                 <div class="tabla2div">
                     <table class="tabla2">
                         <tr ng-repeat="tarifa in datos.tabla| filter: query | orderBy: 'total_con_IVA':false">
-                            <td width="15%">{{tarifa.nombre}}</td>
-                            <td width="15%">{{tarifa.red}}</td>
-                            <td width="15%">{{tarifa.total_con_IVA|number:2}}</td>
-                            <td width="30%">{{tarifa.observaciones}}</td>
-                            <td width="25%">{{tarifa.textos_especiales}}</td>
+                            <td width="20%">{{tarifa.nombre}}</td>
+                            <td width="20%">{{tarifa.red}}</td>
+                            <td width="20%">{{tarifa.total_con_IVA|number:2}}</td>
+                            <td width="20%">{{tarifa.observaciones}}</td>
+                            <td width="20%">{{tarifa.textos_especiales}}</td>
                         </tr>
                     </table>
                 </div>

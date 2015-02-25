@@ -5,9 +5,13 @@ conversorApp.controller("conversorController", function($scope, $http, $interval
    
     var tarifas = $controller('tarifasListaController',{$scope: $scope, $http: $http, $interval: $interval});
 
-    var numeroVer =  parseInt($scope.datos.version.slice($scope.datos.version.length-1,$scope.datos.version.length))+1
-    $scope.versionNew = $scope.datos.version.slice(0,$scope.datos.version.length-1) + numeroVer; 
-    this.excel = "0At8AA5ZEAiw9dFV4MVZaUll2dkJmQjc2WGdSLWhpNFE";
+    
+    
+    //var numeroVer =  parseInt($scope.datos.version.slice($scope.datos.version.length-1,$scope.datos.version.length))+1
+    //$scope.versionNew = $scope.datos.version.slice(0,$scope.datos.versionlength-1) + numeroVer; 
+    $scope.versionNew = $scope.datos.version;
+    //this.excel = "0At8AA5ZEAiw9dFV4MVZaUll2dkJmQjc2WGdSLWhpNFE";
+    this.excel = "0At8AA5ZEAiw9dHh2Y3FuTHpCdndCZ3BOSW9SR3RwQ3c";
     $scope.feed = {};
     
     $scope.listaTabla = function (){
@@ -36,7 +40,13 @@ conversorApp.controller("conversorController", function($scope, $http, $interval
             };
             cabeceraOld = x;
         };
-    
+
+        this.subirSubVer = function (){
+            var numeroVer =  parseInt($scope.versionNew.slice($scope.versionNew.length-1,$scope.versionNew.length))+1
+            $scope.versionNew = $scope.versionNew.slice(0,$scope.versionNew.length-1) + numeroVer; 
+        };
+        
+        
         $scope.determinarFecha();
         tarifas.setCabecera(tablaEnt[0]);
         tablaEnt.shift();
@@ -51,6 +61,7 @@ conversorApp.controller("conversorController", function($scope, $http, $interval
             tablaNew[i].formulas_especiales =  tablaEnt[i][19];
             tablaNew[i].sn_4G =  tablaEnt[i][22];
             tablaNew[i].observaciones =  tablaEnt[i][3];
+            if (tablaNew[i].observaciones =="bbbb"){tablaNew[i].observaciones =""};
             
             tablaNew[i].total_con_IVA =  parseFloat(tablaEnt[i][2]);
             tablaNew[i].coste_minutos =  parseFloat(tablaEnt[i][5]);
@@ -75,6 +86,7 @@ conversorApp.controller("conversorController", function($scope, $http, $interval
             
 	    //tarifas.setTabla(tablaEnt,$scope.versionNew);
         tarifas.setTabla(tablaNew,$scope.versionNew);
+        
         
         
 	   alert("FINALIZADO...");
