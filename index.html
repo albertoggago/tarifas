@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es"  id="ng-app" ng-app="tarifasApp">
+<html xmlns:ng="http://angularjs.org" lang="es"  ng-app="tarifasApp" id="ng-app">
 <head>
 	<meta charset="utf-8"> 
     <link href="css/tarifasApp.css" rel="stylesheet" media="screen">
@@ -9,12 +9,14 @@
 </head>
 
 <body ng-controller="tarifasListaController as tarifas">
-    <h2>Formulario para Cambiar</h2>
+    <h2>SIMULADOR DE TARIFAS</h2>
     
     <br>
     <pr>El uso es muy sencillo, solo tenemos que cambiar los datos de el consumo mensual y el Sistema calcula automáticamente todas las tarifas.</pr><br><pr>También podéis usar el filtro, en este caso filtra por todos los campos y los calcula automaticamente. Los datos estan actualizados al <strong>{{datos.fechaACT|date: mm-dd-YYYY}}</strong></pr><br><br>
+    <br>
+    <pr>Por cierto si usais un móvil os recomiendo que lo pongáis en apaisado/horizontal</pr>
         <table class="tabla">
-            <thead ><th colspan="3">DATOS DE CONSUMO MENSUAL</th></thead>
+            <thead ><th colspan="3">DATOS Al MES</th></thead>
             <tbody>
             <tr>
                 <td>Minutos (al mes): </td>
@@ -45,9 +47,7 @@
         </div>        
                 <br>
                 <pr>Ha seleccionado estos datos: {{datos.minutos}} minutos, {{datos.llamadas}} llamadas, {{datos.internet}} Internet(MB) y {{datos.sms}} SMS, al mes, las tarifas ordenadas por precio son:</pr>
-        <h2>Datos Calculados</h2>
             <div class="caja"> Filtrar/Buscar: <input ng-model="query"> Busque lo que quiera, compañía, red o 4G</div>
-            <div align="center">{{mensaje}}</div>
     <table class="tabla1">
         <thead >
                 <th width="20%">{{datos.cabecera[0]}}</th>

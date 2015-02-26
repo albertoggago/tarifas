@@ -103,10 +103,14 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
 	    	{
 	    	 //recogemos los datos y los actualizamos
 			 gasto_minutos   = parseFloat($scope.datos.minutos);
-			 gasto_llamadas  = parseFloat($scope.datos.llamadas); 
-			 gasto_sms       = parseFloat($scope.datos.sms);
+             if (isNaN(gasto_minutos) ||gasto_minutos=="") {gasto_minutos=0}
+             gasto_llamadas  = parseFloat($scope.datos.llamadas); 
+			 if (isNaN(gasto_llamadas) || gasto_llamadas=="") {gasto_llamadas=0}
+             gasto_sms       = parseFloat($scope.datos.sms);
+             if (isNaN(gasto_sms)||gasto_sms=="") {gasto_sms=0}
 			 gasto_internet  = parseFloat($scope.datos.internet);
-
+             if (isNaN(gasto_internet)||gasto_internet=="") {gasto_internet=0}
+                
 			 var coste_minutos   = parseFloat($scope.datos.tabla[i].coste_minutos);
 			 var coste_llamadas  = parseFloat($scope.datos.tabla[i].coste_llamadas);
 			 var coste_sms       = parseFloat($scope.datos.tabla[i].coste_sms);

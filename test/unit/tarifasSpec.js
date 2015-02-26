@@ -187,5 +187,37 @@ describe('tarifasAppControl', function() {
 	 	 expect(ctrl.verificarVF("VERSION")).toBe(false);
 		 });
 
+     it("Prueba Frame Entrada de Datos,0,0,0,5GB", function(){
+         ctrl.setTabla([JSON.parse(JSON.stringify(x1)),
+                        JSON.parse(JSON.stringify(y1)),
+                        JSON.parse(JSON.stringify(z1)),
+                        JSON.parse(JSON.stringify(x9))],scope.datosSTD.VERSION);
+         scope.datos.minutos = 0;
+         scope.datos.llamadas = 0;
+         scope.datos.SMS = 0;
+         scope.datos.internet = 5000;
+         scope.datosSTD.IVA = 1.07;
+         scope.actualizarTarifas();
+         expect(scope.datos.tabla[0].total_con_IVA).toBe(598.13);
+  		 expect(scope.datos.tabla[1].total_con_IVA).toBe(598.13);
+         expect(scope.datos.tabla[2].total_con_IVA).toBe(598.13);
+        });
+
+    it("Prueba Frame Entrada de Datos,blancos...y 5GB", function(){
+         ctrl.setTabla([JSON.parse(JSON.stringify(x1)),
+                        JSON.parse(JSON.stringify(y1)),
+                        JSON.parse(JSON.stringify(z1)),
+                        JSON.parse(JSON.stringify(x9))],scope.datosSTD.VERSION);
+         
+         scope.datos.minutos = "";
+         scope.datos.llamadas = "";
+         scope.datos.SMS = "";
+         scope.datos.internet = 5000;
+         scope.datosSTD.IVA = 1.07;
+         scope.actualizarTarifas();
+         expect(scope.datos.tabla[0].total_con_IVA).toBe(598.13);
+  		 expect(scope.datos.tabla[1].total_con_IVA).toBe(598.13);
+         expect(scope.datos.tabla[2].total_con_IVA).toBe(598.13);
+        });
 	 
 });  
