@@ -28,9 +28,29 @@ npm update --save
 
 ## Versions
 
+### 0.4.0 
+
+Changes:
+1 - Refactoring objet Data. 
+2 - 1st version of CSS.
+3 - TDD operative
+
+Bugs:
+0.4.0.1 - bug data input to NaN solve.
+
+Pending:
+1 - TDD e2e
+2 - Add New Form
+3 - Modify module comversor
+4 - Include module New/Delete/Modification  
+5 - Divide the application in Directives
+6 - New module Details
+
+
+
 ### 0.3.0
 
-Frirst version:
+First version:
 1 - Adaptation JS a Angular
 2 - Adaption of Unit Mock, 
 3 - New module "tarifasApp"
