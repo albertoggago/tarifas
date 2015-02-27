@@ -17,13 +17,13 @@ npm update --save
 
 ### mocks
 
-1 - Run localserver: npm start
+* Run localserver: npm start
 
-2 - Go in the browser: http://localhost:8000/ (it's a Frame)
+* Go in the browser: http://localhost:8000/ (it's a Frame)
 
-3 - Mock test: npm test
+* Mock test: npm test
 
-4 - Mock E2E: sudo protractor test/protractor-conf.js
+* Mock E2E: sudo protractor test/protractor-conf.js
 
 
 ## Versions
@@ -31,11 +31,11 @@ npm update --save
 ### 0.4.0 
 
 Changes:
-1. - Refactoring objet Data. 
+1. Refactoring objet Data. 
 
-2. - 1st version of CSS.
+2. 1st version of CSS.
 
-3. - TDD operative
+3. TDD operative
 
 Bugs:
 
@@ -43,17 +43,17 @@ Bugs:
 
 Pending:
 
-1. - TDD e2e
+1. TDD e2e
 
-2. - Add New Form
+2. Add New Form
 
-3. - Modify module comversor
+3. Modify module comversor
 
-4. - Include module New/Delete/Modification  
+4. Include module New/Delete/Modification  
 
-5. - Divide the application in Directives
+5. Divide the application in Directives
 
-6. - New module Details
+6. New module Details
 
 
 
@@ -61,9 +61,9 @@ Pending:
 
 First version:
 
-1. - Adaptation JS a Angular
+1. Adaptation JS a Angular
 
-2. - Adaption of Unit Mock, 
+2. Adaption of Unit Mock, 
 
 3. - New module "tarifasApp"
 
