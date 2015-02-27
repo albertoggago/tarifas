@@ -31,6 +31,7 @@ npm update --save
 ### 0.4.0 
 
 Changes:
+
 1. Refactoring objet Data. 
 
 2. 1st version of CSS.
@@ -65,9 +66,9 @@ First version:
 
 2. Adaption of Unit Mock, 
 
-3. - New module "tarifasApp"
+3. New module "tarifasApp"
 
-4. - New controller "tarifasListaController"
+4. New controller "tarifasListaController"
  
 
 ### 0.1.0 0.2.0 
