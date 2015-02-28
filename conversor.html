@@ -14,7 +14,7 @@
 
 <body ng-controller="conversorController as conversor">
 
-    
+        
         <h2>Datos de Entrada</h2>
         <div>
             <form name="formularioC1">
@@ -40,62 +40,16 @@
                 
             </form>
         </div>
-        <h2>Datos de Salida</h2>
-        <div >
-      <table border="1">
-        <tr>
-            <th>{{datos.cabecera[0]}}</th>
-            <th>{{datos.cabecera[1]}}</th>
-            <th>{{datos.cabecera[2]}}</th>
-            <th>{{datos.cabecera[3]}}</th>
-            <th>{{datos.cabecera[4]}}</th>
-            <th>{{datos.cabecera[5]}}</th>
-            <th>{{datos.cabecera[6]}}</th>
-            <th>{{datos.cabecera[7]}}</th>
-            <th>{{datos.cabecera[8]}}</th>
-            <th>{{datos.cabecera[9]}}</th>
-            <th>{{datos.cabecera[10]}}</th>
-            <th>{{datos.cabecera[11]}}</th>
-            <th>{{datos.cabecera[12]}}</th>
-            <th>{{datos.cabecera[13]}}</th>
-            <th>{{datos.cabecera[14]}}</th>
-            <th>{{datos.cabecera[15]}}</th>
-            <th>{{datos.cabecera[16]}}</th>
-            <th>{{datos.cabecera[17]}}</th>
-            <th>{{datos.cabecera[18]}}</th>
-            <th>{{datos.cabecera[19]}}</th>
-            <th>{{datos.cabecera[20]}}</th>
-            <th>{{datos.cabecera[21]}}</th>
-            <th>{{datos.cabecera[22]}}</th>
-            <th>Sobrecoste</th>
-            
-            
-        </tr>
-        <tr ng-repeat="tarifa in datos.tabla">
-            <td>{{tarifa.nombre}}</td>
-            <td>{{tarifa.red}}</td>
-            <td>{{tarifa.total_con_IVA|number:2}}</td>
-            <td>{{tarifa.observaciones}}</td>
-            <td>{{tarifa.textos_especiales}}</td>
-            <td>{{tarifa.coste_minutos}}</td>
-            <td>{{tarifa.coste_llamadas}}</td>
-            <td>{{tarifa.coste_sms}}</td>            
-            <td>{{tarifa.coste_internet}}</td>
-            <td>{{tarifa.tarifa_std}}</td>
-            <td>{{tarifa.tarifa_minima}}</td>
-            <td>{{tarifa.incluidos_minutos}}</td>
-            <td>{{tarifa.coste_incluido_sn}}</td>
-            <td>{{tarifa.incluidos_sms}}</td>
-            <td>{{tarifa.incluidos_internet}}</td>
-            <td>{{tarifa.gasto_minutos}}</td>
-            <td>{{tarifa.gasto_llamadas}}</td>
-            <td>{{tarifa.gasto_sms}}</td>
-            <td>{{tarifa.gasto_internet}}</td>
-            <td>{{tarifa.formulas_especiales}}</td>
-            <td>{{tarifa.total_base}}</td>
-            <td>{{tarifa.total_sin_IVA}}</td>
-            <td>{{tarifa.sn_4G}}</td>
-            <td>{{tarifa.sobrecoste_internet}}</td>
+        <caja-entrada-avanzada></caja-entrada-avanzada>
+        <br>
+        <caja-impuestos></caja-impuestos>
+        <br>
+        <div ng-controller="selectorTablasExt as tabExt">
+        <div><ul><li class="botonF" ng-class="{ active: tabExt.isSet(1) }" ng-click="tabExt.setTab(1)" ng-model="a">Normal</li>
+            <li class="botonF" ng-class="{ active: tabExt.isSet(2) }" ng-click="tabExt.setTab(2)">Extendida</li></ul></div>
+        <div ng-show="tabExt.isSet(1)"><caja-lista></caja-lista></div>
+        <div ng-show="tabExt.isSet(2)"><caja-lista-extendida></caja-lista-extendida></div>
+        </div>
 
         </tr>
         </table>

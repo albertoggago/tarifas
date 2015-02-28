@@ -1,0 +1,29 @@
+            <div class="caja"> Filtrar/Buscar: <input ng-model="query"> Busque lo que quiera, compañía, red o 4G</div>
+    <table class="tabla1">
+        <thead >
+                <th width="10%">Compania</th>
+                <th width="10%">Producto</th>
+                <th width="10%">Red</th>
+                <th width="20%">{{datos.cabeceraMes}}</th>
+                <th width="20%">Observaciones</th>
+                <th width="20%">Sobrecoste</th>
+                <th width="10%">4G</th>
+        </thead>
+        <tbody>
+            <tr><td colspan="5">
+                <div class="tabla2div">
+                    <table class="tabla2">
+                        <tr ng-repeat="tarifa in datos.tabla| filter: query | orderBy: 'total_con_IVA':false">
+                            <td width="10%">{{tarifa.compania}}</td>
+                            <td width="10%">{{tarifa.nombre}}</td>
+                            <td width="10%">{{tarifa.red}}</td>
+                            <td width="20%">{{tarifa.total_con_IVA|number:2}}</td>
+                            <td width="20%">{{tarifa.observaciones}}</td>
+                            <td width="20%">{{tarifa.sobrecoste}}</td>
+                            <td width="10%">{{tarifa.sn_4G}}</td>
+                        </tr>
+                    </table>
+                </div>
+                </td></tr>
+         </tbody>
+    </table>

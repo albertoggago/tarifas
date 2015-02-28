@@ -28,6 +28,12 @@ npm update --save
 
 ## Versions
 
+### 0.5.0
+
+Changes:
+
+1. 
+
 ### 0.4.0 
 
 Changes:

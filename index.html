@@ -17,65 +17,15 @@
     <pr>Si usais un móvil os recomiendo que lo pongáis en apaisado/horizontal.</pr>
     <br>
     <pr><strong>No funciona con el Explorer, si lo hace en cualquier otro navegador, Firefox, Safari, Opera, .... </strong>Dejo el link a al version antigua en <a href="https://docs.google.com/spreadsheet/ccc?key=0At8AA5ZEAiw9dFRmR0JGYktDTEstbDdwdjY0ZzZ2c1E#gid=14" target="_blank">Excel de Google</a> pero os recomiendo no usar Explorer por: Seguridad, Fiabilidad y Velocidad. </pr>
-        <table class="tabla">
-            <thead ><th colspan="3">DATOS Al MES</th></thead>
-            <tbody>
-            <tr>
-                <td>Minutos (al mes): </td>
-                <td><input type="text" name="input" ng-model="datos.minutos" min=0 valid-number ng-change="actualizarTarifas()" requierd></td>
-                <td>  Duracion media de las llamadas: {{datos.minutos / datos.llamadas | number }} minutos</td>
-            </tr><tr>
-                <td>Llamadas (al mes): </td>
-                <td><input type="text" name="input" ng-model="datos.llamadas" min=0 valid-number ng-change="actualizarTarifas()" requierd></td>
-                <td>{{mensaje}}</td>
-            </tr><tr>
-                <td>Internet (consumo al mes): </td>
-                <td><input type="text" name="input" ng-model="datos.internet" min=0 valid-number ng-change="actualizarTarifas()" requierd> </td>
-                <td>en MegaBytes, equivale a: {{datos.internet/1000 |number}} Gigabytes</td>
-                
-            </tr><tr>
-                <td>SMS (al mes): </td>
-                <td><input type="text" name="input" ng-model="datos.sms" min=0 valid-number ng-change="actualizarTarifas()" requierd></td><td>{{mensaje}}</td>
-                
-            </tr></tbody></table>
-    
-                    <br>
-        <div class="caja">
-            <div class="left"><input type="radio" ng-model="datosSTD.IVA" value="1.21" ng-change="actualizarTarifas()">IVA Peninsula 21%</div>
-            <div class="left"><input type="radio" ng-model="datosSTD.IVA" value="1.07" ng-change="actualizarTarifas()">IGIC Canarias 7%</div>
-            <div class="left"><input type="radio" ng-model="datosSTD.IVA" value="1.10" ng-change="actualizarTarifas()">IPSI Ceuta 10</div>
-            <div class="left"><input type="radio" ng-model="datosSTD.IVA" value="1.04" ng-change="actualizarTarifas()">IPSI Melilla 4%</div>    
-            <div class="left"><input type="radio" ng-model="datosSTD.IVA" value="1.00" ng-change="actualizarTarifas()">Sin Impuestos</div>
-        </div>        
-                <br>
+      <caja-entrada-avanzada></caja-entrada-avanzada>    
+      <br>
+      <caja-impuestos></caja-impuestos>        
+      <br>
                 <pr>Ha seleccionado estos datos: {{datos.minutos}} minutos, {{datos.llamadas}} llamadas, {{datos.internet}} Internet(MB) y {{datos.sms}} SMS, al mes, las tarifas ordenadas por precio son:</pr>
-            <div class="caja"> Filtrar/Buscar: <input ng-model="query"> Busque lo que quiera, compañía, red o 4G</div>
-    <table class="tabla1">
-        <thead >
-                <th width="20%">{{datos.cabecera[0]}}</th>
-                <th width="20%">{{datos.cabecera[1]}}</th>
-                <th width="20%">{{datos.cabecera[2]}}</th>
-                <th width="20%">{{datos.cabecera[3]}}</th>
-                <th width="20%">{{datos.cabecera[4]}}</th>
-        </thead>
-        <tbody>
-            <tr><td colspan="5">
-                <div class="tabla2div">
-                    <table class="tabla2">
-                        <tr ng-repeat="tarifa in datos.tabla| filter: query | orderBy: 'total_con_IVA':false">
-                            <td width="20%">{{tarifa.nombre}}</td>
-                            <td width="20%">{{tarifa.red}}</td>
-                            <td width="20%">{{tarifa.total_con_IVA|number:2}}</td>
-                            <td width="20%">{{tarifa.observaciones}}</td>
-                            <td width="20%">{{tarifa.textos_especiales}}</td>
-                        </tr>
-                    </table>
-                </div>
-                </td></tr>
-         </tbody>
-    </table>
-    <div class="abajo">Simulador de Tarifas de <a href="http://albertoggago.es" target="_blank">albertoggago.es</a> CC 2015</div>
+          <caja-lista></caja-lista>
 
+    <div class="abajo">Simulador de Tarifas de <a href="http://albertoggago.es" target="_blank">albertoggago.es</a> CC 2015</div>
+    
     
 </body>
 </html>

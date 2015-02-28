@@ -41,44 +41,40 @@ conversorApp.controller("conversorController", function($scope, $http, $interval
             cabeceraOld = x;
         };
 
-        this.subirSubVer = function (){
-            var numeroVer =  parseInt($scope.versionNew.slice($scope.versionNew.length-1,$scope.versionNew.length))+1
-            $scope.versionNew = $scope.versionNew.slice(0,$scope.versionNew.length-1) + numeroVer; 
-        };
-        
-        
         $scope.determinarFecha();
-        tarifas.setCabecera(tablaEnt[0]);
+        //tarifas.setCabecera(tablaEnt[0]);
+        delete $scope.datos.cabecera;
         tablaEnt.shift();
     //nueva forma de guardar la tabla
         tablaNew=[];
         for (var i = 0; i < tablaEnt.length; i++){
             tablaNew[i] = {};
-            tablaNew[i].nombre        =  tablaEnt[i][0];
-            tablaNew[i].red           =  tablaEnt[i][1];
-            tablaNew[i].textos_especiales =  tablaEnt[i][4];
-            tablaNew[i].coste_incluido_sn =  tablaEnt[i][12];
-            tablaNew[i].formulas_especiales =  tablaEnt[i][19];
-            tablaNew[i].sn_4G =  tablaEnt[i][22];
-            tablaNew[i].observaciones =  tablaEnt[i][3];
+            tablaNew[i].compania            =  tablaEnt[i][0];
+            tablaNew[i].nombre              =  tablaEnt[i][1];
+            tablaNew[i].red                 =  tablaEnt[i][2];
+            tablaNew[i].textos_especiales   =  tablaEnt[i][5];
+            tablaNew[i].coste_incluido_sn   =  tablaEnt[i][13];
+            tablaNew[i].formulas_especiales =  tablaEnt[i][20];
+            tablaNew[i].sn_4G               =  tablaEnt[i][23];
+            tablaNew[i].observaciones       =  tablaEnt[i][4];
             if (tablaNew[i].observaciones =="bbbb"){tablaNew[i].observaciones =""};
             
-            tablaNew[i].total_con_IVA =  parseFloat(tablaEnt[i][2]);
-            tablaNew[i].coste_minutos =  parseFloat(tablaEnt[i][5]);
-            tablaNew[i].coste_llamadas =  parseFloat(tablaEnt[i][6]);
-            tablaNew[i].coste_sms =  parseFloat(tablaEnt[i][7]);
-            tablaNew[i].coste_internet =  parseFloat(tablaEnt[i][8]);
-            tablaNew[i].tarifa_std =  parseFloat(tablaEnt[i][9]);
-            tablaNew[i].tarifa_minima =  parseFloat(tablaEnt[i][10]);
-            tablaNew[i].incluidos_minutos =  parseFloat(tablaEnt[i][11]);
-            tablaNew[i].incluidos_sms  =  parseFloat(tablaEnt[i][13]);
-            tablaNew[i].incluidos_internet =  parseFloat(tablaEnt[i][14]);
-            tablaNew[i].gasto_minutos =  parseFloat(tablaEnt[i][15]);
-            tablaNew[i].gasto_llamadas =  parseFloat(tablaEnt[i][16]);
-            tablaNew[i].gasto_sms =  parseFloat(tablaEnt[i][17]);
-            tablaNew[i].gasto_internet =  parseFloat(tablaEnt[i][18]);
-            tablaNew[i].total_base =  parseFloat(tablaEnt[i][20]);
-            tablaNew[i].total_sin_IVA =  parseFloat(tablaEnt[i][21]);
+            tablaNew[i].total_con_IVA       =  parseFloat(tablaEnt[i][3]);
+            tablaNew[i].coste_minutos       =  parseFloat(tablaEnt[i][6]);
+            tablaNew[i].coste_llamadas      =  parseFloat(tablaEnt[i][7]);
+            tablaNew[i].coste_sms           =  parseFloat(tablaEnt[i][8]);
+            tablaNew[i].coste_internet      =  parseFloat(tablaEnt[i][9]);
+            tablaNew[i].tarifa_std          =  parseFloat(tablaEnt[i][10]);
+            tablaNew[i].tarifa_minima       =  parseFloat(tablaEnt[i][11]);
+            tablaNew[i].incluidos_minutos   =  parseFloat(tablaEnt[i][12]);
+            tablaNew[i].incluidos_sms       =  parseFloat(tablaEnt[i][14]);
+            tablaNew[i].incluidos_internet  =  parseFloat(tablaEnt[i][15]);
+            tablaNew[i].gasto_minutos       =  parseFloat(tablaEnt[i][16]);
+            tablaNew[i].gasto_llamadas      =  parseFloat(tablaEnt[i][17]);
+            tablaNew[i].gasto_sms           =  parseFloat(tablaEnt[i][18]);
+            tablaNew[i].gasto_internet      =  parseFloat(tablaEnt[i][19]);
+            tablaNew[i].total_base          =  parseFloat(tablaEnt[i][21]);
+            tablaNew[i].total_sin_IVA       =  parseFloat(tablaEnt[i][22]);
             tablaNew[i].sobrecoste_internet =  0;
             };
             
@@ -92,6 +88,43 @@ conversorApp.controller("conversorController", function($scope, $http, $interval
 	   alert("FINALIZADO...");
     };
     
+    this.subirSubVer = function (){
+        var numeroVer =  $scope.versionNew.slice($scope.versionNew.length-2,$scope.versionNew.length);
+        $scope.versionNew = $scope.versionNew.slice(0,$scope.versionNew.length-2);
+        var numeroVer2 = parseInt(numeroVer)+1;
+        if (numeroVer2 > 99) {$scope.versionNew = $scope.versionNew.concat("99");}
+        else if (numeroVer2 < 10) {$scope.versionNew = $scope.versionNew.concat("0").concat(String(numeroVer2));}
+        else {$scope.versionNew = $scope.versionNew.concat(String(numeroVer2));};
+        };
+
+    this.subirVer = function (){
+        var numeroVer =  $scope.versionNew.slice($scope.versionNew.length-5,$scope.versionNew.length-3);
+        $scope.versionNew = $scope.versionNew.slice(0,$scope.versionNew.length-5);
+        var numeroVer2 = parseInt(numeroVer)+1;
+        if (numeroVer2 > 99) {$scope.versionNew = $scope.versionNew.concat("99.00");}
+        else if (numeroVer2 < 10) {$scope.versionNew = $scope.versionNew.concat("0").concat(String(numeroVer2)).concat(".00");}
+        else {$scope.versionNew = $scope.versionNew.concat(String(numeroVer2)).concat(".00");};
+        };
+
+    
+    this.bajarSubVer = function (){
+        var numeroVer =  $scope.versionNew.slice($scope.versionNew.length-2,$scope.versionNew.length);
+        $scope.versionNew = $scope.versionNew.slice(0,$scope.versionNew.length-2);
+        var numeroVer2 = parseInt(numeroVer)-1;
+        if (numeroVer2 < 0) {$scope.versionNew = $scope.versionNew.concat("00");}
+        else if (numeroVer2 < 10) {$scope.versionNew = $scope.versionNew.concat("0").concat(String(numeroVer2));}
+        else {$scope.versionNew = $scope.versionNew.concat(String(numeroVer2));};
+        };
+
+    this.bajarVer = function (){
+        var numeroVer =  $scope.versionNew.slice($scope.versionNew.length-5,$scope.versionNew.length-3);
+        $scope.versionNew = $scope.versionNew.slice(0,$scope.versionNew.length-5);
+        var numeroVer2 = parseInt(numeroVer)-1;
+        if (numeroVer2 < 0) {$scope.versionNew = $scope.versionNew.concat("00.00");}
+        else if (numeroVer2 < 10) {$scope.versionNew = $scope.versionNew.concat("0").concat(String(numeroVer2)).concat(".00");}
+        else {$scope.versionNew = $scope.versionNew.concat(String(numeroVer2)).concat(".00");};
+        };
+
     
     
     this.recoger = function(){
@@ -135,4 +168,24 @@ conversorApp.controller("conversorController", function($scope, $http, $interval
             .error(function (){alert("ERROR")});*/
     };
     
+});
+
+conversorApp.directive("cajaListaExtendida",
+                     function(){
+    return{
+        restrict:"E",
+        templateUrl: "src/views/caja-lista-extendida.html"
+    };
+});
+
+conversorApp.controller("selectorTablasExt", function() {
+        this.tab = 1;
+
+        this.isSet = function(checkTab) {
+          return this.tab === checkTab;
+        };
+
+        this.setTab = function(activeTab) {
+          this.tab = activeTab;
+        };
 });

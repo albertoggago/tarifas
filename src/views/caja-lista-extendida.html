@@ -1,0 +1,56 @@
+            <div class="caja"> Filtrar/Buscar: <input ng-model="query"> Busque lo que quiera, compañía, red o 4G</div>
+    <table class="tabla1">
+        <thead >
+            <th width="10%">Compañia</th>
+            <th width="10%">Nombre</th>
+            <th width="10%">Red</th>
+            <th width="10%">Total_con_IVA</th>
+            <th width="10%">Observaciones</th>
+            <th width="10%">Coste Minuto</th>
+            <th width="10%">Coste Llamadas</th>
+            <th width="10%">{{datos.cabecera[7]}}</th>
+            <th width="10%">{{datos.cabecera[8]}}</th>
+            <th width="10%">{{datos.cabecera[9]}}</th>
+            <th width="10%">{{datos.cabecera[10]}}</th>
+            <th width="10%">{{datos.cabecera[11]}}</th>
+            <th width="10%">{{datos.cabecera[12]}}</th>
+            <th width="10%">{{datos.cabecera[13]}}</th>
+            <th width="10%">{{datos.cabecera[14]}}</th>
+            <th width="10%">{{datos.cabecera[15]}}</th>
+            <th width="10%">{{datos.cabecera[16]}}</th>
+            <th width="10%">{{datos.cabecera[17]}}</th>
+            <th width="10%">{{datos.cabecera[18]}}</th>
+            <th width="10%">{{datos.cabecera[19]}}</th>
+            <th width="10%">{{datos.cabecera[20]}}</th>
+            <th width="10%">{{datos.cabecera[21]}}</th>
+            <th width="10%">{{datos.cabecera[22]}}</th>
+            <th width="10%">Sobrecoste</th>
+        </thead>
+                        <tr ng-repeat="tarifa in datos.tabla| filter: query | orderBy: 'total_con_IVA':false">
+                            <td width="10%">{{tarifa.compania}}</td>
+                            <td width="10%">{{tarifa.nombre}}</td>
+                            <td width="10%">{{tarifa.red}}</td>
+                            <td width="10%">{{tarifa.total_con_IVA|number:2}}</td>
+                            <td width="10%">{{tarifa.observaciones}}</td>
+                            <td width="10%">{{tarifa.coste_minutos}}</td>
+                            <td width="10%">{{tarifa.coste_llamadas}}</td>
+                            <td width="10%">{{tarifa.coste_sms}}</td>            
+                            <td width="10%">{{tarifa.coste_internet}}</td>
+                            <td width="10%">{{tarifa.tarifa_std}}</td>
+                            <td width="10%">{{tarifa.tarifa_minima}}</td>
+                            <td width="10%">{{tarifa.incluidos_minutos}}</td>
+                            <td width="10%">{{tarifa.coste_incluido_sn}}</td>
+                            <td width="10%">{{tarifa.incluidos_sms}}</td>
+                            <td width="10%">{{tarifa.incluidos_internet}}</td>
+                            <td width="10%">{{tarifa.gasto_minutos}}</td>
+                            <td width="10%">{{tarifa.gasto_llamadas}}</td>
+                            <td width="10%">{{tarifa.gasto_sms}}</td>
+                            <td width="10%">{{tarifa.gasto_internet}}</td>
+                            <td width="10%">{{tarifa.formulas_especiales}}</td>
+                            <td width="10%">{{tarifa.total_base}}</td>
+                            <td width="10%">{{tarifa.total_sin_IVA}}</td>
+                            <td width="10%">{{tarifa.sn_4G}}</td>
+                            <td width="10%">{{tarifa.sobrecoste_internet}}</td>
+                        </tr>
+         </tbody>
+    </table>

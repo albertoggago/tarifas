@@ -28,16 +28,18 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
     $scope.datos.fecha.month = 0;
     $scope.datos.fecha.year = 0;
     $scope.datos.version = 0;
-    $scope.datos.cabecera=['a','b','c,','d','e'];
     
     
-    $scope.mensaje = "** Cargando Datos **";
-    $scope.conta = 10;
+    
+    $scope.mensaje = "";
     $scope.atrass = function (){
-        $scope.mensaje = "";
+        if ($scope.mensaje.charAt($scope.mensaje.length-1)==".")
+            {$scope.mensaje = $scope.mensaje.slice(0,$scope.mensaje.length-1)}
+        else
+            {$scope.mensaje = "";};
     };
     
-    $interval($scope.atrass,2000);
+    $interval($scope.atrass,250);
     
     
     $scope.numEdit = function (numero, decimales) { 
@@ -86,18 +88,18 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
 		    $scope.datos.fecha.month == (date.getMonth()+1) &&
 		    $scope.datos.fecha.day   == date.getDate()))
             {salida = true};
-            };
+            }; 
         return salida;
 	};
 
     $scope.actualizarTarifas = function (){
-        $scope.mensaje = "** Datos Actualizados **";
+        $scope.mensaje = "** Datos Actualizados..........";
 		//barremos todos los elementos y los recalculamos.
          //alert($scope.datos.fecha);
 
         //actualizamos Mensaje de precios
         
-        $scope.datos.cabecera[2] = "Al Mes + "+$scope.numEditNumStd(($scope.datosSTD.IVA-1)*100)+"% de Impuestos"
+        $scope.datos.cabeceraMes = "Al Mes + "+$scope.numEditNumStd(($scope.datosSTD.IVA-1)*100)+"% de Impuestos"
 
 		 for (var i = 0; i < $scope.datos.tabla.length; ++i)
 	    	{
@@ -318,7 +320,32 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
   //$scope.datos = precios;
 });
 
-  
+
+tarifasApp.directive("cajaEntradaAvanzada",
+                     function(){
+    return{
+        restrict:"E",
+        templateUrl: "src/views/caja-entrada-avanzada.html"
+    };
+});
+
+tarifasApp.directive("cajaImpuestos",
+                     function(){
+    return{
+        restrict:"E",
+        templateUrl: "src/views/caja-impuestos.html"
+    };
+});
+
+tarifasApp.directive("cajaLista",
+                     function(){
+    return{
+        restrict:"E",
+        templateUrl: "src/views/caja-lista.html"
+    };
+});
+
+
 
 tarifasApp.directive('validNumber', function() {
   return {
