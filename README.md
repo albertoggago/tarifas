@@ -32,7 +32,7 @@ npm update --save
 
 Changes:
 
-1. 
+1.  
 
 ### 0.4.0 
 
