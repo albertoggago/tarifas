@@ -29,6 +29,9 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
     $scope.datos.fecha.year = 0;
     $scope.datos.version = 0;
     
+    $scope.ordenar="dias_sin_internet*5+total_con_IVA";
+    
+    
     
     
     $scope.mensaje = "";
@@ -99,11 +102,22 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
 
         //actualizamos Mensaje de precios
         
-        $scope.datos.cabeceraMes = "Al Mes + "+$scope.numEditNumStd(($scope.datosSTD.IVA-1)*100)+"% de Impuestos"
+        $scope.datos.cabeceraMes = "Precio Completo + "+$scope.numEditNumStd(($scope.datosSTD.IVA-1)*100)+"% de Impuestos"
 
 		 for (var i = 0; i < $scope.datos.tabla.length; ++i)
 	    	{
-	    	 //recogemos los datos y los actualizamos
+             $scope.actualizarFila(i);    
+
+		     
+	    };
+	    //funcion de ordenar
+	    // ya no usamos esto    
+	   //$scope.datos.tabla.sort(function(a,b){return parseFloat(a[2])-parseFloat(b[2])});
+		
+	}; 
+    
+    $scope.actualizarFila = function (i) {
+        	    	 //recogemos los datos y los actualizamos
 			 gasto_minutos   = parseFloat($scope.datos.minutos);
              if (isNaN(gasto_minutos) ||gasto_minutos=="") {gasto_minutos=0}
              gasto_llamadas  = parseFloat($scope.datos.llamadas); 
@@ -197,12 +211,14 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
 		     //calculamos el precio con IVA
 		     var total_con_IVA  = Math.round(total_sin_IVA*$scope.datosSTD.IVA*100.0)/100.0;
 
-		     
+		     var dias_sin_internet =  0;
+             if (gasto_internet > incluidos_internet && incluidos_internet != 0)
+                {dias_sin_internet=(gasto_internet-incluidos_internet)/gasto_internet*30};
 		     //textos especiales
 		     textos_especiales = "";
 		     //texto Tarifa Superada
 		     if (coste_internet == 0 && (gasto_internet > incluidos_internet && incluidos_internet != 0)){
-		    	 textos_especiales +=  "Superada Tarifa Internet: "+$scope.numEditImpStd((gasto_internet-incluidos_internet)/gasto_internet*30)
+		    	 textos_especiales +=  "Superada Tarifa Internet: "+$scope.numEditImpStd(dias_sin_internet)
 		    	                      +" días del mes a baja velocidad"; 
 		     } 
 		     if (coste_internet != 0 && (gasto_internet > incluidos_internet)){
@@ -215,6 +231,9 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
 		     //if (textos_especiales == "") {textos_especiales = "bbbb";}    
              
              if ($scope.datos.observaciones== "bbbb") {$scope.datos.observaciones== ""} 
+        
+             var tarifa_base = ($scope.datos.tabla[i].tarifa_minima + $scope.datos.tabla[i].tarifa_std) 
+                               * $scope.datosSTD.IVA; 
 
 
 			 //Movemos los calculos
@@ -224,14 +243,11 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
 			 $scope.datos.tabla[i].total_base = total_base;
 			 $scope.datos.tabla[i].total_sin_IVA = total_sin_IVA;
              $scope.datos.tabla[i].sobrecoste_internet = sobrecoste_internet;
+             $scope.datos.tabla[i].tarifa_base = tarifa_base;
+             $scope.datos.tabla[i].dias_sin_internet = dias_sin_internet;
              
-		     
-	    };
-	    //funcion de ordenar
-	    // ya no usamos esto    
-	   //$scope.datos.tabla.sort(function(a,b){return parseFloat(a[2])-parseFloat(b[2])});
-		
-	};    
+    };
+        
     
     $scope.determinarFecha = function (){
 		var date = new Date();
@@ -245,8 +261,7 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
 	this.setLlamadas = function(llam) {$scope.datos.llamadas = llam};
 	this.setSMS = function(sms) {$scope.datos.sms = sms};
 	this.setInternet = function(int) {$scope.datos.internet = int};
-	this.setCabecera = function(tab) {$scope.datos.cabecera = tab};
-    this.getTabla = function() {return $scope.datos.tabla;};
+	this.getTabla = function() {return $scope.datos.tabla;};
 	this.getMinutos = function() {return $scope.datos.minutos;};
 	this.getLlamadas = function() {return $scope.datos.llamadas;};
 	this.getSMS = function() {return $scope.datos.sms;};
@@ -373,5 +388,11 @@ tarifasApp.directive('validNumber', function() {
         }
       });
     }
+  };
+});
+
+tarifasApp.filter('checkmark', function() {
+  return function(input) {
+    return input ? '\u2713' : '\u2718';
   };
 });
