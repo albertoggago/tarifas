@@ -6,7 +6,7 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
         "DECIMALPOINT" : ',',
         "SEPARADORMILES" : '.',
         "NUMERODECIMALES" : 2,
-        "VERSION" : "v00.05",
+        "VERSION" : "v00.06",
         "FICHERO" : "precios.json",
         "minutosSTD": 200,
         "llamadasSTD": 50,
