@@ -32,7 +32,21 @@ npm update --save
 
 Changes:
 
-1.  
+1.  Modify List, new structure, it included base price
+
+2.  Refatoring modules with Directives
+
+3.  Refactoring module conversor... previous to administrator.
+
+Pending:
+
+1. TDD e2e
+
+3. Include module New/Delete/Modification
+
+4. New module Details
+
+
 
 ### 0.4.0 
 
@@ -47,20 +61,6 @@ Changes:
 Bugs:
 
 * 0.4.0.1 - bug data input to NaN solve.
-
-Pending:
-
-1. TDD e2e
-
-2. Add New Form
-
-3. Modify module comversor
-
-4. Include module New/Delete/Modification  
-
-5. Divide the application in Directives
-
-6. New module Details
 
 
 
