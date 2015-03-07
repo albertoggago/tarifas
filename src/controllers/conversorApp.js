@@ -178,6 +178,14 @@ conversorApp.directive("cajaListaExtendida",
     };
 });
 
+conversorApp.directive("cajaEntradaConversor",
+                     function(){
+    return{
+        restrict:"E",
+        templateUrl: "src/views/caja-entrada-conversor.html"
+    };
+});
+
 conversorApp.controller("selectorTablasExt", function() {
         this.tab = 1;
 

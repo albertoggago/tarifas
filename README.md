@@ -44,7 +44,9 @@ Pending:
 
 3. Include module New/Delete/Modification
 
-4. New module Details
+4. New module Details.
+
+5. Include Calls VoIP, like Skipe, and it compute somehow. 
 
 
 

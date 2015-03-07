@@ -69,6 +69,12 @@
     border-bottom: 2px solid #4f8038;
 }
 
+.tabla2 tr:first-child
+{
+    font-weight: bold;
+    height: 50px;
+    
+}
 .entrada
 {
     text-align: Left;
