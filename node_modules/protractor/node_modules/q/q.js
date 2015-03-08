@@ -27,7 +27,8 @@
  */
 
 (function (definition) {
-    "use strict";
+    // Turn off strict mode for this function so we can assign to global.Q
+    /* jshint strict: false */
 
     // This file will function properly as a <script> tag, or a module
     // using CommonJS and NodeJS or RequireJS module formats.  In
@@ -39,7 +40,7 @@
         bootstrap("promise", definition);
 
     // CommonJS
-    } else if (typeof exports === "object" && typeof module === "object") {
+    } else if (typeof exports === "object") {
         module.exports = definition();
 
     // RequireJS
@@ -55,11 +56,8 @@
         }
 
     // <script>
-    } else if (typeof self !== "undefined") {
-        self.Q = definition();
-
     } else {
-        throw new Error("This environment was not anticiapted by Q. Please file a bug.");
+        Q = definition();
     }
 
 })(function () {
@@ -326,6 +324,22 @@ if (typeof ReturnValue !== "undefined") {
     };
 }
 
+// Until V8 3.19 / Chromium 29 is released, SpiderMonkey is the only
+// engine that has a deployed base of browsers that support generators.
+// However, SM's generators use the Python-inspired semantics of
+// outdated ES6 drafts.  We would like to support ES6, but we'd also
+// like to make it possible to use generators in deployed browsers, so
+// we also support Python-style generators.  At some point we can remove
+// this block.
+var hasES6Generators;
+try {
+    /* jshint evil: true, nonew: false */
+    new Function("(function* (){ yield 1; })");
+    hasES6Generators = true;
+} catch (e) {
+    hasES6Generators = false;
+}
+
 // long stack traces
 
 var STACK_JUMP_SEPARATOR = "From previous event:";
@@ -452,7 +466,7 @@ function Q(value) {
     // If the object is already a Promise, return it directly.  This enables
     // the resolve function to both be used to created references from objects,
     // but to tolerably coerce non-promises to promises.
-    if (value instanceof Promise) {
+    if (isPromise(value)) {
         return value;
     }
 
@@ -475,11 +489,6 @@ Q.nextTick = nextTick;
  * Controls whether or not long stack traces will be on
  */
 Q.longStackSupport = false;
-
-// enable long stacks if Q_DEBUG is set
-if (typeof process === "object" && process && process.env && process.env.Q_DEBUG) {
-    Q.longStackSupport = true;
-}
 
 /**
  * Constructs a {promise, resolve, reject} object.
@@ -512,7 +521,7 @@ function defer() {
                 progressListeners.push(operands[1]);
             }
         } else {
-            Q.nextTick(function () {
+            nextTick(function () {
                 resolvedPromise.promiseDispatch.apply(resolvedPromise, args);
             });
         }
@@ -560,7 +569,7 @@ function defer() {
         promise.source = newPromise;
 
         array_reduce(messages, function (undefined, message) {
-            Q.nextTick(function () {
+            nextTick(function () {
                 newPromise.promiseDispatch.apply(newPromise, message);
             });
         }, void 0);
@@ -598,7 +607,7 @@ function defer() {
         }
 
         array_reduce(progressListeners, function (undefined, progressListener) {
-            Q.nextTick(function () {
+            nextTick(function () {
                 progressListener(progress);
             });
         }, void 0);
@@ -631,7 +640,6 @@ defer.prototype.makeNodeResolver = function () {
  * @returns a promise that may be resolved with the given resolve and reject
  * functions, or rejected by a thrown exception in resolver
  */
-Q.Promise = promise; // ES6
 Q.promise = promise;
 function promise(resolver) {
     if (typeof resolver !== "function") {
@@ -645,11 +653,6 @@ function promise(resolver) {
     }
     return deferred.promise;
 }
-
-promise.race = race; // ES6
-promise.all = all; // ES6
-promise.reject = reject; // ES6
-promise.resolve = Q; // ES6
 
 // XXX experimental.  This method is a way to denote that a local value is
 // serializable and should be immediately dispatched to a remote upon request,
@@ -691,9 +694,9 @@ Promise.prototype.join = function (that) {
 };
 
 /**
- * Returns a promise for the first of an array of promises to become settled.
+ * Returns a promise for the first of an array of promises to become fulfilled.
  * @param answers {Array[Any*]} promises to race
- * @returns {Any*} the first promise to be settled
+ * @returns {Any*} the first promise to be fulfilled
  */
 Q.race = race;
 function race(answerPs) {
@@ -813,7 +816,7 @@ Promise.prototype.then = function (fulfilled, rejected, progressed) {
         return typeof progressed === "function" ? progressed(value) : value;
     }
 
-    Q.nextTick(function () {
+    nextTick(function () {
         self.promiseDispatch(function (value) {
             if (done) {
                 return;
@@ -852,30 +855,6 @@ Promise.prototype.then = function (fulfilled, rejected, progressed) {
     }]);
 
     return deferred.promise;
-};
-
-Q.tap = function (promise, callback) {
-    return Q(promise).tap(callback);
-};
-
-/**
- * Works almost like "finally", but not called for rejections.
- * Original resolution value is passed through callback unaffected.
- * Callback may return a promise that will be awaited for.
- * @param {Function} callback
- * @returns {Q.Promise}
- * @example
- * doSomething()
- *   .then(...)
- *   .tap(console.log)
- *   .then(...);
- */
-Promise.prototype.tap = function (callback) {
-    callback = Q(callback);
-
-    return this.then(function (value) {
-        return callback.fcall(value).thenResolve(value);
-    });
 };
 
 /**
@@ -943,7 +922,9 @@ function nearer(value) {
  */
 Q.isPromise = isPromise;
 function isPromise(object) {
-    return object instanceof Promise;
+    return isObject(object) &&
+        typeof object.promiseDispatch === "function" &&
+        typeof object.inspect === "function";
 }
 
 Q.isPromiseAlike = isPromiseAlike;
@@ -997,14 +978,42 @@ Promise.prototype.isRejected = function () {
 // shimmed environments, this would naturally be a `Set`.
 var unhandledReasons = [];
 var unhandledRejections = [];
+var unhandledReasonsDisplayed = false;
 var trackUnhandledRejections = true;
+function displayUnhandledReasons() {
+    if (
+        !unhandledReasonsDisplayed &&
+        typeof window !== "undefined" &&
+        window.console
+    ) {
+        console.warn("[Q] Unhandled rejection reasons (should be empty):",
+                     unhandledReasons);
+    }
+
+    unhandledReasonsDisplayed = true;
+}
+
+function logUnhandledReasons() {
+    for (var i = 0; i < unhandledReasons.length; i++) {
+        var reason = unhandledReasons[i];
+        console.warn("Unhandled rejection reason:", reason);
+    }
+}
 
 function resetUnhandledRejections() {
     unhandledReasons.length = 0;
     unhandledRejections.length = 0;
+    unhandledReasonsDisplayed = false;
 
     if (!trackUnhandledRejections) {
         trackUnhandledRejections = true;
+
+        // Show unhandled rejection reasons if Node exits without handling an
+        // outstanding rejection.  (Note that Browserify presently produces a
+        // `process` global without the `EventEmitter` `on` method.)
+        if (typeof process !== "undefined" && process.on) {
+            process.on("exit", logUnhandledReasons);
+        }
     }
 }
 
@@ -1019,6 +1028,7 @@ function trackRejection(promise, reason) {
     } else {
         unhandledReasons.push("(no stack) " + reason);
     }
+    displayUnhandledReasons();
 }
 
 function untrackRejection(promise) {
@@ -1042,6 +1052,9 @@ Q.getUnhandledReasons = function () {
 
 Q.stopUnhandledRejectionTracking = function () {
     resetUnhandledRejections();
+    if (typeof process !== "undefined" && process.on) {
+        process.removeListener("exit", logUnhandledReasons);
+    }
     trackUnhandledRejections = false;
 };
 
@@ -1121,7 +1134,7 @@ function fulfill(value) {
  */
 function coerce(promise) {
     var deferred = defer();
-    Q.nextTick(function () {
+    nextTick(function () {
         try {
             promise.then(deferred.resolve, deferred.reject, deferred.notify);
         } catch (exception) {
@@ -1205,35 +1218,24 @@ function async(makeGenerator) {
         // when verb is "throw", arg is an exception
         function continuer(verb, arg) {
             var result;
-
-            // Until V8 3.19 / Chromium 29 is released, SpiderMonkey is the only
-            // engine that has a deployed base of browsers that support generators.
-            // However, SM's generators use the Python-inspired semantics of
-            // outdated ES6 drafts.  We would like to support ES6, but we'd also
-            // like to make it possible to use generators in deployed browsers, so
-            // we also support Python-style generators.  At some point we can remove
-            // this block.
-
-            if (typeof StopIteration === "undefined") {
-                // ES6 Generators
+            if (hasES6Generators) {
                 try {
                     result = generator[verb](arg);
                 } catch (exception) {
                     return reject(exception);
                 }
                 if (result.done) {
-                    return Q(result.value);
+                    return result.value;
                 } else {
                     return when(result.value, callback, errback);
                 }
             } else {
-                // SpiderMonkey Generators
                 // FIXME: Remove this case when SM does ES6 generators.
                 try {
                     result = generator[verb](arg);
                 } catch (exception) {
                     if (isStopIteration(exception)) {
-                        return Q(exception.value);
+                        return exception.value;
                     } else {
                         return reject(exception);
                     }
@@ -1329,7 +1331,7 @@ function dispatch(object, op, args) {
 Promise.prototype.dispatch = function (op, args) {
     var self = this;
     var deferred = defer();
-    Q.nextTick(function () {
+    nextTick(function () {
         self.promiseDispatch(deferred.resolve, op, args);
     });
     return deferred.promise;
@@ -1672,7 +1674,7 @@ Promise.prototype.done = function (fulfilled, rejected, progress) {
     var onUnhandledError = function (error) {
         // forward to a future turn so that ``when``
         // does not catch it and turn it into a rejection.
-        Q.nextTick(function () {
+        nextTick(function () {
             makeStackTraceLong(error, promise);
             if (Q.onerror) {
                 Q.onerror(error);
@@ -1699,22 +1701,18 @@ Promise.prototype.done = function (fulfilled, rejected, progress) {
  * some milliseconds time out.
  * @param {Any*} promise
  * @param {Number} milliseconds timeout
- * @param {Any*} custom error message or Error object (optional)
+ * @param {String} custom error message (optional)
  * @returns a promise for the resolution of the given promise if it is
  * fulfilled before the timeout, otherwise rejected.
  */
-Q.timeout = function (object, ms, error) {
-    return Q(object).timeout(ms, error);
+Q.timeout = function (object, ms, message) {
+    return Q(object).timeout(ms, message);
 };
 
-Promise.prototype.timeout = function (ms, error) {
+Promise.prototype.timeout = function (ms, message) {
     var deferred = defer();
     var timeoutId = setTimeout(function () {
-        if (!error || "string" === typeof error) {
-            error = new Error(error || "Timed out after " + ms + " ms");
-            error.code = "ETIMEDOUT";
-        }
-        deferred.reject(error);
+        deferred.reject(new Error(message || "Timed out after " + ms + " ms"));
     }, ms);
 
     this.then(function (value) {
@@ -1916,11 +1914,11 @@ function nodeify(object, nodeback) {
 Promise.prototype.nodeify = function (nodeback) {
     if (nodeback) {
         this.then(function (value) {
-            Q.nextTick(function () {
+            nextTick(function () {
                 nodeback(null, value);
             });
         }, function (error) {
-            Q.nextTick(function () {
+            nextTick(function () {
                 nodeback(error);
             });
         });

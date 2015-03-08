@@ -1,7 +1,9 @@
             <div class="caja"> Filtrar/Buscar: <input ng-model="query"> Busque lo que quiera, compañía, red o 4G</div>
-<div class="caja"><strong> Es muy importante tener internet todo el mes </strong>(Las tarifas que te reducen interner están penalizadas en la ordenación, si lo desmarcas solo tiene en cuenta el precio)<input type="checkbox" ng-model="ordenar" name="aaaa" ng-true-value="'dias_sin_internet*5+total_con_IVA'" ng-false-value="'total_con_IVA'" ></div>
+            <div class="caja"><strong> Es muy importante tener internet todo el mes </strong>
+        (Las tarifas que te reducen interner están penalizadas en la ordenación, si lo desmarcas solo tiene en cuenta el precio)
+                <input type="checkbox" ng-model="ordenar" name="aaaa" ng-true-value="'dias_sin_internet*5+total_con_IVA'" ng-false-value="'total_con_IVA'" ></div>
     <table class="tabla1">
-        <thead >
+        <thead>
                 <th width="15%">Compania</th>
                 <th width="15%">Producto</th>
                 <th width="10%">Red</th>
@@ -14,9 +16,10 @@
         <tbody>
             <tr><td colspan="7">
                 <div class="tabla2div">
-                    <table class="tabla2">
-                        <tr ng-repeat="tarifa in datos.tabla| filter: query | orderBy: ordenar :false">
-                            <td width="15%">{{tarifa.compania}}</td>
+                    {{indice}}
+                    <table class="tabla2" >
+                        <tr ng-repeat="tarifa in datos.tabla | filter: query | orderBy: ordenar :false track by $index" ng-click="$scope.indice = $scope.indice + 1" ng-init={{indice=1}}>
+                            <td width="15%" >{{tarifa.compania}}</td>
                             <td width="15%">{{tarifa.nombre}}</td>
                             <td width="10%">{{tarifa.red}}</td>
                             <td width="15%" align="center">{{tarifa.total_con_IVA|number:2}} euros ({{tarifa.tarifa_base|number:2}})</td>

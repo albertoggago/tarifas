@@ -2,7 +2,7 @@
 <html lang="es"  ng-app="conversorApp">
 <head>
 	<meta charset="utf-8"> 
-    <link href="css/tarifasApp.css" rel="stylesheet" media="screen">
+    <link href="css/tarifas.css" rel="stylesheet" media="screen">
     
 	<title>Tarifas en Angular.js</title>
 	<script src="node_modules/angular/angular.min.js"></script>
@@ -14,7 +14,7 @@
 
 <body ng-controller="conversorController as conversor">
 
-        
+    **indice:**{{indice}}**
         <h2>Datos de Entrada</h2>
         <caja-entrada-conversor></caja-entrada-conversor>
         <h2>Datos de Salida</h2>
@@ -22,11 +22,15 @@
         <br>
         <caja-impuestos></caja-impuestos>
         <br>
-        <div ng-controller="selectorTablasExt as tabExt">
-        <div><ul><li class="botonF" ng-class="{ active: tabExt.isSet(1) }" ng-click="tabExt.setTab(1)" ng-model="a">Normal</li>
-            <li class="botonF" ng-class="{ active: tabExt.isSet(2) }" ng-click="tabExt.setTab(2)">Extendida</li></ul></div>
-        <div ng-show="tabExt.isSet(1)"><caja-lista></caja-lista></div>
-        <div ng-show="tabExt.isSet(2)"><caja-lista-extendida></caja-lista-extendida></div>
+        <div ng-controller="selectorTablasExt as tabExt ">
+        <div><ul class="cajaBotones">
+            <li ng-class="{active:tabExt.isSet(1) }" ng-click="tabExt.setTab(1)">Normal</li>
+            <li ng-class="{active:tabExt.isSet(2) }" ng-click="tabExt.setTab(2)">Extendida</li>
+            <li ng-class="{active:tabExt.isSet(3) }" ng-click="tabExt.setTab(3)">Detalle</li>
+        </ul></div>
+        <div ng-show="tabExt.isSet(1)" class="animate-show"><caja-lista></caja-lista></div>
+        <div ng-show="tabExt.isSet(2)" class="animate-show"><caja-lista-extendida></caja-lista-extendida></div>
+        <div ng-show="tabExt.isSet(3)" class="animate-show"><caja-detalle></caja-detalle></div>
         </div>
 
         </tr>

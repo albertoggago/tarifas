@@ -10,6 +10,7 @@
     "angular": "^1.4.0-beta.4",
     "angular-local-storage": "^0.1.5",
     "angular-mocks": "^1.4.0-beta.4",
+    "bootstrap": "^3.3.2",
     "http-server": "^0.7.4",
     "jasmine": "^2.2.1",
     "jasmine-core": "^2.2.0",

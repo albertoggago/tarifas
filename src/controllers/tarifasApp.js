@@ -31,6 +31,8 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
     
     $scope.ordenar="dias_sin_internet*5+total_con_IVA";
     
+    $scope.indice=0;
+    
     
     
     
@@ -282,7 +284,7 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
 		$scope.datos.version     = versionX;
 		$scope.determinarFecha();
 	};
-
+    
     
 /*    $scope.getPrecios   = function() {
 		var lista = [];
@@ -359,6 +361,15 @@ tarifasApp.directive("cajaLista",
         templateUrl: "src/views/caja-lista.html"
     };
 });
+
+tarifasApp.directive("cajaDetalle",
+                     function(){
+    return{
+        restrict:"E",
+        templateUrl: "src/views/caja-detalle.html"
+    };
+});
+
 
 
 

@@ -1,0 +1,110 @@
+/*@import url(../../node_modules/bootstrap/dist/css/bootstrap.css);*/
+/* CSS Document */
+
+/*caja de control*/
+.caja
+{
+    background-color: #daedc2;
+    margin: 10px 10px 10px 10px;
+    padding: 10px 10px 10px 10px;
+    border-radius: 7px 7px 7px 7px;
+    border-width: 10px;
+    border: solid;
+    border-color: #4f8038;
+    width: 92%;
+    overflow: auto;
+}
+
+/*tablas con datos*/
+.tabla
+{
+    background-color: #daedc2;
+    margin: 10px 10px 10px 10px;
+    border-radius: 7px 7px 7px 7px;
+    border-width: 10px;
+    border: solid;
+    border-color: #4f8038;
+    width: 95%;
+}
+.tabla thead
+{
+    background-color: #4f8038;
+    color: #daedc2;
+}
+
+/*tabla con scroll interno usa dos tablas*/
+.tabla1
+{
+    background-color: #daedc2;
+    margin: 10px 10px 10px 10px;
+    border-radius: 7px 7px 7px 7px;
+    border-width: 10px;
+    border: solid;
+    border-color: #4f8038;
+    width: 95%;
+}
+.tabla1 thead 
+{
+    background-color: #4f8038;
+    color: #daedc2;
+}
+.tabla2div
+{
+    width:100%;
+    height: 350px;
+    overflow: auto;
+}
+.tabla2 td
+{
+    border-bottom: 2px solid #4f8038;
+}
+.tabla2 tr:first-child
+{
+    font-weight: bold;
+    height: 50px;
+}
+
+/*cabeceras*/
+h2
+{
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    background-color: #4f8038;
+    border-radius: 7px 7px 7px 7px;
+    color: #daedc2;
+    text-align: center;
+}
+
+/* Datos de Abajo para colocar el CC y el link*/
+.abajoTotal {
+    width: 100%;
+    text-align: center}
+
+/*en listas vale para ponerlos a la derecha*/
+.leftLista{
+    float:left;
+    width:20%;
+}
+
+/*lista con forma de boton*/
+
+.cajaBotones
+{
+    padding-left: 20px;
+    list-style: none;
+}
+.cajaBotones > li
+{
+    box-sizing: border-box;
+    text-align: -webkit-match-parent;
+    float: left;
+    pading-left: 5px;
+    margin: 5px 10px -2px 10px;
+    padding: 5px 10px 5px 10px;
+    border-radius: 7px 7px 0px 0px;
+    border: solid;
+    border-color: #4f8038;
+    background-color: #daedc2;
+    
+}

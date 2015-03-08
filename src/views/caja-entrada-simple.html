@@ -1,0 +1,21 @@
+        <table class="tabla">
+            <thead ><th colspan="3">DATOS Al MES</th></thead>
+            <tbody>
+            <tr>
+                <td>Minutos (al mes): </td>
+                <td><input type="text" name="input" ng-model="datos.minutos" min=0 valid-number ng-change="actualizarTarifas()" requierd></td>
+                <td>  Duracion media de las llamadas: {{datos.minutos / datos.llamadas | number }} minutos</td>
+            </tr><tr>
+                <td>Llamadas (al mes): </td>
+                <td><input type="text" name="input" ng-model="datos.llamadas" min=0 valid-number ng-change="actualizarTarifas()" requierd></td>
+                <td>{{mensaje}}</td>
+            </tr><tr>
+                <td>Internet (consumo al mes): </td>
+                <td><input type="text" name="input" ng-model="datos.internet" min=0 valid-number ng-change="actualizarTarifas()" requierd> </td>
+                <td>en MegaBytes, equivale a: {{datos.internet/1000 |number}} Gigabytes</td>
+                
+            </tr><tr>
+                <td>SMS (al mes): </td>
+                <td><input type="text" name="input" ng-model="datos.sms" min=0 valid-number ng-change="actualizarTarifas()" requierd></td><td>{{mensaje}}</td>
+                
+            </tr></tbody></table>
