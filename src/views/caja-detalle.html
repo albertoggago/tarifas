@@ -1,11 +1,31 @@
-<table class="tabla">
-            <thead>
-                <th>aaaaa{{indice}}</th>
-        </thead>
-        <tbody>
-        <tr>
-            <td>{{datos.tabla}}</td>
-         </tr>
-         </tbody>
-
-</table>
+<div class="caja" ng-controller="cajaDetalle">
+<button ng-click="setTab(1)">VOLVER</button>
+    <div><strong>Compañia: {{tarifaGuardada.compania}}</strong></div>
+    <div>Nombre de Producto: {{tarifaGuardada.nombre}}</div>
+    <br>
+    <div><strong>Datos Informativos de la tarifa</strong></div>
+    <div>Red Usada: {{tarifaGuardada.red}}</div>
+    <div>Permite 4G: {{tarifaGuardada.sn_4G}}</div>
+    <br>
+    <div><strong>Datos Economicos de la Tarifa (todos con Impuestos)</strong></div>
+    <div>Precio por minuto: {{tarifaGuardada.coste_minutos*datosSTD.IVA|number:2}} centimos</div>
+    <div>Establecimiento de llamada: {{tarifaGuardada.coste_llamadas*datosSTD.IVA|number:2}} centimos</div>
+    <div>Precio del SMS: {{tarifaGuardada.coste_sms*datosSTD.IVA|number:2}} centimos</div>
+    <div>Precio del MB Internet: {{tarifaGuardada.coste_internet*datosSTD.IVA|number:2}} centimos</div>
+    <div>Tarifa Estándar: {{tarifaGuardada.tarifa_std*datosSTD.IVA|number:2}} centimos</div>
+    <div>Tarifa Mínima: {{tarifaGuardada.tarifa_minima*datosSTD.IVA|number:2}} centimos que incluye:</div>
+    <div>x  Minutos: {{tarifaGuardada.incluidos_minutos|number:0}}</div>
+    <div>x  Internet: {{tarifaGuardada.incluidos_internet|number:0}} MB</div>
+    <div>x  SMS: {{tarifaGuardada.incluidos_sms|number:0}} </div>
+    <div>Los minutos incluidos, su establecimiento de llamada esta incluido: {{tarifaGuardada.sn_4G}}</div>
+    <br>
+    <div><strong>Calculos con {{datos.minutos|number:0}} minutos, {{datos.llamadas|number:0}} llamadas, {{datos.internet|number:0}}MB Internet y {{datos.sms|number:0}} SMS</strong></div>
+    <div>Minutos que realmente voy a pagar: {{tarifaGuardada.minutos_pagar|number:0}}</div>
+    <div>Llamadas que realmente voy a pagar (realizado por promedio): {{tarifaGuardada.llamadas_pagar|number:0}}</div>
+    <div>Sobrecoste Internet: {{tarifaGuardada.internet_pagar|number:0}}</div>
+    <div>SMS que voy a pagar: {{tarifaGuardada.sms_pagar|number:0}}</div>
+    <br>
+    <div>Precio de las LLamadas: {{tarifaGuardada.precio_llamadas*datosSTD.IVA|number:2}} euros</div>
+    <br>
+    <div>{{tarifaGuardada}}</div>
+</div>

@@ -1,6 +1,6 @@
 var tarifasApp = angular.module('tarifasApp', [])
 
-tarifasApp.controller("tarifasListaController", function($scope, $http, $interval) {
+tarifasApp.controller('tarifasListaController', function($scope, $http, $interval) {
     $scope.datosSTD = {
         "IVA" : 1.21,
         "DECIMALPOINT" : ',',
@@ -32,6 +32,8 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
     $scope.ordenar="dias_sin_internet*5+total_con_IVA";
     
     $scope.indice=0;
+    $scope.tab=1;
+    
     
     
     
@@ -149,7 +151,7 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
 	    	 //actualizamos el Gasto
 			 $scope.datos.tabla[i].gasto_minutos= gasto_minutos;
 			 $scope.datos.tabla[i].gasto_llamadas= gasto_llamadas; 
-			 $scope.datos.tabla[i].gasto_sms= gasto_sms;
+			 $scope.datos.tabla[i].gasto_sms= gasto_sms; 
 			 $scope.datos.tabla[i].gasto_internet= gasto_internet; 
 
 
@@ -159,9 +161,7 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
 		     if (gasto_minutos>incluidos_minutos) {
 		    	 minutos_pagar = gasto_minutos-incluidos_minutos
 		     };
-         	 // Incluimos el coste de los minutos no incluidos. 
-		     tarifa += minutos_pagar * coste_minutos / 100
-		     //calculos Coste de LLamada Incluido o no.
+         	 //calculos Coste de LLamada Incluido o no.
              var llamadas_pagar = 0;
 		     if (coste_incluido_sn == "NO") {
 		    	 llamadas_pagar = gasto_llamadas;
@@ -174,12 +174,15 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
 		    	 	 }
 		     };
                 
-		     tarifa += llamadas_pagar*coste_llamadas/100.0;
+		     // Incluimos el coste de los minutos no incluidos. 
+		     var precio_llamadas =  minutos_pagar * coste_minutos / 100;
+		     precio_llamadas += llamadas_pagar*coste_llamadas/100.0;
+		     tarifa += precio_llamadas;
 		     
 		     //calculamos SMS
 		     var sms_pagar = 0.0;
 		     if (gasto_sms>incluidos_sms) {
-		    	 sms_pagar = gasto_sms-incluidos_sms
+		    	 sms_pagar = gasto_sms-incluidos_sms;
 		     };
 		     tarifa += sms_pagar*coste_sms/100.0; 
 		     var internet_pagar = 0.0;
@@ -188,7 +191,7 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
 		     };
              var sobrecoste_internet = internet_pagar*coste_internet/100.0;
 		     tarifa += sobrecoste_internet;		                          
-             sobrecoste_internet *= $scope.datosSTD.IVA;
+             
 		     
 		     //
 		     //=max(P3-L3;0)*F3/100+
@@ -224,7 +227,7 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
 		    	                      +" días del mes a baja velocidad"; 
 		     } 
 		     if (coste_internet != 0 && (gasto_internet > incluidos_internet)){
-		    	 textos_especiales += "Incluido Sobrecoste por Datos de "+$scope.numEditImpStd(sobrecoste_internet)+" Euros"; 
+		    	 textos_especiales += "Incluido Sobrecoste por Datos de "+$scope.numEditImpStd(sobrecoste_internet*$scope.datosSTD.IVA)+" Euros"; 
 		     } 
 		     if (sn_4G == "SI" ){
 		    	 textos_especiales += " - Con 4G"; 
@@ -247,6 +250,14 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
              $scope.datos.tabla[i].sobrecoste_internet = sobrecoste_internet;
              $scope.datos.tabla[i].tarifa_base = tarifa_base;
              $scope.datos.tabla[i].dias_sin_internet = dias_sin_internet;
+
+			 //Movemos los calculos extras
+			 $scope.datos.tabla[i].minutos_pagar = minutos_pagar;	
+			 $scope.datos.tabla[i].llamadas_pagar = llamadas_pagar;	
+			 $scope.datos.tabla[i].internet_pagar = internet_pagar;
+			 $scope.datos.tabla[i].sms_pagar = sms_pagar;
+
+			 $scope.datos.tabla[i].precio_llamadas = precio_llamadas;		 
              
     };
         
@@ -330,12 +341,33 @@ tarifasApp.controller("tarifasListaController", function($scope, $http, $interva
         
         $scope.actualizarTarifas();
     };    
+    
+    $scope.guardarTarifa = function (tarifa) {
+        $scope.tarifaGuardada = tarifa;
+        $scope.tab = 2;
+    };
+    
+    $scope.isSet = function(checkTab) {
+          return $scope.tab === checkTab;
+        };
+
+    $scope.setTab = function(activeTab) {
+          $scope.tab = activeTab;
+        };
 
     this.init();
     
     
   //$scope.datos = precios;
 });
+
+tarifasApp.controller('cajaDetalle',function($scope){
+    
+});
+
+
+
+
 
 
 tarifasApp.directive("cajaEntradaAvanzada",
@@ -370,9 +402,6 @@ tarifasApp.directive("cajaDetalle",
     };
 });
 
-
-
-
 tarifasApp.directive('validNumber', function() {
   return {
     require: '?ngModel',
@@ -401,6 +430,11 @@ tarifasApp.directive('validNumber', function() {
     }
   };
 });
+
+
+
+
+
 
 tarifasApp.filter('checkmark', function() {
   return function(input) {

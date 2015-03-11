@@ -1,6 +1,6 @@
 var conversorApp = angular.module('conversorApp', ['tarifasApp']);
 
-conversorApp.controller("conversorController", function($scope, $http, $interval, $controller) {
+conversorApp.controller('conversorController', function($scope, $http, $interval, $controller) {
     
    
     var tarifas = $controller('tarifasListaController',{$scope: $scope, $http: $http, $interval: $interval});
@@ -44,6 +44,10 @@ conversorApp.controller("conversorController", function($scope, $http, $interval
         $scope.determinarFecha();
         //tarifas.setCabecera(tablaEnt[0]);
         delete $scope.datos.cabecera;
+        $scope.datos.minutos = $scope.datosSTD.minutosSTD;
+        $scope.datos.llamadas = $scope.datosSTD.llamadasSTD;
+        $scope.datos.internet = $scope.datosSTD.internetSTD;
+        $scope.datos.sms = $scope.datosSTD.SMSSTD;
         tablaEnt.shift();
     //nueva forma de guardar la tabla
         tablaNew=[];
@@ -186,14 +190,4 @@ conversorApp.directive("cajaEntradaConversor",
     };
 });
 
-conversorApp.controller("selectorTablasExt", function() {
-        this.tab = 1;
 
-        this.isSet = function(checkTab) {
-          return this.tab === checkTab;
-        };
-
-        this.setTab = function(activeTab) {
-          this.tab = activeTab;
-        };
-});

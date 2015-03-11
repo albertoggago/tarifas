@@ -106,5 +106,14 @@ h2
     border: solid;
     border-color: #4f8038;
     background-color: #daedc2;
+    color : #4f8038;
+    
+}
+
+.cajaBotones > li.active
+{
+    border-color: #4f8038;
+    background-color: #4f8038;
+    color: #daedc2;
     
 }

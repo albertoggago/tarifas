@@ -16,10 +16,10 @@
         <tbody>
             <tr><td colspan="7">
                 <div class="tabla2div">
-                    {{indice}}
                     <table class="tabla2" >
-                        <tr ng-repeat="tarifa in datos.tabla | filter: query | orderBy: ordenar :false track by $index" ng-click="$scope.indice = $scope.indice + 1" ng-init={{indice=1}}>
-                            <td width="15%" >{{tarifa.compania}}</td>
+                        <tr ng-repeat="tarifa in datos.tabla | filter: query | orderBy: ordenar :false" ng-click="guardarTarifa(tarifa)">
+                            
+                            <td width="15%" >{{$index+1}} - {{tarifa.compania}}</td>
                             <td width="15%">{{tarifa.nombre}}</td>
                             <td width="10%">{{tarifa.red}}</td>
                             <td width="15%" align="center">{{tarifa.total_con_IVA|number:2}} euros ({{tarifa.tarifa_base|number:2}})</td>
