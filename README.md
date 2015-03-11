@@ -30,6 +30,22 @@ npm update --save
 
 ### 0.6.0
 
+Changes:
+
+1. New module Details. In process
+
+Pending:
+
+1. TDD e2e
+
+3. Include module New/Delete/Modification
+
+4. Include Calls VoIP, like Skipe, and it compute somehow. 
+
+5. Include Menu Easy
+
+6. Include Filters decimal point is comma
+
 
 ### 0.5.0
 
@@ -41,15 +57,7 @@ Changes:
 
 3.  Refactoring module conversor... previous to administrator.
 
-Pending:
 
-1. TDD e2e
-
-3. Include module New/Delete/Modification
-
-4. New module Details.
-
-5. Include Calls VoIP, like Skipe, and it compute somehow. 
 
 
 
