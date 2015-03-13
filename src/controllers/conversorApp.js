@@ -61,6 +61,10 @@ conversorApp.controller('conversorController', function($scope, $http, $interval
             tablaNew[i].formulas_especiales =  tablaEnt[i][20];
             tablaNew[i].sn_4G               =  tablaEnt[i][23];
             tablaNew[i].observaciones       =  tablaEnt[i][4];
+            tablaNew[i].observacionesLargo  =  "Próximamente, en esta parte irá toda la letra pequeña que vaya localizando. Y además incluiré el link para que podáis acceder la información completa de la compañia";
+            tablaNew[i].link                = "http://albertoggago.es";
+            tablaNew[i].reduccion           = 0;
+            
             if (tablaNew[i].observaciones =="bbbb"){tablaNew[i].observaciones =""};
             
             tablaNew[i].total_con_IVA       =  parseFloat(tablaEnt[i][3]);
@@ -90,6 +94,7 @@ conversorApp.controller('conversorController', function($scope, $http, $interval
         
         
 	   alert("FINALIZADO...");
+       localStorage.setItem($scope.datosSTD.FICHERO, JSON.stringify($scope.datos));
     };
     
     this.subirSubVer = function (){

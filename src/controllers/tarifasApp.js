@@ -184,7 +184,8 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 		     if (gasto_sms>incluidos_sms) {
 		    	 sms_pagar = gasto_sms-incluidos_sms;
 		     };
-		     tarifa += sms_pagar*coste_sms/100.0; 
+		     var precio_sms = sms_pagar*coste_sms/100.0;
+		     tarifa +=  precio_sms;
 		     var internet_pagar = 0.0;
 		     if (gasto_internet>incluidos_internet) {
 		    	 internet_pagar = gasto_internet-incluidos_internet;
@@ -257,8 +258,9 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 			 $scope.datos.tabla[i].internet_pagar = internet_pagar;
 			 $scope.datos.tabla[i].sms_pagar = sms_pagar;
 
-			 $scope.datos.tabla[i].precio_llamadas = precio_llamadas;		 
-             
+			 $scope.datos.tabla[i].precio_llamadas = precio_llamadas;
+			 $scope.datos.tabla[i].precio_sms      = precio_sms;
+			 
     };
         
     
@@ -354,6 +356,15 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
     $scope.setTab = function(activeTab) {
           $scope.tab = activeTab;
         };
+    
+    $scope.reduccion = function() {
+        if (isNaN($scope.tarifaGuardada.reduccion)||$scope.tarifaGuardada.reduccion == 0||$scope.tarifaGuardada.dias_sin_internet == 0)
+        {return ""}
+        else
+        {return ("a "+$scope.tarifaGuardada.reduccion+" Kb/s")};
+    };
+    
+    
 
     this.init();
     
@@ -365,16 +376,28 @@ tarifasApp.controller('cajaDetalle',function($scope){
     
 });
 
-
-
-
-
+tarifasApp.directive("cajaEntrada",
+                     function(){
+    return{
+        restrict:"E",
+        templateUrl: "src/views/caja-entrada.html"
+    };
+});
 
 tarifasApp.directive("cajaEntradaAvanzada",
                      function(){
     return{
         restrict:"E",
         templateUrl: "src/views/caja-entrada-avanzada.html"
+    };
+});
+
+
+tarifasApp.directive("cajaEntradaSimple",
+                     function(){
+    return{
+        restrict:"E",
+        templateUrl: "src/views/caja-entrada-simple.html"
     };
 });
 

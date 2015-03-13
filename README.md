@@ -38,13 +38,15 @@ Pending:
 
 1. TDD e2e
 
-3. Include module New/Delete/Modification
+3. Include module New/Delete/Modification, observacionesLargo, Link, reduccion, 
 
 4. Include Calls VoIP, like Skipe, and it compute somehow. 
 
 5. Include Menu Easy
 
 6. Include Filters decimal point is comma
+
+7. Date of actualitation
 
 
 ### 0.5.0

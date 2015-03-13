@@ -92,7 +92,10 @@ h2
 .cajaBotones
 {
     padding-left: 20px;
+    padding-bottom: 0px;
     list-style: none;
+    float: left;
+    width: inherit;
 }
 .cajaBotones > li
 {
@@ -100,8 +103,8 @@ h2
     text-align: -webkit-match-parent;
     float: left;
     pading-left: 5px;
-    margin: 5px 10px -2px 10px;
-    padding: 5px 10px 5px 10px;
+    margin: 5px 10px 0px 10px;
+    padding: 5px 10px 0px 10px;
     border-radius: 7px 7px 0px 0px;
     border: solid;
     border-color: #4f8038;
@@ -116,4 +119,40 @@ h2
     background-color: #4f8038;
     color: #daedc2;
     
+}
+
+.cajaBotones
+{
+    padding-left: 20px;
+    list-style: none;
+}
+.botonSolo
+{
+    box-sizing: border-box;
+    text-align: -webkit-match-parent;
+    float: left;
+    pading-left: 5px;
+    margin: 5px 5px 5px 5px;
+    padding: 5px 5px 5px 5px;
+    border-radius: 7px 7px 7px 7px;
+    border: solid;
+    border-color: #4f8038;
+    background-color: #daedc2;
+    color : #4f8038;
+    
+}
+.botonSolo:hover{
+    border-color: #4f8038;
+    background-color: #4f8038;
+    color: #daedc2;
+}
+
+.botonSolo:active{
+    border-color: #daedc2;
+    background-color: #4f8038;
+    color: #daedc2;
+}
+
+.divFila{
+    display: table-row;
 }

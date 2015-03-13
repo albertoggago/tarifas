@@ -1,31 +1,55 @@
 <div class="caja" ng-controller="cajaDetalle">
-<button ng-click="setTab(1)">VOLVER</button>
-    <div><strong>Compañia: {{tarifaGuardada.compania}}</strong></div>
-    <div>Nombre de Producto: {{tarifaGuardada.nombre}}</div>
-    <br>
-    <div><strong>Datos Informativos de la tarifa</strong></div>
-    <div>Red Usada: {{tarifaGuardada.red}}</div>
-    <div>Permite 4G: {{tarifaGuardada.sn_4G}}</div>
-    <br>
-    <div><strong>Datos Economicos de la Tarifa (todos con Impuestos)</strong></div>
-    <div>Precio por minuto: {{tarifaGuardada.coste_minutos*datosSTD.IVA|number:2}} centimos</div>
-    <div>Establecimiento de llamada: {{tarifaGuardada.coste_llamadas*datosSTD.IVA|number:2}} centimos</div>
-    <div>Precio del SMS: {{tarifaGuardada.coste_sms*datosSTD.IVA|number:2}} centimos</div>
-    <div>Precio del MB Internet: {{tarifaGuardada.coste_internet*datosSTD.IVA|number:2}} centimos</div>
-    <div>Tarifa Estándar: {{tarifaGuardada.tarifa_std*datosSTD.IVA|number:2}} centimos</div>
-    <div>Tarifa Mínima: {{tarifaGuardada.tarifa_minima*datosSTD.IVA|number:2}} centimos que incluye:</div>
-    <div>x  Minutos: {{tarifaGuardada.incluidos_minutos|number:0}}</div>
-    <div>x  Internet: {{tarifaGuardada.incluidos_internet|number:0}} MB</div>
-    <div>x  SMS: {{tarifaGuardada.incluidos_sms|number:0}} </div>
-    <div>Los minutos incluidos, su establecimiento de llamada esta incluido: {{tarifaGuardada.sn_4G}}</div>
-    <br>
-    <div><strong>Calculos con {{datos.minutos|number:0}} minutos, {{datos.llamadas|number:0}} llamadas, {{datos.internet|number:0}}MB Internet y {{datos.sms|number:0}} SMS</strong></div>
-    <div>Minutos que realmente voy a pagar: {{tarifaGuardada.minutos_pagar|number:0}}</div>
-    <div>Llamadas que realmente voy a pagar (realizado por promedio): {{tarifaGuardada.llamadas_pagar|number:0}}</div>
-    <div>Sobrecoste Internet: {{tarifaGuardada.internet_pagar|number:0}}</div>
-    <div>SMS que voy a pagar: {{tarifaGuardada.sms_pagar|number:0}}</div>
-    <br>
-    <div>Precio de las LLamadas: {{tarifaGuardada.precio_llamadas*datosSTD.IVA|number:2}} euros</div>
-    <br>
-    <div>{{tarifaGuardada}}</div>
+    <div class="divFila"><button ng-click="setTab(1)" class="botonSolo">VOLVER</button></div>
+    <div style=" width: 100%;overflow: auto;">
+    <div class="caja" style="float:left;overflow: auto;min-width: 300px;max-width: 40%;">
+        <div><strong><em>Compañia:</em> {{tarifaGuardada.compania}}</strong></div>
+        <br>
+        <div><strong><em>Nombre de Producto:</em> {{tarifaGuardada.nombre}}</strong></div>
+        <br>
+        <div><em>Red Usada:</em> {{tarifaGuardada.red}}</div>
+        <div><em>Permite 4G:</em> {{tarifaGuardada.sn_4G}}</div>
+    </div>
+    <div class="caja" style="float:left;overflow: auto;min-width: 300px;max-width: 40%;">
+        <div><strong>Datos Economicos de la Tarifa (todos con Impuestos)</strong></div>
+        <div><em>Precio por minuto:</em> {{tarifaGuardada.coste_minutos*datosSTD.IVA|number:2}} centimos</div>
+        <div><em>Establecimiento de llamada:</em> {{tarifaGuardada.coste_llamadas*datosSTD.IVA|number:2}} centimos</div>
+        <div><em>Precio del SMS:</em> {{tarifaGuardada.coste_sms*datosSTD.IVA|number:2}} centimos</div>
+        <div><em>Precio del MB Internet:</em> {{tarifaGuardada.coste_internet*datosSTD.IVA|number:2}} centimos</div>
+        <div><em>Tarifa Mínima:</em> {{tarifaGuardada.tarifa_minima*datosSTD.IVA|number:2}} centimos </div>
+        <div><em>Tarifa Estándar:</em> {{tarifaGuardada.tarifa_std*datosSTD.IVA|number:2}} centimos que incluye:</div>
+        <div class="caja" style=" width: 90%;overflow: auto;">
+            <div><em>Minutos:</em> {{tarifaGuardada.incluidos_minutos|number:0}}</div>
+            <div><em>El establecimiento esta Incluido:</em> {{tarifaGuardada.sn_4G}}</div>
+            <div><em>Internet:</em> {{tarifaGuardada.incluidos_internet|number:0}} MB</div>
+            <div><em>SMS:</em> {{tarifaGuardada.incluidos_sms|number:0}} </div>
+        </div>
+        
+    </div>
+    <div class="caja" style="float:left;overflow: auto;min-width: 300px;max-width: 40%;">
+        <div><strong>Datos a cobrar</strong></div>
+        <div><em>Minutos que realmente voy a pagar:</em> {{tarifaGuardada.minutos_pagar|number:0}}</div>
+        <div><em>Llamadas que realmente voy a pagar (realizado por promedio):</em> {{tarifaGuardada.llamadas_pagar|number:0}}</div>
+        <div><em>Sobrecoste Internet:</em> {{tarifaGuardada.internet_pagar|number:0}} MB</div>
+        <div><em>SMS que voy a pagar:</em> {{tarifaGuardada.sms_pagar|number:0}}</div>
+        <div><em>Dias que la tarifa se reduce:</em> {{tarifaGuardada.dias_sin_internet|number:0}} {{reduccion()}}</div>
+    </div>
+    <div class="caja" style="float:left;overflow: auto;min-width: 300px;max-width: 40%;">
+        <div><em>Precio de las LLamadas:</em> {{tarifaGuardada.precio_llamadas*datosSTD.IVA|number:2}} euros</div>
+        <div><em>Sobrecoste de Internet:</em> {{tarifaGuardada.sobrecoste_internet*datosSTD.IVA|number:2}} euros</div>
+        <div><em>Precio de los SMS's:</em> {{tarifaGuardada.precio_sms*datosSTD.IVA|number:2}} euros</div>
+        <div><em>Total Gastos(sin tarifas minimas y estándar):</em> {{tarifaGuardada.total_base*datosSTD.IVA|number:2}} euros</div>
+        <div class="caja" style="width: auto;"><strong><em>Total a pagar:</em> {{tarifaGuardada.total_sin_IVA*datosSTD.IVA|number:2}} euros</strong></div>
+    </div>
+    <div class="caja" style="float:left;overflow: auto;min-width: 300px;max-width: 85%;">
+        <div><strong>DATOS EXTRA</strong></div>
+        <div><em>Observaciones texto Corto:</em></div>
+        <div> {{tarifaGuardada.observaciones}}</div>
+        <br>
+        <div><a href="{{tarifaGuardada.link}}" target="_blank"><em>Acceso a  la Tarifa en su pagina oficial:</em> {{tarifaGuardada.nombre}}; {{tarifaGuardada.link}} </a></div>
+        <br>
+        <div><em>Observaciones texto Largo: </em></div>
+        <div>{{tarifaGuardada.observacionesLargo}}</div>
+    </div>
+    </div>
+    <div class="divFila;"><button ng-click="setTab(1)" class="botonSolo">VOLVER</button></div>
 </div>

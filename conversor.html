@@ -17,21 +17,21 @@
         <h2>Datos de Entrada</h2>
         <caja-entrada-conversor></caja-entrada-conversor>
         <h2>Datos de Salida</h2>
-        <caja-entrada-avanzada></caja-entrada-avanzada>
+        <caja-entrada></caja-entrada>
         <br>
         <caja-impuestos></caja-impuestos>
         <br>
         <div>
-        <div><ul class="cajaBotones">
+        <div><ul class="cajaBotones" style="width: 100%;">
             <li ng-class="{active: isSet(1) }" ng-click="setTab(1)">Normal</li>
             <li ng-class="{active: isSet(2) }" ng-click="setTab(2)">Detalle</li>
             <li ng-class="{active: isSet(3) }" ng-click="setTab(3)">Extendida</li>
             <li ng-class="{active: isSet(4) }" ng-click="setTab(4)">Modificar</li>
         </ul></div>
-        <div ng-show="isSet(1)" class="animate-show"><caja-lista></caja-lista></div>
-        <div ng-show="isSet(2)" class="animate-show"><caja-detalle></caja-detalle></div>
-        <div ng-show="isSet(3)" class="animate-show"><caja-lista-extendida></caja-lista-extendida></div>
-        <div ng-show="isSet(4)" class="animate-show"><div class="caja">POR HACER EIRE NO TE VAYAS</div></div>
+        <div ng-show="isSet(1)" ><caja-lista></caja-lista></div>
+        <div ng-show="isSet(2)" ><caja-detalle></caja-detalle></div>
+        <div ng-show="isSet(3)" ><caja-lista-extendida></caja-lista-extendida></div>
+        <div ng-show="isSet(4)" ><div class="caja">POR HACER EIRE NO TE VAYAS</div></div>
         </div>
 
         </tr>
