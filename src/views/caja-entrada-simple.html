@@ -1,21 +1,43 @@
-        <table class="tabla">
-            <thead ><th colspan="3">DATOS Al MES</th></thead>
-            <tbody>
-            <tr>
-                <td>Minutos (al mes): </td>
-                <td><input type="text" name="input" ng-model="datos.minutos" min=0 valid-number ng-change="actualizarTarifas()" requierd></td>
-                <td>  Duracion media de las llamadas: {{datos.minutos / datos.llamadas | number }} minutos</td>
-            </tr><tr>
-                <td>Llamadas (al mes): </td>
-                <td><input type="text" name="input" ng-model="datos.llamadas" min=0 valid-number ng-change="actualizarTarifas()" requierd></td>
-                <td>{{mensaje}}</td>
-            </tr><tr>
-                <td>Internet (consumo al mes): </td>
-                <td><input type="text" name="input" ng-model="datos.internet" min=0 valid-number ng-change="actualizarTarifas()" requierd> </td>
-                <td>en MegaBytes, equivale a: {{datos.internet/1000 |number}} Gigabytes</td>
-                
-            </tr><tr>
-                <td>SMS (al mes): </td>
-                <td><input type="text" name="input" ng-model="datos.sms" min=0 valid-number ng-change="actualizarTarifas()" requierd></td><td>{{mensaje}}</td>
-                
-            </tr></tbody></table>
+<div class="caja" style="margin-top:-2px" ng-controller="cajaEntradaSimpleController as cajaESC">
+    <div class="cabecera" style="margin-bottom:15px"><strong>Selecciona los datos que mas se aproximen a tus gastos.</strong> <br> Si quieres ajustar el consumo puedes directamente acceder a la Opción Avanzada</div>
+    <div class="cajaSin">
+        <div class="cajaInterna">
+            <div style="margin-bottom:5px">¿Cuántas llamadas haces al día, no la duración?</div>
+            <select ng-model="cajaESC.llamadas" ng-change="cajaESC.calcular()" required>
+                <option value="0">Ninguna, no llamo nunca</option>
+                <option value="4">Muy Pocas, prácticamente una a la semana</option>
+                <option value="20" ng-selected="true">Algunas, una al día y algun día no llamo</option>
+                <option value="50">Algunas, una o dos al día</option>
+                <option value="150">Bastantes, unas 5 al día</option>
+                <option value="600">Muchas, estoy continuamente llamando</option>
+            </select>
+        </div>
+        <div class="cajaInterna">
+            <div style="margin-bottom:5px">¿Cuánto dura una llamada?</div>
+            <select ng-model="cajaESC.minutosMedia" ng-change="cajaESC.calcular()" required>
+                <option value="3">Son muy cortas, generalmente</option>
+                <option value="15" ng-selected="true">A veces cortas y a veces largas</option>
+                <option value="30">Suelen durar bastante</option>
+                <option value="45">Mis llamadas duran muuucho</option>
+            </select>
+        </div>
+        <div class="cajaInterna">
+            <div style="margin-bottom:5px">¿Cuál es tu uso de Internet?</div>
+            <select ng-model="datos.internet" ng-change="actualizarTarifas()" required>
+                <option value="300">Poco Interenet, Whatsapp</option>
+                <option value="1000" ng-selected="true">Uso Internet bastante</option>
+                <option value="2000">Descargo algun vídeo o podcast.</option>
+                <option value="10000">Descargo vídeos o podcast</option>
+            </select>
+        </div>
+        <div class="cajaInterna">
+            <div style="margin-bottom:5px">¿Mandas SMS?</div>
+            <select ng-model="datos.sms" ng-change="actualizarTarifas()" required>
+                <option value="0">¿qué es un SMS?</option>
+                <option value="5" ng-selected="true">Tengo algún amigo si Whatsapp</option>
+                <option value="30">Todavía uso el SMS de forma habitual</option>
+                <option value="175">Es mi forma de comunicación habitual</option>
+            </select>
+        </div>
+    </div>
+</div>

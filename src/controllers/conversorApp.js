@@ -179,11 +179,11 @@ conversorApp.controller('conversorController', function($scope, $http, $interval
     
 });
 
-conversorApp.directive("cajaListaExtendida",
+conversorApp.directive("datosListaExtendida",
                      function(){
     return{
         restrict:"E",
-        templateUrl: "src/views/caja-lista-extendida.html"
+        templateUrl: "src/views/datos-lista-extendida.html"
     };
 });
 

@@ -1,23 +1,19 @@
-<div class="caja" ng-controller="cajaDetalle">
-    <div class="divFila"><button ng-click="setTab(1)" class="botonSolo">VOLVER</button></div>
-    <div style=" width: 100%;overflow: auto;">
-    <div class="caja" style="float:left;overflow: auto;min-width: 300px;max-width: 40%;">
-        <div><strong><em>Compañia:</em> {{tarifaGuardada.compania}}</strong></div>
-        <br>
+<div class="caja"  ng-controller="datosDetalleController">
+    <div class="cabecera" style="margin-bottom:10px">
+         <div style="margin-bottom:15px"><strong><em>Compañia:</em> {{tarifaGuardada.compania}}</strong></div>
         <div><strong><em>Nombre de Producto:</em> {{tarifaGuardada.nombre}}</strong></div>
-        <br>
-        <div><em>Red Usada:</em> {{tarifaGuardada.red}}</div>
-        <div><em>Permite 4G:</em> {{tarifaGuardada.sn_4G}}</div>
     </div>
-    <div class="caja" style="float:left;overflow: auto;min-width: 300px;max-width: 40%;">
-        <div><strong>Datos Economicos de la Tarifa (todos con Impuestos)</strong></div>
+<div class="cajaSin"><button ng-click="setTab(1)" class="botonSolo">VOLVER</button></div>
+<div class="cajaSin">
+    <div class="cajaInterna">
+        <div style="margin-bottom:10px"><strong>Datos Economicos de la Tarifa (todos con Impuestos)</strong></div>
         <div><em>Precio por minuto:</em> {{tarifaGuardada.coste_minutos*datosSTD.IVA|number:2}} centimos</div>
         <div><em>Establecimiento de llamada:</em> {{tarifaGuardada.coste_llamadas*datosSTD.IVA|number:2}} centimos</div>
         <div><em>Precio del SMS:</em> {{tarifaGuardada.coste_sms*datosSTD.IVA|number:2}} centimos</div>
         <div><em>Precio del MB Internet:</em> {{tarifaGuardada.coste_internet*datosSTD.IVA|number:2}} centimos</div>
         <div><em>Tarifa Mínima:</em> {{tarifaGuardada.tarifa_minima*datosSTD.IVA|number:2}} centimos </div>
         <div><em>Tarifa Estándar:</em> {{tarifaGuardada.tarifa_std*datosSTD.IVA|number:2}} centimos que incluye:</div>
-        <div class="caja" style=" width: 90%;overflow: auto;">
+        <div class="caja" >
             <div><em>Minutos:</em> {{tarifaGuardada.incluidos_minutos|number:0}}</div>
             <div><em>El establecimiento esta Incluido:</em> {{tarifaGuardada.sn_4G}}</div>
             <div><em>Internet:</em> {{tarifaGuardada.incluidos_internet|number:0}} MB</div>
@@ -25,31 +21,32 @@
         </div>
         
     </div>
-    <div class="caja" style="float:left;overflow: auto;min-width: 300px;max-width: 40%;">
-        <div><strong>Datos a cobrar</strong></div>
-        <div><em>Minutos que realmente voy a pagar:</em> {{tarifaGuardada.minutos_pagar|number:0}}</div>
+    <div class="cajaInterna">
+        <div style="margin-bottom:10px"><strong>Datos a cobrar</strong></div>
+        <div ><em>Minutos que realmente voy a pagar:</em> {{tarifaGuardada.minutos_pagar|number:0}}</div>
         <div><em>Llamadas que realmente voy a pagar (realizado por promedio):</em> {{tarifaGuardada.llamadas_pagar|number:0}}</div>
         <div><em>Sobrecoste Internet:</em> {{tarifaGuardada.internet_pagar|number:0}} MB</div>
         <div><em>SMS que voy a pagar:</em> {{tarifaGuardada.sms_pagar|number:0}}</div>
-        <div><em>Dias que la tarifa se reduce:</em> {{tarifaGuardada.dias_sin_internet|number:0}} {{reduccion()}}</div>
+        <div><strong><em>Dias que la tarifa se reduce:</em> {{tarifaGuardada.dias_sin_internet|number:0}} {{reduccion()}}</strong></div>
     </div>
-    <div class="caja" style="float:left;overflow: auto;min-width: 300px;max-width: 40%;">
+    <div class="cajaInterna">
         <div><em>Precio de las LLamadas:</em> {{tarifaGuardada.precio_llamadas*datosSTD.IVA|number:2}} euros</div>
         <div><em>Sobrecoste de Internet:</em> {{tarifaGuardada.sobrecoste_internet*datosSTD.IVA|number:2}} euros</div>
         <div><em>Precio de los SMS's:</em> {{tarifaGuardada.precio_sms*datosSTD.IVA|number:2}} euros</div>
         <div><em>Total Gastos(sin tarifas minimas y estándar):</em> {{tarifaGuardada.total_base*datosSTD.IVA|number:2}} euros</div>
-        <div class="caja" style="width: auto;"><strong><em>Total a pagar:</em> {{tarifaGuardada.total_sin_IVA*datosSTD.IVA|number:2}} euros</strong></div>
+        <div class="caja"><strong><em>Total a pagar:</em> {{tarifaGuardada.total_sin_IVA*datosSTD.IVA|number:2}} euros</strong></div>
     </div>
-    <div class="caja" style="float:left;overflow: auto;min-width: 300px;max-width: 85%;">
-        <div><strong>DATOS EXTRA</strong></div>
+    <div class="cajaInterna" style="min-width: 300px;max-width: 92%;">
+        <div style="margin-bottom:10px"><strong>DATOS EXTRA</strong></div>
+        <div><em>Red Usada:</em> {{tarifaGuardada.red}}</div>
+        <div><em>Informacion sobre Internet: </em> {{textoReduccion()}}</div>
+        <div style="margin-bottom:15px"><em>Permite 4G:</em> {{tarifaGuardada.sn_4G}}</div>
         <div><em>Observaciones texto Corto:</em></div>
-        <div> {{tarifaGuardada.observaciones}}</div>
-        <br>
-        <div><a href="{{tarifaGuardada.link}}" target="_blank"><em>Acceso a  la Tarifa en su pagina oficial:</em> {{tarifaGuardada.nombre}}; {{tarifaGuardada.link}} </a></div>
-        <br>
+        <div style="margin-bottom:15px"> {{tarifaGuardada.observaciones}}</div>
+      <!--  <div style="margin-bottom:15px"><a href="{{tarifaGuardada.link}}" target="_blank"><em>Acceso a  la Tarifa en su pagina oficial:</em> {{tarifaGuardada.nombre}}; {{tarifaGuardada.link}} </a></div>
         <div><em>Observaciones texto Largo: </em></div>
-        <div>{{tarifaGuardada.observacionesLargo}}</div>
+        <div>{{tarifaGuardada.observacionesLargo}}</div> -->
     </div>
     </div>
-    <div class="divFila;"><button ng-click="setTab(1)" class="botonSolo">VOLVER</button></div>
+    <div class="cajaSin"><button ng-click="setTab(1)" class="botonSolo">VOLVER</button></div>
 </div>

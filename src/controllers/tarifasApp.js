@@ -8,8 +8,8 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
         "NUMERODECIMALES" : 2,
         "VERSION" : "v00.06",
         "FICHERO" : "precios.json",
-        "minutosSTD": 200,
-        "llamadasSTD": 50,
+        "minutosSTD": 300,
+        "llamadasSTD": 20,
         "SMSSTD": 5,
         "internetSTD": 1000
         };
@@ -28,6 +28,9 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
     $scope.datos.fecha.month = 0;
     $scope.datos.fecha.year = 0;
     $scope.datos.version = 0;
+    $scope.tarifaGuardada = {};
+    $scope.tarifaGuardada.reduccion = 0;
+    $scope.tarifaGuardada.coste_internet = 0;
     
     $scope.ordenar="dias_sin_internet*5+total_con_IVA";
     
@@ -191,7 +194,9 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 		    	 internet_pagar = gasto_internet-incluidos_internet;
 		     };
              var sobrecoste_internet = internet_pagar*coste_internet/100.0;
-		     tarifa += sobrecoste_internet;		                          
+		     tarifa += sobrecoste_internet;
+             if (sobrecoste_internet == 0)
+                {internet_pagar = 0};
              
 		     
 		     //
@@ -218,7 +223,7 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 		     var total_con_IVA  = Math.round(total_sin_IVA*$scope.datosSTD.IVA*100.0)/100.0;
 
 		     var dias_sin_internet =  0;
-             if (gasto_internet > incluidos_internet && incluidos_internet != 0)
+             if (gasto_internet > incluidos_internet && sobrecoste_internet == 0 )
                 {dias_sin_internet=(gasto_internet-incluidos_internet)/gasto_internet*30};
 		     //textos especiales
 		     textos_especiales = "";
@@ -358,11 +363,34 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
         };
     
     $scope.reduccion = function() {
-        if (isNaN($scope.tarifaGuardada.reduccion)||$scope.tarifaGuardada.reduccion == 0||$scope.tarifaGuardada.dias_sin_internet == 0)
-        {return ""}
-        else
-        {return ("a "+$scope.tarifaGuardada.reduccion+" Kb/s")};
+        if ($scope.tarifaGuardada.reduccion == 0||$scope.tarifaGuardada.dias_sin_internet == 0)
+        {
+            return "";
+        } else
+        {
+            return ("a "+$scope.tarifaGuardada.reduccion+" Kb/s")
+        };
     };
+    
+    $scope.textoReduccion = function() {
+        var redd = $scope.tarifaGuardada.reduccion;
+        var coste = $scope.tarifaGuardada.coste_internet;
+        if (coste == 0 ) 
+        { 
+            if (isNaN(redd) ||redd == 0) 
+            {
+                return ("Tiene reduccion de Internet");
+            } else 
+            {
+                return ("Tiene reduccion de Internet a "+redd+" Kb/s");
+            };
+        } else
+        {
+            return ("Tiene coste al superar los MB Incluidos");
+        };
+                 
+    };
+    
     
     
 
@@ -372,9 +400,21 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
   //$scope.datos = precios;
 });
 
-tarifasApp.controller('cajaDetalle',function($scope){
+
+
+tarifasApp.controller('cajaEntradaController',function(){
+    this.tabX = 1;
+    this.isSetX = function(checkTab) {
+          return this.tabX === checkTab;
+        };
+
+    this.setTabX = function(activeTab) {
+          this.tabX = activeTab;
+        };
+
     
 });
+
 
 tarifasApp.directive("cajaEntrada",
                      function(){
@@ -391,6 +431,20 @@ tarifasApp.directive("cajaEntradaAvanzada",
         templateUrl: "src/views/caja-entrada-avanzada.html"
     };
 });
+
+tarifasApp.controller('cajaEntradaSimpleController',function($scope){
+    this.llamadas = 50;
+    this.minutosMedia = 15;
+    this.calcular = function() {
+        $scope.datos.llamadas = this.llamadas;
+        $scope.datos.minutos = this.llamadas * this.minutosMedia;
+        $scope.actualizarTarifas();
+        
+        };
+
+    
+});
+
 
 
 tarifasApp.directive("cajaEntradaSimple",
@@ -409,21 +463,28 @@ tarifasApp.directive("cajaImpuestos",
     };
 });
 
-tarifasApp.directive("cajaLista",
+tarifasApp.directive("datosLista",
                      function(){
     return{
         restrict:"E",
-        templateUrl: "src/views/caja-lista.html"
+        templateUrl: "src/views/datos-lista.html"
     };
 });
 
-tarifasApp.directive("cajaDetalle",
+
+tarifasApp.controller('datosDetalleController',function($scope){
+    
+});
+
+
+tarifasApp.directive("datosDetalle",
                      function(){
     return{
         restrict:"E",
-        templateUrl: "src/views/caja-detalle.html"
+        templateUrl: "src/views/datos-detalle.html"
     };
 });
+
 
 tarifasApp.directive('validNumber', function() {
   return {

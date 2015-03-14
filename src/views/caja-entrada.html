@@ -1,11 +1,13 @@
-<div style="width: 100%;">
-    <ul class="cajaBotones" ng-controller="cajaEntrada" >
-            <li ng-class="{active: cajaEntrada.isSet(1) }" ng-click="setTab(1)">Sencilla</li>
-            <li ng-class="{active: cajaEntrada.isSet(2) }" ng-click="setTab(2)">Avanzada</li>
-        </ul></div>
-        <div ng-show="cajaEntrada.isSet(1)" class="animate-show"><caja-entrada-simple></caja-entrada-simple></div>
-        <div ng-show="cajaEntrada.iisSet(2)" class="animate-show"><caja-entrada-avanzada></caja-entrada-avanzada></div>
-        </div>
+<div ng-controller="cajaEntradaController as cajaEC">
+    <div class="cajaSin">
+        <ul class="cajaBotones"  >
+            <li ng-class="{active: cajaEC.isSetX(1) }" ng-click="cajaEC.setTabX(1)">Opción Sencilla</li>
+            <li ng-class="{active: cajaEC.isSetX(2) }" ng-click="cajaEC.setTabX(2)">Opción Avanzada</li>
+        </ul>
+    </div>
+    <div ng-show="cajaEC.isSetX(1)" ><caja-entrada-simple></caja-entrada-simple></div>
+    <div ng-show="cajaEC.isSetX(2)" ><caja-entrada-avanzada></caja-entrada-avanzada></div>
+</div>
 
 
 
