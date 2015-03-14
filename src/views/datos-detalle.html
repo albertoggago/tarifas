@@ -11,9 +11,9 @@
         <div><em>Establecimiento de llamada:</em> {{tarifaGuardada.coste_llamadas*datosSTD.IVA|number:2}} centimos</div>
         <div><em>Precio del SMS:</em> {{tarifaGuardada.coste_sms*datosSTD.IVA|number:2}} centimos</div>
         <div><em>Precio del MB Internet:</em> {{tarifaGuardada.coste_internet*datosSTD.IVA|number:2}} centimos</div>
-        <div><em>Tarifa Mínima:</em> {{tarifaGuardada.tarifa_minima*datosSTD.IVA|number:2}} centimos </div>
-        <div><em>Tarifa Estándar:</em> {{tarifaGuardada.tarifa_std*datosSTD.IVA|number:2}} centimos que incluye:</div>
-        <div class="caja" >
+        <div><em>Tarifa Mínima:</em> {{tarifaGuardada.tarifa_minima*datosSTD.IVA|number:2}} euros </div>
+        <div><em>Tarifa Estándar:</em> {{tarifaGuardada.tarifa_std*datosSTD.IVA|number:2}} euros que incluye:</div>
+        <div class="cajaInterna" style="max-width:95%" >
             <div><em>Minutos:</em> {{tarifaGuardada.incluidos_minutos|number:0}}</div>
             <div><em>El establecimiento esta Incluido:</em> {{tarifaGuardada.sn_4G}}</div>
             <div><em>Internet:</em> {{tarifaGuardada.incluidos_internet|number:0}} MB</div>
@@ -34,9 +34,10 @@
         <div><em>Sobrecoste de Internet:</em> {{tarifaGuardada.sobrecoste_internet*datosSTD.IVA|number:2}} euros</div>
         <div><em>Precio de los SMS's:</em> {{tarifaGuardada.precio_sms*datosSTD.IVA|number:2}} euros</div>
         <div><em>Total Gastos(sin tarifas minimas y estándar):</em> {{tarifaGuardada.total_base*datosSTD.IVA|number:2}} euros</div>
-        <div class="caja"><strong><em>Total a pagar:</em> {{tarifaGuardada.total_sin_IVA*datosSTD.IVA|number:2}} euros</strong></div>
+         <div class="cajaInterna" style="max-width:95%" >
+             <strong><em>Total a pagar:</em> {{tarifaGuardada.total_sin_IVA*datosSTD.IVA|number:2}} euros</strong></div>
     </div>
-    <div class="cajaInterna" style="min-width: 300px;max-width: 92%;">
+    <div class="cajaInterna" style="max-width: 96%;">
         <div style="margin-bottom:10px"><strong>DATOS EXTRA</strong></div>
         <div><em>Red Usada:</em> {{tarifaGuardada.red}}</div>
         <div><em>Informacion sobre Internet: </em> {{textoReduccion()}}</div>

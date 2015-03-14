@@ -5,13 +5,13 @@
 .caja
 {
     background-color: #daedc2;
-    margin: 10px 0px 10px 0px;
-    padding: 10px 0px 10px 0px;
+    margin: 0px 0px 10px 0px;
+    padding: 5px 5px 5px 5px;
     border-radius: 7px 7px 7px 7px;
     border-width: 10px;
     border: solid;
     border-color: #4f8038;
-    width: 97%;
+    width: 98%;
     overflow: auto;
 }
 
@@ -19,7 +19,7 @@
 .tabla
 {
     background-color: #daedc2;
-    margin: 10px 0px 10px 0px;
+    margin: 0px 0px 10px 0px;
     border-radius: 7px 7px 7px 7px;
     border-width: 10px;
     border: solid;
@@ -37,12 +37,12 @@
 .tabla1
 {
     background-color: #daedc2;
-    margin: 10px 0px 10px 0px;
+    margin: 0px 0px 10px 0px;
     border-radius: 7px 7px 7px 7px;
     border-width: 10px;
     border: solid;
     border-color: #4f8038;
-    width: 95%;
+    width: 100%;
 }
 .tabla1 thead 
 {
@@ -173,8 +173,8 @@ h2
 
 .cajaInterna{
     background-color: #daedc2;
-    margin: 10px 10px 10px 10px;
-    padding: 10px 10px 10px 10px;
+    margin: 5px 5px 5px 5px;
+    padding: 5px 5px 5px 5px;
     border-radius: 7px 7px 7px 7px;
     border-width: 10px;
     border: solid;
@@ -182,6 +182,6 @@ h2
     float:left;
     overflow: auto;
     width:inherit;
-    min-width: 225px;
-    max-width: 43%;
+    min-width: 200px;
+    max-width: 45%;
 }
