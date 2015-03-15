@@ -5,11 +5,11 @@
             <div style="margin-bottom:5px">¿Cuántas llamadas haces al día?</div>
             <select ng-model="cajaESC.llamadas" ng-change="cajaESC.calcular()" required>
                 <option value="0">Ninguna, no llamo nunca</option>
-                <option value="4">Muy Pocas, prácticamente una a la semana</option>
-                <option value="20" ng-selected="true">Algunas, una al día y algun día no llamo</option>
+                <option value="4">Muy Pocas, una a la semana</option>
+                <option value="20" ng-selected="true">Algunas, una al día y o menos</option>
                 <option value="50">Algunas, una o dos al día</option>
                 <option value="150">Bastantes, unas 5 al día</option>
-                <option value="600">Muchas, estoy continuamente llamando</option>
+                <option value="600">Muchas, estoy siempre llamando</option>
             </select>
         </div>
         <div class="cajaInterna">
@@ -35,8 +35,8 @@
             <select ng-model="datos.sms" ng-change="actualizarTarifas()" required>
                 <option value="0">¿qué es un SMS?</option>
                 <option value="5" ng-selected="true">Tengo algún amigo si Whatsapp</option>
-                <option value="30">Todavía uso el SMS de forma habitual</option>
-                <option value="175">Es mi forma de comunicación habitual</option>
+                <option value="30">Uso el SMS habitualmente</option>
+                <option value="175">Mando muchos SMS</option>
             </select>
         </div>
     </div>

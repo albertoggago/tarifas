@@ -20,6 +20,7 @@
 {
     background-color: #daedc2;
     margin: 0px 0px 10px 0px;
+    
     border-radius: 7px 7px 7px 7px;
     border-width: 10px;
     border: solid;
@@ -31,6 +32,19 @@
 {
     background-color: #4f8038;
     color: #daedc2;
+    font-size: large;
+}
+
+.tabla th
+{
+    height: 0px;
+}
+
+.tabla td
+{
+    height: 40px;
+    
+
 }
 
 /*tabla con scroll interno usa dos tablas*/
@@ -43,6 +57,7 @@
     border: solid;
     border-color: #4f8038;
     width: 100%;
+    table-layout: fixed
 }
 .tabla1 thead 
 {
@@ -54,6 +69,7 @@
     width:100%;
     height: 350px;
     overflow: auto;
+    table-layout: fixed
 }
 .tabla2 td
 {
@@ -106,12 +122,11 @@ h2
     list-style: none;
     
 }
-.cajaBotones > li
+.cajaBotones > li.pegado
 {
     box-sizing: border-box;
     text-align: -webkit-match-parent;
     float: left;
-    
     margin: 0px 10px 0px 0px;
     padding: 5px;
     border-radius: 7px 7px 0px 0px;
@@ -119,14 +134,6 @@ h2
     border-color: #4f8038;
     background-color: #daedc2;
     color : #4f8038;
-    
-}
-
-.cajaBotones > li.active
-{
-    border-color: #4f8038;
-    background-color: #4f8038;
-    color: #daedc2;
     
 }
 
@@ -143,15 +150,37 @@ h2
     border-color: #4f8038;
     background-color: #daedc2;
     color : #4f8038;
-    
 }
-.botonSolo:hover{
+
+.detalle
+{
+    box-sizing: border-box;
+    text-align: -webkit-match-parent;
+    float: left;
+    pading-left: 5px;
+    margin: 5px 5px 5px 35px;
+    padding: 5px 25px 5px 25px;
+    /*border-radius: 7px 7px 7px 7px;*/
+    /*border: solid;*/
+    /*border-color: #4f8038;*/
+    background-color: #daedc2;
+    color : #4f8038;
+}
+
+
+
+.botonSolo:hover,
+.cajaBotones > li.pegado.active,
+.cajaBotones > li.pegado:hover
+{
     border-color: #4f8038;
     background-color: #4f8038;
     color: #daedc2;
 }
 
-.botonSolo:active{
+.botonSolo:active,
+.cajaBotones > li.pegado:active
+{
     border-color: #daedc2;
     background-color: #4f8038;
     color: #daedc2;
@@ -184,4 +213,145 @@ h2
     width:inherit;
     min-width: 200px;
     max-width: 45%;
+}
+
+
+
+.sample-show-hide.ng-hide {
+  opacity:0;
+}
+
+
+
+.sample-show-hide.ng-hide-add {
+    -webkit-transition-property: opacity;
+    -moz-transition-property: opacity;
+    -o-transition-property: opacity;
+    transition-property: opacity;
+    -webkit-transition-duration: 1s;
+    -moz-transition-duration: 1s;
+    -o-transition-duration: 1s;
+    transition-duration: 1s;
+    top: 0px;
+    left: 0px;
+    opacity: 1;
+}
+
+.sample-show-hide.ng-hide-add.ng-hide-add-active {
+    opacity: 0;
+    height: 0;
+}
+
+.sample-show-hide.ng-hide-remove {
+    -webkit-transition-property: opacity, -webkit-transform;
+    -moz-transition-property: opacity, -moz-transform;
+    -o-transition-property: opacity, -o-transform;
+    transition-property: opacity, transform;
+    -webkit-transition-duration: 1s;
+    -moz-transition-duration: 1s;
+    -o-transition-duration: 1s;
+    transition-duration: 1s;
+    -webkit-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(0, 0);
+    -moz-transform: scale(0, 0);
+    -ms-transform: scale(0, 0);
+    -o-transform: scale(0, 0);
+    transform: scale(0, 0);
+    opacity: 0;
+}
+
+.sample-show-hide.ng-hide-remove.ng-hide-remove-active {
+    -webkit-transform: scale(1, 1);
+    -moz-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 1;
+}
+
+/*deslizarLado*/
+
+
+.deslizarLado.ng-hide {
+  opacity:0;
+}
+
+
+
+.deslizarLado.ng-hide-add {
+    -webkit-transition-property: opacity;
+    -moz-transition-property: opacity;
+    -o-transition-property: opacity;
+    transition-property: opacity;
+    -webkit-transition-duration: 1s;
+    -moz-transition-duration: 1s;
+    -o-transition-duration: 1s;
+    transition-duration: 1s;
+    top: 0px;
+    left: 0px;
+    opacity: 1;
+}
+
+
+
+
+
+
+.deslizarLado.ng-hide-add {
+    -webkit-transition-property: -webkit-transform, opacity;
+    -moz-transition-property: -moz-transform, opacity;
+    -o-transition-property: -o-transform, opacity;
+    transition-property: transform, opacity;
+    -webkit-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+    -webkit-transform: translate(0px, 0px);
+    -moz-transform: translate(0px, 0px);
+    -ms-transform: translate(0px, 0px);
+    -o-transform: translate(0px, 0px);
+    transform: translate(0px, 0px);
+    opacity: 0;
+    z-index: 1;
+
+}
+
+.deslizarLado.ng-hide-add.ng-hide-add-active {
+    -webkit-transform: translate(0px, 100%);
+    -moz-transform: translate(0px, 100%);
+    -ms-transform: translate(0px, 100%);
+    -o-transform: translate(0px, 100%);
+    transform: translate(0px, 100%);
+    opacity: 1;
+}
+
+.deslizarLado.ng-hide-remove {
+    -webkit-transition-property: -webkit-transform, opacity;
+    -moz-transition-property: -moz-transform, opacity;
+    -o-transition-property: -o-transform, opacity;
+    transition-property: transform, opacity;
+    -webkit-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+    -webkit-transform: translate(0px, 0px);
+    -moz-transform: translate(0px, 0px);
+    -ms-transform: translate(0px, 0px);
+    -o-transform: translate(0px, 0px);
+    transform: translate(0px,0px);
+    opacity: 1;
+    z-index: 3;
+}
+
+.deslizarLado.ng-hide-remove.ng-hide-remove-active {
+    -webkit-transform: translate(0px, 100%);
+    -moz-transform: translate(0px, 100%);
+    -ms-transform: translate(0px, 100%);
+    -o-transform: translate(0px, 100%);
+    transform: translate(0px, 100%);
+    opacity: 1;
 }

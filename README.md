@@ -28,25 +28,30 @@ npm update --save
 
 ## Versions
 
-### 0.6.0
+
+### 0.7.0
 
 Changes:
 
-1. New module Details. In process
+1. Include module New/Delete/Modification, observacionesLargo, Link, reduccion. In process
 
 Pending:
 
 1. TDD e2e
 
-3. Include module New/Delete/Modification, observacionesLargo, Link, reduccion, 
+2. Include Calls VoIP, like Skipe, and it compute somehow. 
 
-4. Include Calls VoIP, like Skipe, and it compute somehow. 
+3. Include Filters decimal point is comma
 
-5. Include Menu Easy
+4. Date of actualitation
 
-6. Include Filters decimal point is comma
+### 0.6.0
 
-7. Date of actualitation
+Changes:
+
+1. New module Details.
+
+2. Include Menu Easy
 
 
 ### 0.5.0
@@ -58,9 +63,6 @@ Changes:
 2.  Refatoring modules with Directives
 
 3.  Refactoring module conversor... previous to administrator.
-
-
-
 
 
 ### 0.4.0 
@@ -76,7 +78,6 @@ Changes:
 Bugs:
 
 * 0.4.0.1 - bug data input to NaN solve.
-
 
 
 ### 0.3.0

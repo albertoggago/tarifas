@@ -1,4 +1,4 @@
-var tarifasApp = angular.module('tarifasApp', [])
+var tarifasApp = angular.module('tarifasApp', ['ngAnimate']);
 
 tarifasApp.controller('tarifasListaController', function($scope, $http, $interval) {
     $scope.datosSTD = {
@@ -31,6 +31,7 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
     $scope.tarifaGuardada = {};
     $scope.tarifaGuardada.reduccion = 0;
     $scope.tarifaGuardada.coste_internet = 0;
+    $scope.tarifaGuardada.pagina = 1;
     
     $scope.ordenar="dias_sin_internet*5+total_con_IVA";
     
@@ -295,7 +296,7 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 		this.setLlamadas($scope.datosSTD.llamadasSTD);
 		this.setSMS($scope.datosSTD.SMSSTD);
 		this.setInternet($scope.datosSTD.internetSTD);
-        $scope.datos.fechaACT = new Date();
+        $scope.datos.fechaAct = new Date();
 		$scope.datos.tabla = tab;
 		//recalculamos siempre que se realiza una carga para ajustarlo todo
 		$scope.actualizarTarifas();
@@ -351,6 +352,7 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
     
     $scope.guardarTarifa = function (tarifa) {
         $scope.tarifaGuardada = tarifa;
+        $scope.tarifaGuardada.pagina = 1;
         $scope.tab = 2;
     };
     
@@ -473,6 +475,16 @@ tarifasApp.directive("datosLista",
 
 
 tarifasApp.controller('datosDetalleController',function($scope){
+    this.isSetP = function(checkTab) {
+          return $scope.tarifaGuardada.pagina === checkTab;
+        };
+
+    this.avanzarPagina = function() {
+         $scope.tarifaGuardada.pagina += 1;
+            if ($scope.tarifaGuardada.pagina >3) 
+            {$scope.tarifaGuardada.pagina = 1;};
+    };
+
     
 });
 

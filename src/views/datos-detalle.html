@@ -1,18 +1,43 @@
-<div class="caja"  ng-controller="datosDetalleController">
+<div class="caja"  ng-controller="datosDetalleController as datosDC">
     <div class="cabecera" style="margin-bottom:10px">
          <div style="margin-bottom:15px"><strong><em>Compañia:</em> {{tarifaGuardada.compania}}</strong></div>
         <div><strong><em>Nombre de Producto:</em> {{tarifaGuardada.nombre}}</strong></div>
     </div>
-<div class="cajaSin"><button ng-click="setTab(1)" class="botonSolo">VOLVER</button></div>
-<div class="cajaSin">
-    <div class="cajaInterna">
+    <div class="cajaSin">
+        <ul class="cajaBotones"  >
+            <li class="botonSolo" ng-click="setTab(1)">VOLVER</li>
+            <li class="detalle" >PAGINA {{tarifaGuardada.pagina}} de 3</li>
+            <li class="botonSolo" ng-click="datosDC.avanzarPagina()" style="float:right">MÁS...</li>
+        </ul>
+
+    </div>
+<div class="cajaSin deslizarLado" ng-show="datosDC.isSetP(1)">
+       <div class="cajaInterna" style="max-width: 96%;">
+        <div style="margin-bottom:10px"><strong>Datos a cobrar</strong></div>
+        <div ><em>Minutos que realmente voy a pagar:</em> {{tarifaGuardada.minutos_pagar|number:0}}</div>
+        <div><em>Llamadas que realmente voy a pagar (realizado por promedio):</em> {{tarifaGuardada.llamadas_pagar|number:0}}</div>
+        <div><em>Sobrecoste Internet:</em> {{tarifaGuardada.internet_pagar|number:0}} MB</div>
+        <div style="margin-bottom:10px"><em>SMS que voy a pagar:</em> {{tarifaGuardada.sms_pagar|number:0}}</div>
+        <div style="margin-bottom:10px"><strong><em>Dias que la tarifa se reduce:</em> {{tarifaGuardada.dias_sin_internet|number:0}} {{reduccion()}}</strong></div>
+    </div>
+    <div class="cajaInterna" style="max-width: 96%;">
+        <div><em>Precio de las LLamadas:</em> {{tarifaGuardada.precio_llamadas*datosSTD.IVA|number:2}} euros</div>
+        <div><em>Sobrecoste de Internet:</em> {{tarifaGuardada.sobrecoste_internet*datosSTD.IVA|number:2}} euros</div>
+        <div><em>Precio de los SMS's:</em> {{tarifaGuardada.precio_sms*datosSTD.IVA|number:2}} euros</div>
+        <div style="margin-bottom:10px"><em>Total Gastos(sin tarifas minimas y estándar):</em> {{tarifaGuardada.total_base*datosSTD.IVA|number:2}} euros</div>
+         <div class="cajaInterna" style="max-width:95%;margin-bottom:10px" >
+             <strong><em>Total a pagar:</em> {{tarifaGuardada.total_sin_IVA*datosSTD.IVA|number:2}} euros</strong></div>
+    </div>
+</div>
+<div class="cajaSin deslizarLado" ng-show="datosDC.isSetP(2)">
+    <div class="cajaInterna" style="max-width: 96%;">
         <div style="margin-bottom:10px"><strong>Datos Economicos de la Tarifa (todos con Impuestos)</strong></div>
         <div><em>Precio por minuto:</em> {{tarifaGuardada.coste_minutos*datosSTD.IVA|number:2}} centimos</div>
         <div><em>Establecimiento de llamada:</em> {{tarifaGuardada.coste_llamadas*datosSTD.IVA|number:2}} centimos</div>
         <div><em>Precio del SMS:</em> {{tarifaGuardada.coste_sms*datosSTD.IVA|number:2}} centimos</div>
         <div><em>Precio del MB Internet:</em> {{tarifaGuardada.coste_internet*datosSTD.IVA|number:2}} centimos</div>
         <div><em>Tarifa Mínima:</em> {{tarifaGuardada.tarifa_minima*datosSTD.IVA|number:2}} euros </div>
-        <div><em>Tarifa Estándar:</em> {{tarifaGuardada.tarifa_std*datosSTD.IVA|number:2}} euros que incluye:</div>
+        <div style="margin-bottom:10px"><em>Tarifa Estándar:</em> {{tarifaGuardada.tarifa_std*datosSTD.IVA|number:2}} euros que incluye:</div>
         <div class="cajaInterna" style="max-width:95%" >
             <div><em>Minutos:</em> {{tarifaGuardada.incluidos_minutos|number:0}}</div>
             <div><em>El establecimiento esta Incluido:</em> {{tarifaGuardada.sn_4G}}</div>
@@ -21,33 +46,29 @@
         </div>
         
     </div>
-    <div class="cajaInterna">
-        <div style="margin-bottom:10px"><strong>Datos a cobrar</strong></div>
-        <div ><em>Minutos que realmente voy a pagar:</em> {{tarifaGuardada.minutos_pagar|number:0}}</div>
-        <div><em>Llamadas que realmente voy a pagar (realizado por promedio):</em> {{tarifaGuardada.llamadas_pagar|number:0}}</div>
-        <div><em>Sobrecoste Internet:</em> {{tarifaGuardada.internet_pagar|number:0}} MB</div>
-        <div><em>SMS que voy a pagar:</em> {{tarifaGuardada.sms_pagar|number:0}}</div>
-        <div><strong><em>Dias que la tarifa se reduce:</em> {{tarifaGuardada.dias_sin_internet|number:0}} {{reduccion()}}</strong></div>
-    </div>
-    <div class="cajaInterna">
-        <div><em>Precio de las LLamadas:</em> {{tarifaGuardada.precio_llamadas*datosSTD.IVA|number:2}} euros</div>
-        <div><em>Sobrecoste de Internet:</em> {{tarifaGuardada.sobrecoste_internet*datosSTD.IVA|number:2}} euros</div>
-        <div><em>Precio de los SMS's:</em> {{tarifaGuardada.precio_sms*datosSTD.IVA|number:2}} euros</div>
-        <div><em>Total Gastos(sin tarifas minimas y estándar):</em> {{tarifaGuardada.total_base*datosSTD.IVA|number:2}} euros</div>
-         <div class="cajaInterna" style="max-width:95%" >
-             <strong><em>Total a pagar:</em> {{tarifaGuardada.total_sin_IVA*datosSTD.IVA|number:2}} euros</strong></div>
-    </div>
+</div>
+<div class="cajaSin deslizarLado" ng-show="datosDC.isSetP(3)">
     <div class="cajaInterna" style="max-width: 96%;">
         <div style="margin-bottom:10px"><strong>DATOS EXTRA</strong></div>
         <div><em>Red Usada:</em> {{tarifaGuardada.red}}</div>
         <div><em>Informacion sobre Internet: </em> {{textoReduccion()}}</div>
         <div style="margin-bottom:15px"><em>Permite 4G:</em> {{tarifaGuardada.sn_4G}}</div>
+        
         <div><em>Observaciones texto Corto:</em></div>
         <div style="margin-bottom:15px"> {{tarifaGuardada.observaciones}}</div>
-      <!--  <div style="margin-bottom:15px"><a href="{{tarifaGuardada.link}}" target="_blank"><em>Acceso a  la Tarifa en su pagina oficial:</em> {{tarifaGuardada.nombre}}; {{tarifaGuardada.link}} </a></div>
+        <div style="margin-bottom:15px"><a href="{{tarifaGuardada.link}}" target="_blank"><em>Acceso a  la Tarifa en su pagina oficial:</em> {{tarifaGuardada.nombre}}; {{tarifaGuardada.link}} </a></div>
         <div><em>Observaciones texto Largo: </em></div>
-        <div>{{tarifaGuardada.observacionesLargo}}</div> -->
+        <div style="margin-bottom:15px">{{tarifaGuardada.observacionesLargo}}</div>
+        <div style="margin-bottom:15px"><em>Datos de la tarifa actualizados:</em> {{tarifaGuardada.fechaACT|date:'YYYY-mm-dd hh:mm'}}</div>
     </div>
+</div>
+    
+    <div class="cajaSin">
+        <ul class="cajaBotones"  >
+            <li class="botonSolo" ng-click="setTab(1)">VOLVER</li>
+            <li class="detalle" ng-click="setTab(1)" >PAGINA {{tarifaGuardada.pagina}} de 3</li>
+            <li class="botonSolo" ng-click="datosDC.avanzarPagina()" style="float:right">MÁS...</li>
+        </ul>
+
     </div>
-    <div class="cajaSin"><button ng-click="setTab(1)" class="botonSolo">VOLVER</button></div>
 </div>

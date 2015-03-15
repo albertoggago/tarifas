@@ -64,6 +64,7 @@ conversorApp.controller('conversorController', function($scope, $http, $interval
             tablaNew[i].observacionesLargo  =  "Próximamente, en esta parte irá toda la letra pequeña que vaya localizando. Y además incluiré el link para que podáis acceder la información completa de la compañia";
             tablaNew[i].link                = "http://albertoggago.es";
             tablaNew[i].reduccion           = 0;
+            tablaNew[i].fechaAct            =  new Date();
             
             if (tablaNew[i].observaciones =="bbbb"){tablaNew[i].observaciones =""};
             
