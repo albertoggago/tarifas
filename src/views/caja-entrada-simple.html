@@ -1,43 +1,99 @@
-<div class="caja" style="margin-top:-2px" ng-controller="cajaEntradaSimpleController as cajaESC">
-    <div class="cabecera" style="margin-bottom:15px"><strong>Selecciona los datos que mas se aproximen a tus gastos.</strong> <br> Si quieres ajustar el consumo puedes directamente acceder a la Opción Avanzada</div>
-    <div class="cajaSin">
-        <div class="cajaInterna">
-            <div style="margin-bottom:5px">¿Cuántas llamadas haces al día?</div>
-            <select ng-model="cajaESC.llamadas" ng-change="cajaESC.calcular()" required>
-                <option value="0">Ninguna, no llamo nunca</option>
-                <option value="4">Muy Pocas, una a la semana</option>
-                <option value="20" ng-selected="true">Algunas, una al día y o menos</option>
-                <option value="50">Algunas, una o dos al día</option>
-                <option value="150">Bastantes, unas 5 al día</option>
-                <option value="600">Muchas, estoy siempre llamando</option>
-            </select>
+<div class="cajaVacia cajaFija" ng-controller="cajaEntradaSimpleController as cajaESC">
+    <div class="cajaVacia" ng-show="isSet(0,1)">
+        <div class="cajaVacia" style="margin-bottom:50px">
+            <strong>¿Conoces exáctamente tus datos o quieres que te ayude?</strong>
         </div>
-        <div class="cajaInterna">
-            <div style="margin-bottom:5px">¿Cuánto dura una llamada?</div>
-            <select ng-model="cajaESC.minutosMedia" ng-change="cajaESC.calcular()" required>
-                <option value="3">Son muy cortas, generalmente</option>
-                <option value="15" ng-selected="true">A veces cortas y a veces largas</option>
-                <option value="30">Suelen durar bastante</option>
-                <option value="45">Mis llamadas duran muuucho</option>
-            </select>
-        </div>
-        <div class="cajaInterna">
-            <div style="margin-bottom:5px">¿Cuál es tu uso de Internet?</div>
-            <select ng-model="datos.internet" ng-change="actualizarTarifas()" required>
-                <option value="300">Poco Interenet, Whatsapp</option>
-                <option value="1000" ng-selected="true">Uso Internet bastante</option>
-                <option value="2000">Descargo algun vídeo o podcast.</option>
-                <option value="10000">Descargo vídeos o podcast</option>
-            </select>
-        </div>
-        <div class="cajaInterna">
-            <div style="margin-bottom:5px">¿Mandas SMS?</div>
-            <select ng-model="datos.sms" ng-change="actualizarTarifas()" required>
-                <option value="0">¿qué es un SMS?</option>
-                <option value="5" ng-selected="true">Tengo algún amigo si Whatsapp</option>
-                <option value="30">Uso el SMS habitualmente</option>
-                <option value="175">Mando muchos SMS</option>
-            </select>
-        </div>
+        <ul class="cajaBotones">
+            <li class="botonSoloEntrada" ng-click="setTab([2,0,0,0])">Ayudame con el tutorial</li>
+            <li class="botonSoloEntrada" ng-click="setTab([0,1,0,0])">Se lo que gasto</li>
+        </ul>
     </div>
+    <div class="cabeceraEntrada" ng-show="isSet(0,7)"><strong>DATOS a CALCULAR</strong></div>
+    <div ng-class="{cajaVacia: isSet(0,2), cajaGrupo: isSet(0,7)}">
+        <div class="cajaVacia" style="margin-bottom:20px;" ng-show="isSet(0,2)">
+            <strong>¿Cuántas llamadas haces?</strong>
+        </div>
+        <div class="cajaVacia" style="margin-bottom:20px;" ng-show="isSet(0,7)">
+            ¿Cuántas llamadas haces?
+        </div>
+        <select class="seleccionEntrada" ng-model="cajaESC.llamadas"          
+            ng-change="cajaESC.calcular();cajaESC.navegar(isSet(0,2),[3,0,0,0]);" 
+            required ng-show="isSet(0,2)||isSet(0,7)">
+             <option value="0">Ninguna, no llamo nunca</option>
+             <option value="4">Muy Pocas, una a la semana</option>
+             <option value="20">Algunas, cuatro a la semana</option>
+             <option value="50">Algunas, una o dos al día</option>
+             <option value="150">Bastantes, unas 5 al día</option>
+             <option value="600">Muchas, estoy siempre llamando</option>
+        </select>
+    </div>
+    <div ng-class="{cajaVacia: isSet(0,3), cajaGrupo: isSet(0,7)}">
+        <div class="cajaVacia" style="margin-bottom:20px;" ng-show="isSet(0,3)">
+            <strong>¿Cuánto dura una llamada?</strong>
+        </div>
+        <div class="cajaVacia" style="margin-bottom:20px;" ng-show="isSet(0,7)">
+            ¿Cuánto dura una llamada?
+        </div>
+        <select class="seleccionEntrada" ng-model="cajaESC.minutosMedia" 
+            ng-change="cajaESC.calcular();cajaESC.navegar(isSet(0,3),[4,0,0,0]);" 
+            required ng-show="isSet(0,3)||isSet(0,7)">
+            <option value="3">Son muy cortas, generalmente</option>
+            <option value="15">A veces cortas y a veces largas</option>
+            <option value="30">Suelen durar bastante</option>
+            <option value="45">Mis llamadas duran muuucho</option>
+        </select>
+    </div>
+    <div ng-class="{cajaVacia: isSet(0,4), cajaGrupo: isSet(0,7)}">
+        <div class="cajaVacia" style="margin-bottom:20px;" ng-show="isSet(0,4)">
+            <strong>¿Cuánto usas Internet?</strong>
+        </div>
+        <div class="cajaVacia" style="margin-bottom:20px;" ng-show="isSet(0,7)">
+            ¿Cuánto usas Internet?
+        </div>
+        <select  class="seleccionEntrada" ng-model="datos.internet" 
+            ng-change="actualizarTarifas();cajaESC.navegar(isSet(0,4),[5,0,0,0]);" 
+            ng-change="actualizarTarifas();setTab([5,0,0,0])" required     ng-show="isSet(0,4)||isSet(0,7)">
+            <option value="300">Poco Interenet, Whatsapp</option>
+            <option value="1000">Uso Internet bastante</option>
+            <option value="2000">Mucho, descargo algun vídeo o podcast</option>
+            <option value="10000">Michísimo, descargo muchos vídeos o podcast</option>
+        </select>
+    </div>
+    <div ng-class="{cajaVacia: isSet(0,5), cajaGrupo: isSet(0,7)}">
+        <div class="cajaVacia" style="margin-bottom:20px;" ng-show="isSet(0,5)">
+            <strong>¿Mandas SMS?</strong>
+        </div>
+        <div class="cajaVacia" style="margin-bottom:20px;" ng-show="isSet(0,7)">
+            ¿Mandas SMS?
+        </div>
+        <select class="seleccionEntrada" ng-model="datos.sms" 
+                ng-change="actualizarTarifas();cajaESC.navegar(isSet(0,5),[6,0,0,0]);" 
+                required ng-show="isSet(0,5)||isSet(0,7)">
+                <option value="0">Ninguno, no envío SMS</option>
+                <option value="5">Poco, tengo algún amigo si Whatsapp</option>
+                <option value="30">Algunos, Uso el SMS habitualmente</option>
+                <option value="175">Muchos, mando muchos SMS</option>
+        </select>
+    </div>
+    <div class="cajaVacia" ng-show="isSet(0,6)" >
+        <div class="cajaVacia" style="width:70%">
+            <strong style="heigth:50px">Ya hemos acabado</strong>
+            <br>En la parte de arriba tienes las respuestas, por si quieres cambiar algo.
+            <br>Puedes pasar al avanzado usando el botón. 
+            <br>Se muestra una lista para poder cambiar los impuestos.
+            <br>Y la tabla con todas las tarifas ordenadas con tus cálculos. 
+            <br>El sistema calcula automáticamente en el momento que cambias cualquier dato.
+            <br>Da Ok.
+        </div>
+        <ul class="cajaBotones">
+            <li class="botonSoloEntrada" ng-click="setTab([7,0,1,1])">Ok</li>
+        </ul>
+    </div>
+    <div class="cajaGrupo" ng-show="isSet(0,7)" style="width:100%;">
+        <ul class="cajaBotones" >
+            <li class="botonSoloEntrada" ng-click="setTab([1,0,0,0])">Ir al Principio</li>
+            <li class="botonSoloEntrada" ng-click="setTab([0,2,1,1])">Ir a Avanzado</li>
+        </ul>
+    </div>
+    <div class="cajaVacia" ng-show="isSet(0,2)||isSet(0,3)||isSet(0,4)||isSet(0,5)" >Número de Pregunta {{tab[0]-1}} de 4</div>
 </div>

@@ -1,32 +1,32 @@
-<pr> las tarifas ordenadas por precio son:</pr>            
-<div class="caja"> Filtrar/Buscar: <input ng-model="query"> Busque lo que quiera, compañía, red o 4G</div>
-            <div class="caja"><strong> Es muy importante tener internet todo el mes </strong>
-        (Las tarifas que te reducen interner están penalizadas en la ordenación, si lo desmarcas solo tiene en cuenta el precio)
+<div class="caja"><strong> Es muy importante tener internet todo el mes </strong>
+        (Las tarifas con reduccion son penalizadas en la ordenación)
                 <input type="checkbox" ng-model="ordenar" name="aaaa" ng-true-value="'dias_sin_internet*5+total_con_IVA'" ng-false-value="'total_con_IVA'" ></div>
-    <table class="tabla1">
+
+<div class="caja"> Filtrar/Buscar: <input ng-model="query"> Busque en todos los datos: 4G, Compañía,Red...</div>
+    <table class="tablaExt">
         <thead>
-                <th width="15%">Compania</th>
-                <th width="15%">Producto</th>
-                <th width="10%">Red</th>
-                <th width="15%">{{datos.cabeceraMes}} (Tarifa Base)</th>
-                <th width="25%">Observaciones</th>
-                <th width="10%">Dias al mes Internet reducido</th>
-                <th width="10%">4G</th>
+                <th width="20%">Compañía</th>
+                <th width="20%">Tarifa</th>
+                <th width="20%">Precio<br>Base + Complementos</th>
+                <th width="20%">Condiciones de Tarifa</th>
+                <th width="20%">Red</th>
+                
                 
         </thead>
         <tbody>
-            <tr><td colspan="7">
-                <div class="tabla2div">
-                    <table class="tabla2" >
+            <tr><td colspan="5">
+                <div class="tablaIntDiv">
+                    <table class="tablaInt" >
                         <tr ng-repeat="tarifa in datos.tabla | filter: query | orderBy: ordenar :false" ng-click="guardarTarifa(tarifa)">
                             
-                            <td width="15%" >{{$index+1}} - {{tarifa.compania}}</td>
-                            <td width="15%">{{tarifa.nombre}}</td>
-                            <td width="10%">{{tarifa.red}}</td>
-                            <td width="15%" align="center">{{tarifa.total_con_IVA|number:2}} euros ({{tarifa.tarifa_base|number:2}})</td>
-                            <td width="25%">{{tarifa.observaciones}}</td>
-                            <td width="10%" align="center">{{tarifa.dias_sin_internet|number:0}}</td>
-                            <td width="10%" align="center">{{tarifa.sn_4G}}</td>
+                            <td width="20%" >{{$index+1}} - {{tarifa.compania}}</td>
+                            <td width="20%">{{tarifa.nombre}}</td>
+                            <td width="20%" align="center">
+                                <strong>{{tarifa.total_con_IVA|number:2}} euros </strong>
+                                <br> {{tarifa.tarifa_base|number:2}} + {{(tarifa.total_con_IVA-tarifa.tarifa_base)|number:2}}
+                                <br><div class="link"> (+ informacion)</div></td>
+                            <td width="20%" align="center">{{tarifa.texto_condiciones}}</td>
+                            <td width="20%">{{tarifa.red}}</td>
                         </tr>
                     </table>
                 </div>

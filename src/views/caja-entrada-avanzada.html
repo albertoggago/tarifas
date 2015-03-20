@@ -1,21 +1,68 @@
-        <table class="tabla" style="margin-top:-2px">
+<div class="cajaVacia cajaFija" ng-controller="cajaEntradaSimpleController as cajaESC">
+    <div class="cajaVacia" ng-show="isSet(1,1)">
+        <div class="cajaVacia" style="margin-bottom:50px">
+            <strong>Descripcion muy rápida del proceso</strong>
+            <br>Tienes las cantidades arriba.
+            <br>Un combo para seleccionar los impuestos.
+            <br>Y abajo tienes una lista ordenada de las tarifas.
+            <br>El sistema calcula automáticamente en el momento que cambias cualquier dato.
+            <br>Da Ok.
+        </div>
+        <ul class="cajaBotones">
+            <li class="botonSoloEntrada" ng-click="setTab([0,2,1,1])">Ok</li>
+        </ul>
+    </div>
+    <div class="cabeceraEntrada" ng-show="isSet(1,2)"><strong>DATOS a CALCULAR</strong></div>
+    <div class="cajaGrupo" ng-show="isSet(1,2)">
+        <div class="cajaVacia" style="margin-bottom:20px;">
+            Minutos (al mes):
+            </div>
+        <input type="text" name="input" ng-model="datos.minutos" min=0 valid-number ng-change="actualizarTarifas()" requierd>
+    </div>
+    <div class="cajaGrupo" ng-show="isSet(1,2)">
+        <div class="cajaVacia" style="margin-bottom:20px;">
+            Llamadas (al mes):
+        </div>
+        <input type="text" name="input" ng-model="datos.llamadas" min=0 valid-number ng-change="actualizarTarifas()" requierd>
+    </div>
+    <div class="cajaGrupo" ng-show="isSet(1,2)">
+        <div class="cajaVacia" style="margin-bottom:20px;">
+            Internet (consumo al mes):
+        </div>
+        <input type="text" name="input" ng-model="datos.internet" min=0 valid-number ng-change="actualizarTarifas()" requierd>
+    </div>
+    <div class="cajaGrupo" ng-show="isSet(1,2)">
+        <div class="cajaVacia" style="margin-bottom:20px;">
+            SMS (al mes):
+        </div>
+        <input type="text" name="input" ng-model="datos.sms" min=0 valid-number ng-change="actualizarTarifas()" requierd>
+    </div>
+    <div class="cajaGrupo" ng-show="isSet(1,2)" style="width:100%;">
+        <ul class="cajaBotones" >
+            <li class="botonSoloEntrada" ng-click="setTab([1,0,0,0])">Ir al Principio</li>
+        </ul>
+    </div>
+</div>        
+
+
+
+
+
+<table class="tabla" style="margin-top:-2px" ng-show="isSet(1,0)">
             <thead ><th colspan="3" >DATOS Al MES</th></thead>
             <tbody >
             <tr>
-                <td>Minutos (al mes): </td>
-                <td><input type="text" name="input" ng-model="datos.minutos" min=0 valid-number ng-change="actualizarTarifas()" requierd></td>
                 <td>  Duracion media de las llamadas: {{datos.minutos / datos.llamadas | number }} minutos</td>
-            </tr><tr>
-                <td>Llamadas (al mes): </td>
-                <td><input type="text" name="input" ng-model="datos.llamadas" min=0 valid-number ng-change="actualizarTarifas()" requierd></td>
+                <td> </td>
+                <td></td>
                 <td>{{mensaje}}</td>
             </tr><tr>
-                <td>Internet (consumo al mes): </td>
-                <td><input type="text" name="input" ng-model="datos.internet" min=0 valid-number ng-change="actualizarTarifas()" requierd> </td>
+                <td> </td>
+                <td> </td>
                 <td>en MegaBytes, equivale a: {{datos.internet/1000 |number}} Gigabytes</td>
                 
             </tr><tr>
-                <td>SMS (al mes): </td>
-                <td><input type="text" name="input" ng-model="datos.sms" min=0 valid-number ng-change="actualizarTarifas()" requierd></td><td>{{mensaje}}</td>
+                <td> </td>
+                <td></td><td>{{mensaje}}</td>
                 
             </tr></tbody></table>

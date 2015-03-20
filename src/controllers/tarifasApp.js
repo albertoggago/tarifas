@@ -36,7 +36,7 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
     $scope.ordenar="dias_sin_internet*5+total_con_IVA";
     
     $scope.indice=0;
-    $scope.tab=1;
+    $scope.tab=[1,0,0,0];
     
     
     
@@ -227,9 +227,9 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
              if (gasto_internet > incluidos_internet && sobrecoste_internet == 0 )
                 {dias_sin_internet=(gasto_internet-incluidos_internet)/gasto_internet*30};
 		     //textos especiales
-		     textos_especiales = "";
+		     //textos_especiales = "";
 		     //texto Tarifa Superada
-		     if (coste_internet == 0 && (gasto_internet > incluidos_internet && incluidos_internet != 0)){
+		     /*if (coste_internet == 0 && (gasto_internet > incluidos_internet && incluidos_internet != 0)){
 		    	 textos_especiales +=  "Superada Tarifa Internet: "+$scope.numEditImpStd(dias_sin_internet)
 		    	                      +" días del mes a baja velocidad"; 
 		     } 
@@ -240,7 +240,27 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 		    	 textos_especiales += " - Con 4G"; 
 		     } 
 		     
-		     //if (textos_especiales == "") {textos_especiales = "bbbb";}    
+		     //if (textos_especiales == "") {textos_especiales = "bbbb";}    */
+             texto_condiciones="";
+             if (incluidos_minutos>90000)
+             {
+                 texto_condiciones+="Infinita";
+             } else if (incluidos_minutos>0)
+             {
+                 texto_condiciones+=incluidos_minutos +" min.";
+             } else if (coste_minutos==0)
+             {
+                 texto_condiciones+="Tarifa Cero";
+             };
+            
+             if (incluidos_internet>0)
+             {
+                 if (texto_condiciones.length>0) {texto_condiciones+=" - ";};
+                 texto_condiciones+= $scope.numEdit(incluidos_internet/1000,2);
+                 texto_condiciones+= "GB";
+                 
+             };
+             
              
              if ($scope.datos.observaciones== "bbbb") {$scope.datos.observaciones== ""} 
         
@@ -250,7 +270,7 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 
 			 //Movemos los calculos
 			 $scope.datos.tabla[i].total_con_IVA  = total_con_IVA;
-			 $scope.datos.tabla[i].textos_especiales  = textos_especiales;
+			 //$scope.datos.tabla[i].textos_especiales  = textos_especiales;
 			 $scope.datos.tabla[i].formulas_especiales = "Sin datos actualmente, pendiente";
 			 $scope.datos.tabla[i].total_base = total_base;
 			 $scope.datos.tabla[i].total_sin_IVA = total_sin_IVA;
@@ -266,6 +286,7 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 
 			 $scope.datos.tabla[i].precio_llamadas = precio_llamadas;
 			 $scope.datos.tabla[i].precio_sms      = precio_sms;
+             $scope.datos.tabla[i].texto_condiciones = texto_condiciones;
 			 
     };
         
@@ -350,20 +371,24 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
         $scope.actualizarTarifas();
     };    
     
-    $scope.guardarTarifa = function (tarifa) {
-        $scope.tarifaGuardada = tarifa;
-        $scope.tarifaGuardada.pagina = 1;
-        $scope.tab = 2;
-    };
     
-    $scope.isSet = function(checkTab) {
-          return $scope.tab === checkTab;
+    $scope.isSet = function(pos,checkTab) {
+          return $scope.tab[pos] === checkTab;
         };
 
     $scope.setTab = function(activeTab) {
           $scope.tab = activeTab;
         };
-    
+
+    $scope.setTabFila = function(elemento,active) {
+          $scope.tab[elemento] = active;
+        };
+
+    $scope.guardarTarifa = function (tarifa) {
+        $scope.tarifaGuardada = tarifa;
+        $scope.setTabFila(3,2);
+    };
+
     $scope.reduccion = function() {
         if ($scope.tarifaGuardada.reduccion == 0||$scope.tarifaGuardada.dias_sin_internet == 0)
         {
@@ -405,14 +430,14 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 
 
 tarifasApp.controller('cajaEntradaController',function(){
-    this.tabX = 1;
+/*    this.tabX = 1;
     this.isSetX = function(checkTab) {
           return this.tabX === checkTab;
         };
 
     this.setTabX = function(activeTab) {
           this.tabX = activeTab;
-        };
+        };*/
 
     
 });
@@ -441,8 +466,10 @@ tarifasApp.controller('cajaEntradaSimpleController',function($scope){
         $scope.datos.llamadas = this.llamadas;
         $scope.datos.minutos = this.llamadas * this.minutosMedia;
         $scope.actualizarTarifas();
-        
         };
+    this.navegar = function(cierto,accion){
+        if (cierto) {$scope.setTab(accion)};
+    };
 
     
 });

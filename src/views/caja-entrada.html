@@ -1,12 +1,6 @@
-<div ng-controller="cajaEntradaController as cajaEC">
-    <div class="cajaSin">
-        <ul class="cajaBotones"  >
-            <li class="pegado" ng-class="{active: cajaEC.isSetX(1) }" ng-click="cajaEC.setTabX(1)">Sencilla</li>
-            <li class="pegado" ng-class="{active: cajaEC.isSetX(2) }" ng-click="cajaEC.setTabX(2)">Avanzada</li>
-        </ul>
-    </div>
-    <div class="sample-show-hide" ng-show="cajaEC.isSetX(1)" ><caja-entrada-simple></caja-entrada-simple></div>
-    <div class="sample-show-hide" ng-show="cajaEC.isSetX(2)" ><caja-entrada-avanzada></caja-entrada-avanzada></div>
+<div  class="cajaEntrada cajaFija" ng-controller="cajaEntradaController as cajaEC">
+    <caja-entrada-simple ng-show="!isSet(0,0)"></caja-entrada-simple>
+    <caja-entrada-avanzada ng-show="!isSet(1,0)"></caja-entrada-avanzada>
 </div>
 
 
