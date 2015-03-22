@@ -1,19 +1,38 @@
 <div class="caja cajaFija"  ng-controller="datosDetalleController as datosDC">
-    <div class="cabecera" style="margin-bottom:10px">
-         <div style="margin-bottom:15px"><strong><em>Compañia:</em> {{tarifaGuardada.compania}}</strong></div>
-        <div><strong><em>Nombre de Producto:</em> {{tarifaGuardada.nombre}}</strong></div>
+    <div class="cabecera">
+        <div style="margin:10px"><strong><em>{{datos.tab}} Compañia:</em> {{tarifaGuardada.compania}}</strong></div>
+        <div style="margin-bottom:20px"><strong><em>Tarifa:</em> {{tarifaGuardada.nombre}}</strong></div>
     </div>
-    <div class="cajaSin">
-        <ul class="cajaBotones"  >
+    <div class="cajaVacia">
+        <ul class="cajaBotones">
             <li class="botonSolo" ng-click="setTabFila(3,1)">VOLVER</li>
-            <li class="detalle" >PAGINA {{tarifaGuardada.pagina}} de 3</li>
-            <li class="botonSolo" ng-click="datosDC.avanzarPagina()" style="float:right">MÁS...</li>
+            <li class="botonSolo" ng-click="setTabFila(3,3)" ng-show="isSet(3,2)">Ampliar Información</li>
+            <li class="botonSolo" ng-click="setTabFila(3,2)" ng-show="isSet(3,3)">Información Importante</li>
         </ul>
 
     </div>
-<div class="cajaSin deslizarLado" ng-show="isSet(3,4)">
+<div class="cajaIzquierda" ng-show="isSet(3,2)">
+   <div class="cajaVacia" style="padding:10px;text-align:left;">
+        <div style="margin-bottom:10px"><strong>Detalle</strong></div>
+        <div ><em>Tarifa:</em> {{tarifaGuardada.tarifa_base|number:2}} euros</div>
+        <div ><em>Complementos:</em></div>
+        <div style="margin-left:30px"><em>Llamadas:</em> {{tarifaGuardada.precio_llamadas*datosSTD.IVA|number:2}} euros</div>
+        <div style="margin-left:30px"><em>Internet:</em> {{tarifaGuardada.sobrecoste_internet*datosSTD.IVA|number:2}} euros</div>
+        <div style="margin-left:30px"><em>SMS:</em> {{tarifaGuardada.precio_sms*datosSTD.IVA|number:2}} euros</div>
+        <div style="margin-bottom:30px"><em><strong>Total:</strong></em> {{tarifaGuardada.total_con_IVA|number:2}} euros</div>      </div>      
+    <div class="cajaIzquierda" ng-show="isSet(3,2)">
+        <div ><strong>Otros Datos</strong></div>
+        <div style="margin-left:30px"><em>Tipo de Contrato:</em> {{tarifaGuardada.texto_condiciones}}</div>
+        <div style="margin-left:30px"><em>Red de la Cobertura:</em> {{tarifaGuardada.red}}</div>
+    </div>
+</div>
+<div class="caja" style="margin:10px;" ng-show="isSet(3,3)">
+    PENDIENTE
+</div>
+
+<div class="caja" style="margin:10px;" ng-show="isSet(3,10)">
        <div class="cajaInterna" style="max-width: 96%;">
-        <div style="margin-bottom:10px"><strong>Datos a cobrar</strong></div>
+        <div style="margin-bottom:10px"><strong>Detalle</strong></div>
         <div ><em>Minutos que realmente voy a pagar:</em> {{tarifaGuardada.minutos_pagar|number:0}}</div>
         <div><em>Llamadas que realmente voy a pagar (realizado por promedio):</em> {{tarifaGuardada.llamadas_pagar|number:0}}</div>
         <div><em>Sobrecoste Internet:</em> {{tarifaGuardada.internet_pagar|number:0}} MB</div>
@@ -29,7 +48,7 @@
              <strong><em>Total a pagar:</em> {{tarifaGuardada.total_sin_IVA*datosSTD.IVA|number:2}} euros</strong></div>
     </div>
 </div>
-<div class="cajaSin deslizarLado" ng-show="datosDC.isSetP(2)">
+<div class="cajaSin deslizarLado" ng-show="isSet(3,10)">
     <div class="cajaInterna" style="max-width: 96%;">
         <div style="margin-bottom:10px"><strong>Datos Economicos de la Tarifa (todos con Impuestos)</strong></div>
         <div><em>Precio por minuto:</em> {{tarifaGuardada.coste_minutos*datosSTD.IVA|number:2}} centimos</div>
@@ -48,7 +67,7 @@
     </div>
 </div>
     
-<div class="cajaSin deslizarLado" ng-show="datosDC.isSetP(3)">
+<div class="cajaSin deslizarLado" ng-show="isSet(3,10)">
     <div class="cajaInterna" style="max-width: 96%;">
         <div style="margin-bottom:10px"><strong>DATOS EXTRA</strong></div>
         <div><em>Red Usada:</em> {{tarifaGuardada.red}}</div>
@@ -64,12 +83,4 @@
     </div>
 </div>
     
-    <div class="cajaSin">
-        <ul class="cajaBotones"  >
-            <li class="botonSolo" ng-click="setTab(1)">VOLVER</li>
-            <li class="detalle" ng-click="setTab(1)" >PAGINA {{tarifaGuardada.pagina}} de 3</li>
-            <li class="botonSolo" ng-click="datosDC.avanzarPagina()" style="float:right">MÁS...</li>
-        </ul>
-
-    </div>
 </div>

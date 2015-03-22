@@ -48,6 +48,8 @@ conversorApp.controller('conversorController', function($scope, $http, $interval
         $scope.datos.llamadas = $scope.datosSTD.llamadasSTD;
         $scope.datos.internet = $scope.datosSTD.internetSTD;
         $scope.datos.sms = $scope.datosSTD.SMSSTD;
+        $scope.datos.sms = $scope.datosSTD.SMSSTD;
+        $scope.datos.tab = $scope.datosSTD.TAB;
         tablaEnt.shift();
     //nueva forma de guardar la tabla
         tablaNew=[];
@@ -82,7 +84,7 @@ conversorApp.controller('conversorController', function($scope, $http, $interval
             tablaNew[i].gasto_llamadas      =  parseFloat(tablaEnt[i][17]);
             tablaNew[i].gasto_sms           =  parseFloat(tablaEnt[i][18]);
             tablaNew[i].gasto_internet      =  parseFloat(tablaEnt[i][19]);
-            tablaNew[i].total_base          =  parseFloat(tablaEnt[i][21]);
+            tablaNew[i].base_sin_IVA        =  parseFloat(tablaEnt[i][21]);
             tablaNew[i].total_sin_IVA       =  parseFloat(tablaEnt[i][22]);
             tablaNew[i].sobrecoste_internet =  0;
             };

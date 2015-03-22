@@ -11,7 +11,8 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
         "minutosSTD": 300,
         "llamadasSTD": 20,
         "SMSSTD": 5,
-        "internetSTD": 1000
+        "internetSTD": 1000,
+        "TAB": [1,0,0,0]
         };
     
     $scope.valores =
@@ -32,11 +33,12 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
     $scope.tarifaGuardada.reduccion = 0;
     $scope.tarifaGuardada.coste_internet = 0;
     $scope.tarifaGuardada.pagina = 1;
+    $scope.datos.tab=[1,0,0,0];
     
     $scope.ordenar="dias_sin_internet*5+total_con_IVA";
     
     $scope.indice=0;
-    $scope.tab=[1,0,0,0];
+    
     
     
     
@@ -118,6 +120,10 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 
 		     
 	    };
+        //Cada vez que actualizamos hay que guardar los datos
+        localStorage.setItem($scope.datosSTD.FICHERO, JSON.stringify($scope.datos));
+        
+        
 	    //funcion de ordenar
 	    // ya no usamos esto    
 	   //$scope.datos.tabla.sort(function(a,b){return parseFloat(a[2])-parseFloat(b[2])});
@@ -139,8 +145,8 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 			 var coste_llamadas  = parseFloat($scope.datos.tabla[i].coste_llamadas);
 			 var coste_sms       = parseFloat($scope.datos.tabla[i].coste_sms);
 			 var coste_internet  = parseFloat($scope.datos.tabla[i].coste_internet);
+			 
 			 var tarifa_std      = parseFloat($scope.datos.tabla[i].tarifa_std);
-
 			 var tarifa_minima   = parseFloat($scope.datos.tabla[i].tarifa_minima);
 
 			 var incluidos_minutos  = parseFloat($scope.datos.tabla[i].incluidos_minutos);
@@ -177,6 +183,7 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 		    		 	}
 		    	 	 }
 		     };
+             llamadas_pagar = Math.round(llamadas_pagar);
                 
 		     // Incluimos el coste de los minutos no incluidos. 
 		     var precio_llamadas =  minutos_pagar * coste_minutos / 100;
@@ -205,7 +212,9 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 		     // if(M3<>"NO";max(P3-L3;0)*Q3/if(P3<>0;P3;1);Q3)*G3/100+
 		     // max(R3-N3;0)*H3/100+
 		     // max(S3-O3;0)*I3/100
-		     var total_base= Math.round(tarifa*100.0)/100;
+             var base_sin_IVA= tarifa_minima + tarifa_std;
+		     
+             var total_gasto= Math.round(tarifa*100.0)/100;
 		     
 		      //CALCULOS ESPECIALES..... NO HACEMOS NADA
 		     var calculos_especiales = 0;
@@ -213,8 +222,8 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 		     
 		     //calculamos el Total + mínimos.
 		     var total_minimos = 0;
-		     if (total_base>tarifa_minima){
-		    	 total_minimos = total_base;
+		     if (total_gasto>tarifa_minima){
+		    	 total_minimos = total_gasto;
 		     } else {
 		    	 total_minimos = tarifa_minima;
 		     };
@@ -225,9 +234,9 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 
 		     var dias_sin_internet =  0;
              if (gasto_internet > incluidos_internet && sobrecoste_internet == 0 )
-                {dias_sin_internet=(gasto_internet-incluidos_internet)/gasto_internet*30};
+                {dias_sin_internet=Math.round((gasto_internet-incluidos_internet)/gasto_internet*30)};
 		     //textos especiales
-		     //textos_especiales = "";
+		     textos_especiales = "";
 		     //texto Tarifa Superada
 		     /*if (coste_internet == 0 && (gasto_internet > incluidos_internet && incluidos_internet != 0)){
 		    	 textos_especiales +=  "Superada Tarifa Internet: "+$scope.numEditImpStd(dias_sin_internet)
@@ -235,24 +244,27 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 		     } 
 		     if (coste_internet != 0 && (gasto_internet > incluidos_internet)){
 		    	 textos_especiales += "Incluido Sobrecoste por Datos de "+$scope.numEditImpStd(sobrecoste_internet*$scope.datosSTD.IVA)+" Euros"; 
-		     } 
+		     }*/ 
 		     if (sn_4G == "SI" ){
-		    	 textos_especiales += " - Con 4G"; 
+		    	 textos_especiales += "4G"; 
 		     } 
 		     
-		     //if (textos_especiales == "") {textos_especiales = "bbbb";}    */
+		     //if (textos_especiales == "") {textos_especiales = "bbbb";}    
              texto_condiciones="";
              if (incluidos_minutos>90000)
              {
                  texto_condiciones+="Infinita";
-             } else if (incluidos_minutos>0)
+             } else 
              {
-                 texto_condiciones+=incluidos_minutos +" min.";
-             } else if (coste_minutos==0)
-             {
+                 if (incluidos_minutos>0)
+                {
+                    texto_condiciones+=incluidos_minutos +" min. ";
+                };
+                if (coste_minutos==0)
+                {
                  texto_condiciones+="Tarifa Cero";
+                };
              };
-            
              if (incluidos_internet>0)
              {
                  if (texto_condiciones.length>0) {texto_condiciones+=" - ";};
@@ -264,15 +276,14 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
              
              if ($scope.datos.observaciones== "bbbb") {$scope.datos.observaciones== ""} 
         
-             var tarifa_base = ($scope.datos.tabla[i].tarifa_minima + $scope.datos.tabla[i].tarifa_std) 
-                               * $scope.datosSTD.IVA; 
+             var tarifa_base = base_sin_IVA * $scope.datosSTD.IVA; 
 
 
 			 //Movemos los calculos
 			 $scope.datos.tabla[i].total_con_IVA  = total_con_IVA;
-			 //$scope.datos.tabla[i].textos_especiales  = textos_especiales;
+			 $scope.datos.tabla[i].textos_especiales  = textos_especiales;
 			 $scope.datos.tabla[i].formulas_especiales = "Sin datos actualmente, pendiente";
-			 $scope.datos.tabla[i].total_base = total_base;
+			 $scope.datos.tabla[i].base_sin_IVA = base_sin_IVA;
 			 $scope.datos.tabla[i].total_sin_IVA = total_sin_IVA;
              $scope.datos.tabla[i].sobrecoste_internet = sobrecoste_internet;
              $scope.datos.tabla[i].tarifa_base = tarifa_base;
@@ -309,7 +320,7 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 	this.getSMS = function() {return $scope.datos.sms;};
 	this.getInternet = function() {return $scope.datos.internet;};
     
-    this.setTabla = function(tab,versionX) {
+    this.setTabla = function(tabla_ent,versionX) {
 		//realizamos una carga de los datos, se usa en la creación del primer objeto
 		//marcamos para poder verificar la version de uso y la fecha, para evitar que el fichero JSON cargado
 		// no coincida con las funciones
@@ -318,7 +329,7 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 		this.setSMS($scope.datosSTD.SMSSTD);
 		this.setInternet($scope.datosSTD.internetSTD);
         $scope.datos.fechaAct = new Date();
-		$scope.datos.tabla = tab;
+		$scope.datos.tabla = tabla_ent;
 		//recalculamos siempre que se realiza una carga para ajustarlo todo
 		$scope.actualizarTarifas();
 		$scope.datos.version     = versionX;
@@ -373,21 +384,32 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
     
     
     $scope.isSet = function(pos,checkTab) {
-          return $scope.tab[pos] === checkTab;
+          return $scope.datos.tab[pos] === checkTab;
         };
 
     $scope.setTab = function(activeTab) {
-          $scope.tab = activeTab;
+          $scope.datos.tab = activeTab;
+          if ($scope.datos.tab[3]==1) {$scope.guardarJSON()};
         };
 
-    $scope.setTabFila = function(elemento,active) {
-          $scope.tab[elemento] = active;
+    $scope.setTabFila = function(pos,active) {
+          $scope.datos.tab[pos] = active;
+          if (pos==3&&active==1) {$scope.guardarJSON()};
         };
 
     $scope.guardarTarifa = function (tarifa) {
         $scope.tarifaGuardada = tarifa;
         $scope.setTabFila(3,2);
     };
+    
+    $scope.guardarJSON = function() {
+        var temp =0;
+        if ($scope.datos.tab[3]==1||$scope.datos.tab[3]==0) {
+            localStorage.setItem($scope.datosSTD.FICHERO, JSON.stringify($scope.datos));
+        };
+    };
+    
+    
 
     $scope.reduccion = function() {
         if ($scope.tarifaGuardada.reduccion == 0||$scope.tarifaGuardada.dias_sin_internet == 0)
@@ -430,16 +452,8 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 
 
 tarifasApp.controller('cajaEntradaController',function(){
-/*    this.tabX = 1;
-    this.isSetX = function(checkTab) {
-          return this.tabX === checkTab;
-        };
-
-    this.setTabX = function(activeTab) {
-          this.tabX = activeTab;
-        };*/
-
     
+
 });
 
 
@@ -460,16 +474,60 @@ tarifasApp.directive("cajaEntradaAvanzada",
 });
 
 tarifasApp.controller('cajaEntradaSimpleController',function($scope){
-    this.llamadas = 50;
-    this.minutosMedia = 15;
-    this.calcular = function() {
-        $scope.datos.llamadas = this.llamadas;
-        $scope.datos.minutos = this.llamadas * this.minutosMedia;
-        $scope.actualizarTarifas();
-        };
-    this.navegar = function(cierto,accion){
-        if (cierto) {$scope.setTab(accion)};
+    this.optLlamadas = [
+             { label: 'Ninguna, no llamo nunca'       , value: 0 },
+             { label: 'Muy Pocas, una a la semana'    , value: 4 },
+             { label: 'Algunas, cuatro a la semana'   , value: 20 },
+             { label: 'Algunas, una o dos al día'     , value: 50 },
+             { label: 'Bastantes, unas 5 al día'      , value: 150 },
+             { label: 'Muchas, estoy siempre llamando', value: 600 }
+        ];
+        this.optMinutosMedia = [
+            { label: 'Son muy cortas, generalmente', value: 3},
+            { label: 'A veces cortas y a veces largas', value: 15},
+            { label: 'Suelen durar bastantee', value: 30},
+            { label: 'Mis llamadas duran muuucho', value: 45}
+        ];
+
+        this.optInternet = [
+            { label: 'Poco Interenet, Whatsapp', value: 300},
+            { label: 'Uso Internet bastante', value: 1000},
+            { label: 'Mucho, descargo algun vídeo o podcast', value: 2000},
+            { label: 'Michísimo, descargo muchos vídeos o podcast', value: 10000}
+        ];
+
+        this.optSMS = [
+            { label: 'Ninguno, no envío SMS', value: 0},
+            { label: 'Poco, tengo algún amigo si Whatsapp', value: 5},
+            { label: 'Algunos, Uso el SMS habitualmente', value: 30},
+            { label: 'Muchos, mando muchos SMS', value: 175}
+        ];
+    
+    this.inicializar = function(){    
+        this.llamadas = this.optLlamadas[0];
+        this.minutosMedia = this.optMinutosMedia[0];
+        this.internet = this.optInternet[0];
+        this.sms = this.optSMS[0];    
+    }
+    
+    this.calcularLlamadas = function (){
+        $scope.datos.llamadas = this.llamadas.value;
     };
+    
+    this.calcularMinutosMedia = function (){
+        $scope.datos.minutos = this.minutosMedia.value * this.llamadas.value;
+    };
+    
+    this.calcularInternet = function (){
+        $scope.datos.internet = this.internet.value;
+    };
+    
+    this.calcularSMS = function (){
+        $scope.datos.sms = this.sms.value;
+        $scope.actualizarTarifas();
+    };
+    
+    this.inicializar();
 
     
 });

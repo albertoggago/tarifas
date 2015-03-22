@@ -1,10 +1,11 @@
 <div class="cajaVacia cajaFija" ng-controller="cajaEntradaSimpleController as cajaESC">
+    <form name="formularioSimple">
     <div class="cajaVacia" ng-show="isSet(0,1)">
         <div class="cajaVacia" style="margin-bottom:50px">
             <strong>¿Conoces exáctamente tus datos o quieres que te ayude?</strong>
         </div>
         <ul class="cajaBotones">
-            <li class="botonSoloEntrada" ng-click="setTab([2,0,0,0])">Ayudame con el tutorial</li>
+            <li class="botonSoloEntrada" ng-click="setTab([2,0,0,0]);cajaESC.inicializar()">Ayudame con el tutorial</li>
             <li class="botonSoloEntrada" ng-click="setTab([0,1,0,0])">Se lo que gasto</li>
         </ul>
     </div>
@@ -16,16 +17,13 @@
         <div class="cajaVacia" style="margin-bottom:20px;" ng-show="isSet(0,7)">
             ¿Cuántas llamadas haces?
         </div>
-        <select class="seleccionEntrada" ng-model="cajaESC.llamadas"          
-            ng-change="cajaESC.calcular();cajaESC.navegar(isSet(0,2),[3,0,0,0]);" 
-            required ng-show="isSet(0,2)||isSet(0,7)">
-             <option value="0">Ninguna, no llamo nunca</option>
-             <option value="4">Muy Pocas, una a la semana</option>
-             <option value="20">Algunas, cuatro a la semana</option>
-             <option value="50">Algunas, una o dos al día</option>
-             <option value="150">Bastantes, unas 5 al día</option>
-             <option value="600">Muchas, estoy siempre llamando</option>
+        <select name="fsLlamadas" class="seleccionEntrada" ng-model="cajaESC.llamadas"          
+            ng-change="cajaESC.calcularLlamadas()"         ng-show="isSet(0,2)||isSet(0,7)"
+            ng-options="opt as opt.label for opt in cajaESC.optLlamadas"   required>
         </select>
+        <ul class="cajaBotones" ng-show="isSet(0,2)" ng-a>
+            <li class="botonSoloEntrada" ng-click="cajaESC.calcularLlamadas();setTab([3,0,0,0])">Seguir</li>
+        </ul>
     </div>
     <div ng-class="{cajaVacia: isSet(0,3), cajaGrupo: isSet(0,7)}">
         <div class="cajaVacia" style="margin-bottom:20px;" ng-show="isSet(0,3)">
@@ -34,14 +32,14 @@
         <div class="cajaVacia" style="margin-bottom:20px;" ng-show="isSet(0,7)">
             ¿Cuánto dura una llamada?
         </div>
-        <select class="seleccionEntrada" ng-model="cajaESC.minutosMedia" 
-            ng-change="cajaESC.calcular();cajaESC.navegar(isSet(0,3),[4,0,0,0]);" 
-            required ng-show="isSet(0,3)||isSet(0,7)">
-            <option value="3">Son muy cortas, generalmente</option>
-            <option value="15">A veces cortas y a veces largas</option>
-            <option value="30">Suelen durar bastante</option>
-            <option value="45">Mis llamadas duran muuucho</option>
+        <select name="fsMinutosMedia" class="seleccionEntrada" ng-model="cajaESC.minutosMedia" 
+            ng-change="cajaESC.calcularMinutosMedia()"         ng-show="isSet(0,3)||isSet(0,7)"
+            ng-options="opt as opt.label for opt in cajaESC.optMinutosMedia" required>
         </select>
+        <ul class="cajaBotones" ng-show="isSet(0,3)" ng-a>
+            <li class="botonSoloEntrada" ng-click="cajaESC.calcularMinutosMedia();setTab([4,0,0,0])">Seguir</li>
+        </ul>
+
     </div>
     <div ng-class="{cajaVacia: isSet(0,4), cajaGrupo: isSet(0,7)}">
         <div class="cajaVacia" style="margin-bottom:20px;" ng-show="isSet(0,4)">
@@ -50,14 +48,14 @@
         <div class="cajaVacia" style="margin-bottom:20px;" ng-show="isSet(0,7)">
             ¿Cuánto usas Internet?
         </div>
-        <select  class="seleccionEntrada" ng-model="datos.internet" 
-            ng-change="actualizarTarifas();cajaESC.navegar(isSet(0,4),[5,0,0,0]);" 
-            ng-change="actualizarTarifas();setTab([5,0,0,0])" required     ng-show="isSet(0,4)||isSet(0,7)">
-            <option value="300">Poco Interenet, Whatsapp</option>
-            <option value="1000">Uso Internet bastante</option>
-            <option value="2000">Mucho, descargo algun vídeo o podcast</option>
-            <option value="10000">Michísimo, descargo muchos vídeos o podcast</option>
+        <select name="fsInternet" class="seleccionEntrada" ng-model="cajaESC.internet" 
+            ng-change="cajaESC.calcularInternet()"         ng-show="isSet(0,4)||isSet(0,7)"
+            ng-options="opt as opt.label for opt in cajaESC.optInternet" required>
         </select>
+        <ul class="cajaBotones" ng-show="isSet(0,4)" ng-a>
+            <li class="botonSoloEntrada" ng-click="cajaESC.calcularInternet();setTab([5,0,0,0])">Seguir</li>
+        </ul>
+
     </div>
     <div ng-class="{cajaVacia: isSet(0,5), cajaGrupo: isSet(0,7)}">
         <div class="cajaVacia" style="margin-bottom:20px;" ng-show="isSet(0,5)">
@@ -66,14 +64,14 @@
         <div class="cajaVacia" style="margin-bottom:20px;" ng-show="isSet(0,7)">
             ¿Mandas SMS?
         </div>
-        <select class="seleccionEntrada" ng-model="datos.sms" 
-                ng-change="actualizarTarifas();cajaESC.navegar(isSet(0,5),[6,0,0,0]);" 
-                required ng-show="isSet(0,5)||isSet(0,7)">
-                <option value="0">Ninguno, no envío SMS</option>
-                <option value="5">Poco, tengo algún amigo si Whatsapp</option>
-                <option value="30">Algunos, Uso el SMS habitualmente</option>
-                <option value="175">Muchos, mando muchos SMS</option>
+        <select name="fsSMS" class="seleccionEntrada" ng-model="cajaESC.sms" 
+                ng-change="cajaESC.calcularSMS()"     ng-show="isSet(0,5)||isSet(0,7)"
+                ng-options="opt as opt.label for opt in cajaESC.optSMS" required>
         </select>
+        <ul class="cajaBotones" ng-show="isSet(0,5)" ng-a>
+            <li class="botonSoloEntrada" ng-click="cajaESC.calcularSMS();setTab([6,0,0,0])">Seguir</li>
+        </ul>
+
     </div>
     <div class="cajaVacia" ng-show="isSet(0,6)" >
         <div class="cajaVacia" style="width:70%">
@@ -96,4 +94,5 @@
         </ul>
     </div>
     <div class="cajaVacia" ng-show="isSet(0,2)||isSet(0,3)||isSet(0,4)||isSet(0,5)" >Número de Pregunta {{tab[0]-1}} de 4</div>
+</form>        
 </div>
