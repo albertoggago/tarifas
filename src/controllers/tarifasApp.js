@@ -106,20 +106,14 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 	};
 
     $scope.actualizarTarifas = function (){
+        
         $scope.mensaje = "** Datos Actualizados..........";
 		//barremos todos los elementos y los recalculamos.
          //alert($scope.datos.fecha);
 
         //actualizamos Mensaje de precios
-        
-        $scope.datos.cabeceraMes = "Precio Completo + "+$scope.numEditNumStd(($scope.datosSTD.IVA-1)*100)+"% de Impuestos"
+        $scope.actualizarTarifas2();
 
-		 for (var i = 0; i < $scope.datos.tabla.length; ++i)
-	    	{
-             $scope.actualizarFila(i);    
-
-		     
-	    };
         //Cada vez que actualizamos hay que guardar los datos
         localStorage.setItem($scope.datosSTD.FICHERO, JSON.stringify($scope.datos));
         
@@ -128,7 +122,21 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 	    // ya no usamos esto    
 	   //$scope.datos.tabla.sort(function(a,b){return parseFloat(a[2])-parseFloat(b[2])});
 		
-	}; 
+	};
+    
+    $scope.actualizarTarifas2 = function (){
+        
+    
+        $scope.datos.cabeceraMes = "Precio Completo + "+$scope.numEditNumStd(($scope.datosSTD.IVA-1)*100)+"% de Impuestos"
+
+		 for (var i = 0; i < $scope.datos.tabla.length; ++i)
+	    	{
+             $scope.actualizarFila(i);    
+
+		     
+	    };
+		
+	};
     
     $scope.actualizarFila = function (i) {
         	    	 //recogemos los datos y los actualizamos
@@ -359,7 +367,7 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
 		$scope.datos.llamadas = eLlam;
 		$scope.datos.sms = eSms;
 		$scope.datos.internet = eMB;
-		$scope.actualizarTarifas();
+		$scope.actualizarTarifas2();
 		};
 
 

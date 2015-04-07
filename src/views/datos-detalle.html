@@ -12,7 +12,7 @@
         </ul>
 
     </div>
-<div class="cajaIzquierda" ng-show="isSet(3,2)"> 
+<div class="caja" style="margin:10px;" ng-show="isSet(3,2)"> 
   <div class="cajaIzquierda">
         <div style="margin-bottom:10px"><strong>Detalle</strong></div>
         <div ><em>Tarifa:</em> {{tarifaGuardada.tarifa_base|number:2}} euros</div>
@@ -28,7 +28,7 @@
     </div>
 </div>
 <div class="caja" style="margin:10px;" ng-show="isSet(3,3)">
-    <div class="caja cajaIzquierda" style="padding:10px">
+    <div class="cajaIzquierda" style="padding:10px">
         <div style="margin-bottom:10px"><strong>Datos Economicos de la Tarifa (todos con Impuestos)</strong></div>
         <div><em>Precio por minuto:</em> {{tarifaGuardada.coste_minutos*datosSTD.IVA|number:2}} centimos</div>
         <div><em>Establecimiento de llamada:</em> {{tarifaGuardada.coste_llamadas*datosSTD.IVA|number:2}} centimos</div>
@@ -36,7 +36,7 @@
         <div><em>Precio del MB Internet:</em> {{tarifaGuardada.coste_internet*datosSTD.IVA|number:2}} centimos</div>
         <div><em>Tarifa Mínima:</em> {{tarifaGuardada.tarifa_minima*datosSTD.IVA|number:2}} euros </div>
         <div style="margin-bottom:10px"><em>Tarifa Estándar:</em> {{tarifaGuardada.tarifa_std*datosSTD.IVA|number:2}} euros que incluye:</div>
-        <div class="caja cajaIzquierda">
+        <div class="caja cajaIzquierda" style="padding:10px">
             <div><em>Minutos:</em> {{tarifaGuardada.incluidos_minutos|number:0}}</div>
             <div><em>El establecimiento esta Incluido:</em> {{tarifaGuardada.sn_4G}}</div>
             <div><em>Internet:</em> {{tarifaGuardada.incluidos_internet|number:0}} MB</div>
@@ -45,13 +45,12 @@
     </div>
 </div>
 <div class="caja" style="margin:10px;" ng-show="isSet(3,4)">
-
-    <div class="caja cajaIzquierda" style="padding:10px">
+    <div class="cajaIzquierda" style="padding:10px">
          <div style="margin-bottom:10px"><strong>DATOS EXTRA</strong></div>
         <div><em>Red Usada:</em> {{tarifaGuardada.red}}</div>
         <div><em>Informacion sobre Internet: </em> {{textoReduccion()}}</div>
         <div><em>Permite 4G:</em> {{tarifaGuardada.sn_4G}}</div>
-        <div style="margin-bottom:15px"><em>Permite VOIP:</em> {{tarifaGuardada.VOIP}}</div>
+        <div style="margin-bottom:15px"><em>Permite VOIP (llamadas WhatsApp, Line, etc.):</em> {{tarifaGuardada.VOIP}}</div>
         
         <div><em>Observaciones:</em></div>
         <div style="margin-bottom:15px"> {{tarifaGuardada.observaciones}}</div>

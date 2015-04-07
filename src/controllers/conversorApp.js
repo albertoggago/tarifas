@@ -4,6 +4,8 @@ conversorApp.controller('conversorController', function($scope, $http, $interval
     
    
     var tarifas = $controller('tarifasListaController',{$scope: $scope, $http: $http, $interval: $interval});
+    
+    this.tabX = 0;
 
     
     
@@ -178,6 +180,14 @@ conversorApp.controller('conversorController', function($scope, $http, $interval
         $http.put(url,datos)
             .succes(function (){alert("DONE")})
             .error(function (){alert("ERROR")});*/
+    };
+    
+    this.isSetX = function(check) {
+          return this.tabX === check;
+        };
+
+    this.setTabX = function(active) {
+          this.tabX = active;
     };
     
 });
