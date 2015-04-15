@@ -1,4 +1,4 @@
-<div class="cajaVacia cajaFija" ng-controller="cajaEntradaSimpleController as cajaESC">
+<div class="cajaVacia" ng-controller="cajaEntradaSimpleController as cajaESC">
     <form name="formularioSimple">
     <div class="cajaVacia" ng-show="isSet(0,1)">
         <div class="cajaVacia" style="margin-bottom:50px">
@@ -9,7 +9,7 @@
             <li class="botonSoloEntrada" ng-click="setTab([0,1,0,0])">Se lo que gasto</li>
         </ul>
     </div>
-    <div class="cabeceraEntrada" ng-show="isSet(0,7)"><strong>DATOS a CALCULAR</strong></div>
+    <div class="cabeceraEntrada" ng-show="isSet(0,7)"><strong>DATOS A CALCULAR</strong></div>
     <div ng-class="{cajaVacia: isSet(0,2), cajaGrupo: isSet(0,7)}">
         <div class="cajaVacia" style="margin-bottom:20px;" ng-show="isSet(0,2)">
             <strong>¿Cuántas llamadas haces?</strong>
@@ -22,7 +22,7 @@
             ng-options="opt as opt.label for opt in cajaESC.optLlamadas"   required>
         </select>
         <ul class="cajaBotones" ng-show="isSet(0,2)" ng-a>
-            <li class="botonSoloEntrada" ng-click="cajaESC.calcularLlamadas();setTab([3,0,0,0])">Seguir</li>
+            <li class="botonSoloEntrada" ng-click="cajaESC.calcularLlamadas();setTab([3,0,0,0])">Continuar</li>
         </ul>
     </div>
     <div ng-class="{cajaVacia: isSet(0,3), cajaGrupo: isSet(0,7)}">
@@ -37,7 +37,7 @@
             ng-options="opt as opt.label for opt in cajaESC.optMinutosMedia" required>
         </select>
         <ul class="cajaBotones" ng-show="isSet(0,3)" ng-a>
-            <li class="botonSoloEntrada" ng-click="cajaESC.calcularMinutosMedia();setTab([4,0,0,0])">Seguir</li>
+            <li class="botonSoloEntrada" ng-click="cajaESC.calcularMinutosMedia();setTab([4,0,0,0])">Continuar</li>
         </ul>
 
     </div>
@@ -53,7 +53,7 @@
             ng-options="opt as opt.label for opt in cajaESC.optInternet" required>
         </select>
         <ul class="cajaBotones" ng-show="isSet(0,4)" ng-a>
-            <li class="botonSoloEntrada" ng-click="cajaESC.calcularInternet();setTab([5,0,0,0])">Seguir</li>
+            <li class="botonSoloEntrada" ng-click="cajaESC.calcularInternet();setTab([5,0,0,0])">Continuar</li>
         </ul>
 
     </div>
@@ -69,19 +69,21 @@
                 ng-options="opt as opt.label for opt in cajaESC.optSMS" required>
         </select>
         <ul class="cajaBotones" ng-show="isSet(0,5)" ng-a>
-            <li class="botonSoloEntrada" ng-click="cajaESC.calcularSMS();setTab([6,0,0,0])">Seguir</li>
+            <li class="botonSoloEntrada" ng-click="cajaESC.calcularSMS();setTab([6,0,0,0])">Continuar</li>
         </ul>
 
     </div>
     <div class="cajaVacia" ng-show="isSet(0,6)" >
         <div class="cajaVacia" style="width:70%">
             <strong style="heigth:50px">Ya hemos acabado</strong>
-            <br>En la parte de arriba tienes las respuestas, por si quieres cambiar algo.
-            <br>Puedes pasar al avanzado usando el botón. 
-            <br>Se muestra una lista para poder cambiar los impuestos.
+            <br>Cuando hayas presionado "Ok":
+            <br>En la parte de arriba tendrás tus respuestas,
+            <br>por si quieres cambiar algo.
+            <br>Puedes pasar al modo avanzado usando el botón. 
+            <br>Hay una lista para poder cambiar los impuestos.
             <br>Y la tabla con todas las tarifas ordenadas con tus cálculos. 
-            <br>El sistema calcula automáticamente en el momento que cambias cualquier dato.
-            <br>Da Ok.
+            <br>Todo se calcula automáticamente cuando cambias cualquier dato.
+            <br>Presiona Ok.
         </div>
         <ul class="cajaBotones">
             <li class="botonSoloEntrada" ng-click="setTab([7,0,1,1])">Ok</li>
@@ -89,10 +91,10 @@
     </div>
     <div class="cajaGrupo" ng-show="isSet(0,7)" style="width:100%;">
         <ul class="cajaBotones" >
-            <li class="botonSoloEntrada" ng-click="setTab([1,0,0,0])">Ir al Principio</li>
+            <li class="botonSoloEntrada" ng-click="setTab([1,0,0,0])">Volver al Principio</li>
             <li class="botonSoloEntrada" ng-click="setTab([0,2,1,1])">Ir a Avanzado</li>
         </ul>
     </div>
-    <div class="cajaVacia" ng-show="isSet(0,2)||isSet(0,3)||isSet(0,4)||isSet(0,5)" >Número de Pregunta {{tab[0]-1}} de 4</div>
+    <div class="cajaVacia" ng-show="isSet(0,2)||isSet(0,3)||isSet(0,4)||isSet(0,5)" >Pregunta {{getTab(0)-1}} de 4</div>
 </form>        
 </div>

@@ -40,7 +40,10 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
     $scope.indice=0;
     
     
-    
+    $scope.textoIVA = function (){
+        if ($scope.datosSTD.IVA == 1.0) {return "";}
+        else return "(Impuestos incluidos)";
+    };
     
     
     
@@ -391,6 +394,10 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
     };    
     
     
+    $scope.getTab = function(pos) {
+          return $scope.datos.tab[pos];
+        };
+
     $scope.isSet = function(pos,checkTab) {
           return $scope.datos.tab[pos] === checkTab;
         };
@@ -432,19 +439,26 @@ tarifasApp.controller('tarifasListaController', function($scope, $http, $interva
     $scope.textoReduccion = function() {
         var redd = $scope.tarifaGuardada.reduccion;
         var coste = $scope.tarifaGuardada.coste_internet;
+        var dias = $scope.tarifaGuardada.dias_sin_internet;
+        var salida = ""
         if (coste == 0 ) 
         { 
             if (isNaN(redd) ||redd == 0) 
             {
-                return ("Tiene reduccion de Internet");
+                salida = "Tiene reduccion de Internet.";
             } else 
             {
-                return ("Tiene reduccion de Internet a "+redd+" Kb/s");
+                salida = "Tiene reduccion de Internet a "+redd+" Kb/s.";
+            };
+            if (dias > 0)
+            {
+                salida += " Vas a estar " +$scope.numEdit(dias,0) +" días con el Internet reducido." 
             };
         } else
         {
-            return ("Tiene coste al superar los MB Incluidos");
+            salida = "Tiene coste al superar los MB Incluidos, lo tienes incluido en el precio.";
         };
+        return salida;
                  
     };
     
@@ -493,20 +507,20 @@ tarifasApp.controller('cajaEntradaSimpleController',function($scope){
         this.optMinutosMedia = [
             { label: 'Son muy cortas, generalmente', value: 3},
             { label: 'A veces cortas y a veces largas', value: 15},
-            { label: 'Suelen durar bastantee', value: 30},
+            { label: 'Suelen durar bastante', value: 30},
             { label: 'Mis llamadas duran muuucho', value: 45}
         ];
 
         this.optInternet = [
-            { label: 'Poco Interenet, Whatsapp', value: 300},
+            { label: 'Poco Internet, Whatsapp', value: 300},
             { label: 'Uso Internet bastante', value: 1000},
             { label: 'Mucho, descargo algun vídeo o podcast', value: 2000},
-            { label: 'Michísimo, descargo muchos vídeos o podcast', value: 10000}
+            { label: 'Muchísimo, descargo muchos vídeos o podcasts', value: 10000}
         ];
 
         this.optSMS = [
             { label: 'Ninguno, no envío SMS', value: 0},
-            { label: 'Poco, tengo algún amigo si Whatsapp', value: 5},
+            { label: 'Poco, tengo algún amigo sin Whatsapp', value: 5},
             { label: 'Algunos, Uso el SMS habitualmente', value: 30},
             { label: 'Muchos, mando muchos SMS', value: 175}
         ];
@@ -520,14 +534,18 @@ tarifasApp.controller('cajaEntradaSimpleController',function($scope){
     
     this.calcularLlamadas = function (){
         $scope.datos.llamadas = this.llamadas.value;
+        $scope.datos.minutos = this.minutosMedia.value * this.llamadas.value;
+        $scope.actualizarTarifas();
     };
     
     this.calcularMinutosMedia = function (){
         $scope.datos.minutos = this.minutosMedia.value * this.llamadas.value;
+        $scope.actualizarTarifas();
     };
     
     this.calcularInternet = function (){
         $scope.datos.internet = this.internet.value;
+        $scope.actualizarTarifas();
     };
     
     this.calcularSMS = function (){

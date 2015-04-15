@@ -179,7 +179,8 @@ function(watchPath, realPath, transform, globFilter) {
     function checkFd() {
       fs.open(path, 'r', function(error, fd) {
         if (fd) fs.close(fd);
-        error ? handleEvent('unlink') : addOrChange();
+        error && error.code !== 'EACCES' ?
+          handleEvent('unlink') : addOrChange();
       });
     }
     // correct for wrong events emitted
@@ -277,11 +278,11 @@ function(path, transform, forceAdd, priorDepth) {
     var dirObj = this._getWatchedDir(sysPath.dirname(pp));
     var base = sysPath.basename(pp);
 
-    if (dirObj.has(base)) return;
-    dirObj.add(base);
-
     // ensure empty dirs get tracked
     if (isDir) this._getWatchedDir(pp);
+
+    if (dirObj.has(base)) return;
+    dirObj.add(base);
 
     if (!this.options.ignoreInitial || forceAdd === true) {
       this._emit(isDir ? 'addDir' : 'add', pp, stats);
@@ -292,13 +293,7 @@ function(path, transform, forceAdd, priorDepth) {
 
   // evaluate what is at the path we're being asked to watch
   fs[wh.statMethod](wh.watchPath, function(error, stats) {
-    var permError = this.options.ignorePermissionErrors &&
-      !this._hasReadPermissions(stats);
-    if (
-      this._handleError(error) ||
-      permError ||
-      this._isIgnored(wh.watchPath, stats)
-    ) {
+    if (this._handleError(error) || this._isIgnored(wh.watchPath, stats)) {
       this._emitReady();
       return this._emitReady();
     }
@@ -364,4 +359,3 @@ function(path, transform, forceAdd, priorDepth) {
 
 module.exports = FsEventsHandler;
 module.exports.canUse = canUse;
-

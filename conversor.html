@@ -24,15 +24,17 @@
         <div>
                <pr>Ha seleccionado estos datos: {{datos.minutos}} minutos, {{datos.llamadas}} llamadas, {{datos.internet}} Internet(MB) y {{datos.sms}} SMS, al mes, las tarifas ordenadas por precio son:</pr>     
         <div class="cajaSin"><ul class="cajaBotones">
-            <li class="botonSoloEntrada"  ng-click="conversor.setTabX(0)">Normal</li>
-            <li class="botonSoloEntrada"  ng-click="conversor.setTabX(1)">Detalle</li>
-            <li class="botonSoloEntrada"  ng-click="conversor.setTabX(2)">Extendida</li>
-            <li class="botonSoloEntrada"  ng-click="conversor.setTabX(3)">Modificar</li>
+            <li class="botonSoloEntrada"  ng-click="setTabFila(3,1);conversor.setTabX(1)">Normal</li>
+            <li class="botonSoloEntrada"  ng-click="setTabFila(3,0);conversor.setTabX(2)">Extendida</li>
+            <li class="botonSoloEntrada"  ng-click="setTabFila(3,0);conversor.setTabX(3)">Modificar</li>
         </ul></div>
-        <div ng-show="conversor.isSetX(0)" ><datos-lista></datos-lista></div>
-        <div ng-show="conversor.isSetX(1)" ><datos-detalle></datos-detalle></div>
+        <div ng-show="isSet(3,1)" ><datos-lista></datos-lista></div>
+        <div ng-show="isSet(3,2)||isSet(3,3)||isSet(3,4)" ><datos-detalle></datos-detalle></div>
         <div ng-show="conversor.isSetX(2)" ><datos-lista-extendida></datos-lista-extendida></div>
         <div ng-show="conversor.isSetX(3)" ><div class="caja">POR HACER EIRE NO TE VAYAS</div></div>
+
+            
+            
         </div>
 
         </tr>
