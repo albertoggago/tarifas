@@ -1,3 +1,4 @@
+
 #TARIFAS.
 
 The process get a JSON file and show a angular objet with the data and short, 
@@ -29,11 +30,6 @@ npm update --save
 ## Versions
 
 
-### 0.7.0
-
-Changes:
-
-1. Include module New/Delete/Modification, observacionesLargo, Link, reduccion. In process
 
 Pending:
 
@@ -44,6 +40,21 @@ Pending:
 3. Include Filters decimal point is comma
 
 4. Date of actualitation
+
+5. Include module New/Delete/Modification, observaciones Largo, Link, reduccion. In process
+
+
+
+### 0.7.0
+
+Changes:
+
+1. New Version with two types of client, easy with a tutorial and avanced.
+
+2. Include details order by type.
+
+3. Chage list, less data.
+
 
 ### 0.6.0
 
