@@ -44,6 +44,10 @@ Pending:
 5. Include module New/Delete/Modification, observaciones Largo, Link, reduccion. In process
 
 
+### 1.0.0
+
+1. Change philosophy
+
 
 ### 0.7.0
 
