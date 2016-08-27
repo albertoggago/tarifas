@@ -9,6 +9,10 @@ The process get a JSON file and show a angular objet with the data and short,
 
 - tools, Angular, Karma, Jasmine, Protractor
 
+- express, 
+
+- mongodb, mongoose
+
 
 ### Tools
 
@@ -46,7 +50,7 @@ Pending:
 
 ### 1.0.0
 
-1. Change philosophy
+1. Include Server, use:
 
 
 ### 0.7.0

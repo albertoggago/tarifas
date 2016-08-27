@@ -11,29 +11,36 @@
     "angular-animate": "^1.3.14",
     "angular-local-storage": "^0.1.5",
     "angular-mocks": "^1.4.0-beta.4",
+    "body-parser": "^1.15.2",
     "bootstrap": "^3.3.2",
+    "express": "^4.14.0",
     "findup-sync": "^0.1.2",
     "http-server": "^0.7.4",
+    "http-status": "^0.2.3",
     "jasmine": "^2.2.1",
     "jasmine-core": "^2.2.0",
     "karma": "^0.12.31",
     "karma-chrome-launcher": "^0.1.7",
     "karma-firefox-launcher": "^0.1.4",
     "karma-jasmine": "^0.3.5",
-    "protractor": "^1.7.0"
+    "mongoose": "^4.5.10",
+    "protractor": "^1.7.0",
+    "underscore": "^1.8.3",
+    "wagner-core": "^0.2.0"
   },
   "devDependencies": {},
   "scripts": {
+    "server": "node server.js",
     "start": "http-server -a 0.0.0.0 -p 8000",
     "test": "karma start",
     "preprotractor": "npm run update-webdriver",
-    "server": "protractor test/protractor-conf.js"
+    "server2": "protractor test/protractor-conf.js"
   },
   "author": "Alberto J. Garcia Gago",
-  "license": "GNU",
+  "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "https://github.com/albertoggago/tarifas"
+    "url": "git+https://github.com/albertoggago/tarifas.git"
   },
   "keywords": [],
   "bugs": {

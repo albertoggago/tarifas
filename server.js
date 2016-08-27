@@ -1,16 +1,16 @@
 var express = require('express');
 var wagner = require('wagner-core');
 
-require('./models')(wagner);
-require('./dependencies')(wagner);
+require('./src/js/models')(wagner);
+require('./src/js/dependencies')(wagner);
 
 var app = express();
 
 app.use(require('morgan')());
 
-wagner.invoke(require('./auth'), { app: app });
+//wagner.invoke(require('./auth'), { app: app });
 
-app.use('/api/v1', require('./api')(wagner));
+app.use('/api/v1', require('./src/js/api')(wagner));
 
 // Serve up static HTML pages from the file system.
 // For instance, '/6-examples/hello-http.html' in
