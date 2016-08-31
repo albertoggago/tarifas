@@ -12,38 +12,39 @@ module.exports = function(wagner) {
   api.get('/tarifa/id/:id', wagner.invoke(function(Tarifa) {
       console.log("SSSS");
     return function(req, res) {
-      Tarifa.findOne({ _id: req.params.id }, function(error, category) {
+      console.log(req.params.id );
+      Tarifa.findOne({ _id: req.params.id }, function(error, tarifa) {
         if (error) {
           return res.
             status(status.INTERNAL_SERVER_ERROR).
             json({ error: error.toString() });
         }
-        if (!category) {
+        if (!tarifa) {
           return res.
             status(status.NOT_FOUND).
             json({ error: 'Not found' });
         }
-        res.json({ category: category });
+        res.json({ tarifa: tarifa });
       });
     };
   }));
 
-  /*api.get('/category/parent/:id', wagner.invoke(function(Category) {
+  api.get('/tarifas/', wagner.invoke(function(Tarifa) {
     return function(req, res) {
-      Category.
-        find({ parent: req.params.id }).
+      Tarifa.
+        find({ }).
         sort({ _id: 1 }).
-        exec(function(error, categories) {
+        exec(function(error, tarifas) {
           if (error) {
             return res.
               status(status.INTERNAL_SERVER_ERROR).
               json({ error: error.toString() });
           }
-          res.json({ categories: categories });
+          res.json({ tarifas: tarifas });
         });
     };
   }));
-  */
+  
 
   /* Product API */
   /*
