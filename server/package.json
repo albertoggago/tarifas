@@ -8,5 +8,13 @@
     "start": "node server.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "http-status": "^0.2.3",
+    "mongoose": "^4.6.0",
+    "morgan": "^1.7.0",
+    "wagner-core": "^0.2.0"
+  }
 }
