@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 var _ = require('underscore');
 
 module.exports = function(wagner) {
-  mongoose.connect('mongodb://localhost:27017/tarifas');
+  var config = wagner.invoke(function(Config){return Config});
+  mongoose.connect('mongodb://'+config.host+"/"+config.db);
 
   wagner.factory('db', function() {
     return mongoose;

@@ -10,7 +10,6 @@ module.exports = function(wagner) {
 
   /* Category API */
   api.get('/tarifa/id/:id', wagner.invoke(function(Tarifa) {
-      console.log("SSSS");
     return function(req, res) {
       console.log(req.params.id );
       Tarifa.findOne({ _id: req.params.id }, function(error, tarifa) {

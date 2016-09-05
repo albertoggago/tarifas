@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "karma start",
     "start": "node server.js"
   },
   "author": "",
@@ -13,8 +13,14 @@
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "http-status": "^0.2.3",
+    "jasmine": "^2.5.0",
+    "karma": "^1.2.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-firefox-launcher": "^1.0.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-requirejs": "^1.0.0",
     "mongoose": "^4.6.0",
-    "morgan": "^1.7.0",
+    "requirejs": "^2.2.0",
     "wagner-core": "^0.2.0"
   }
 }

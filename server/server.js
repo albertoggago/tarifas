@@ -1,12 +1,13 @@
 var express = require('express');
 var wagner = require('wagner-core');
 
-require('./src/js/models')(wagner);
 require('./src/js/dependencies')(wagner);
+require('./src/js/models')(wagner);
+
 
 var app = express();
 
-app.use(require('morgan')());
+//app.use(require('morgan')());
 
 //wagner.invoke(require('./auth'), { app: app });
 
